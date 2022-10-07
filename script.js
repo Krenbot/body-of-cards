@@ -1,9 +1,9 @@
 function Card(cardCode, image, images, value, suit) {
-    this.code = "",
-    this.image = "",
-    this.images = "",
-    this.value = "",
-    this.suit = ""
+    this.code = cardCode,
+    this.image = image,
+    this.images = images,
+    this.value = value,
+    this.suit = suit
 
     // TODO: Add any methods needed for card manipulation
 }
@@ -35,6 +35,8 @@ function DeckOfCards(number = 1) {
     this.draw = function(count = 1) {
         var deck = this;
         var url = this.baseURL;
+        var cards = [];
+
         if (deck.id === "") {
             url.pathname += "new/draw/";
         } else {
@@ -45,8 +47,15 @@ function DeckOfCards(number = 1) {
         fetch(url.href)
             .then((response) => response.json())
             .then((result) => {
-                console.log(result);
+                for (var i = 0; i < result.cards.length; i++) {
+                    var tempCard = new Card(result.cards[i].code, result.cards[i].image, result.cards[i].images, result.cards[i].value, result.cards[i].suit);
+                    cards.push(tempCard);
+                }
+                deck.id = result.deck_id;
+                deck.remaining = result.remaining;
             })
+
+        return cards;
     },
 
     this.newDeck = function(addJokers = false) {
@@ -74,5 +83,4 @@ function DeckOfCards(number = 1) {
 
 var testObj = new DeckOfCards();
 //testObj.newDeck(true);
-testObj.draw();
-console.log(testObj);
+console.log(testObj.draw(5));
