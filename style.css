@@ -1,3 +1,18 @@
+
+.box{
+    display: flex;
+    justify-content: flex-start;
+    margin: 10px;
+    margin-bottom: 80px;
+    font-size: 40px;
+    max-width: 1200px;
+}
+#title{
+    font-family:fantasy;
+    font-size: 80px;
+    
+}
+
 .flipping-cards li{position:relative; float:left; margin-right:10px;}
 .flipping-cards label{  display:block; width:200px; height:250px; cursor:pointer;}
 
@@ -64,3 +79,4 @@ ul,li{list-style:none;padding:0;margin:0;}
 p{font-weight:bold;}
 footer{clear:both; padding-top:20px;font-weight:bold;}
 footer a{color:blue;}
+
