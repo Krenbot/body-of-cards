@@ -1,3 +1,13 @@
+function Card(cardCode, image, images, value, suit) {
+    this.code = "",
+    this.image = "",
+    this.images = "",
+    this.value = "",
+    this.suit = ""
+
+    // TODO: Add any methods needed for card manipulation
+}
+
 // Deck of Cards Object to be use the API.
 function DeckOfCards(number = 1) {
     this.baseURL = new URL("https://deckofcardsapi.com/api/deck/"),
@@ -22,8 +32,21 @@ function DeckOfCards(number = 1) {
             })
     },
 
-    this.draw = function() {
+    this.draw = function(count = 1) {
+        var deck = this;
+        var url = this.baseURL;
+        if (deck.id === "") {
+            url.pathname += "new/draw/";
+        } else {
+            url.pathname += this.id + "/draw/";
+        }
+        url.searchParams.append("count", count);
 
+        fetch(url.href)
+            .then((response) => response.json())
+            .then((result) => {
+                console.log(result);
+            })
     },
 
     this.newDeck = function(addJokers = false) {
@@ -50,5 +73,6 @@ function DeckOfCards(number = 1) {
 };
 
 var testObj = new DeckOfCards();
-testObj.newDeck(true);
+//testObj.newDeck(true);
+testObj.draw();
 console.log(testObj);
