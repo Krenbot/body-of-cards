@@ -1,6 +1,6 @@
 // Deck of Cards Object to be use the API.
 function DeckOfCards(number = 1) {
-    this.baseURL = "https://deckofcardsapi.com/api/deck",
+    this.baseURL = "https://deckofcardsapi.com/api/deck/",
     this.id = "",
     this.shuffled = "",
     this.remaining = "",
@@ -15,18 +15,20 @@ function DeckOfCards(number = 1) {
 
     this.newDeck = function(addJokers = false) {
         var url = this.baseURL + "new/";
+        const fetchHeader = new Headers();
+        const fetchOptions = {
+            method: "GET",
+            headers: fetchHeader,
+            cache: "default",
+        }
+
         if (addJokers) {
-            const fetchOptions = {
-                method: "GET",
-                headers: {
-                    "jokers_enabled": "true"
-                },
-            }
+            fetchHeader.append("jokers_enabled", "true");
         }
 
         fetch(url, fetchOptions)
             .then((response) => response.json())
-            .then((result) => console.log())
+            .then((result) => console.log(result))
 
     },
 
@@ -34,3 +36,6 @@ function DeckOfCards(number = 1) {
 
     }
 };
+
+var testObj = new DeckOfCards();
+testObj.newDeck();
