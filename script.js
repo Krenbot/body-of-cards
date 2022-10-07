@@ -6,7 +6,20 @@ function DeckOfCards(number = 1) {
     this.remaining = "",
 
     this.shuffle = function() {
+        var deck = this;
+        var url = this.baseURL;
+        if (url.id === "") {
+            url.pathname += "new/shuffle/?deck_count=1";
+        } else {
+            url.pathname += this.id + "/shuffle/";
+        }
 
+        fetch(url.href)
+            .then((response) => response.json())
+            .then((result) => {
+                deck.id = result.deck_id;
+                deck.shuffled = result.shuffled;
+            })
     },
 
     this.draw = function() {
