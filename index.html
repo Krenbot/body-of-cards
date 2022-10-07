@@ -1,67 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
-  <link rel="stylesheet" type="text/css" href="style.css" />
+<link rel="stylesheet" type="text/css" href="style.css" />
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="style.css">
+
 </head>
+
 <body>
+  <div class="box" id="title">
+    <div>Playing Card Workout Generator</div>
+  </div>
+  <div class="box">
+    <button class="button is-black">Generate Workout</button>
+  </div>
+  </head>
+
+  <body>
     <p>Click Card to Flip</p>
-<ul class="flipping-cards">
-  <li>
-    <input type="checkbox" id="item1">
-    <label for="item1">
-      <span class="wrapper">
-        <span class="image"></span>
-        <span class="back"></span> 
-      </span>
-    </label>
-    
-  </li>
-  <li>
-    <input type="checkbox" id="item2">
-      <label for="item2">
-        <span class="wrapper">
-          <span class="image"></span>
-          <span class="back"></span> 
-        </span>
-      </label>
-      
-  </li>
-  <li>
-    <input type="checkbox" id="item3">
-    <label for="item3">
-      <span class="wrapper">
-        <span class="image"></span>
-        <span class="back"></span> 
-      </span>
-    </label>
-    
-  </li>
-  <li>
-    <input type="checkbox" id="item4">
-    <label for="item4">
-      <span class="wrapper">      
-        <span class="image"></span>
-        <span class="back"></span> 
-      </span>
-    </label>
-    
-  </li>
-  <li>
-    <input type="checkbox" id="item5">
-    <label for="item5">
-      <span class="wrapper">      
-        <span class="image"></span>
-        <span class="back"></span> 
-      </span>
-    </label>
-    
-  </li>
-</ul>
-    
-    <script src="script.js"></script>
-</body>
+    <div class='columns'>
+      <ul class="flipping-cards">
+        <div class="column is-one-fifth">
+          <li>
+            <input type="checkbox" id="item1">
+            <label for="item1">
+              <span class="wrapper">
+                <span class="image"></span>
+                <span class="back"></span>
+              </span>
+            </label>
+          </li>
+        </div>
+
+        <div class="column is-one-fifth">
+          <li>
+            <input type="checkbox" id="item2">
+            <label for="item2">
+              <span class="wrapper">
+                <span class="image"></span>
+                <span class="back"></span>
+              </span>
+            </label>
+          </li>
+        </div>
+
+        <div class="column is-one-fifth">
+          <li>
+            <input type="checkbox" id="item3">
+            <label for="item3">
+              <span class="wrapper">
+                <span class="image"></span>
+                <span class="back"></span>
+              </span>
+            </label>
+          </li>
+        </div>
+
+        <div class="column is-one-fifth">
+          <li>
+            <input type="checkbox" id="item4">
+            <label for="item4">
+              <span class="wrapper">
+                <span class="image"></span>
+                <span class="back"></span>
+              </span>
+            </label>
+          </li>
+        </div>
+
+        <div class="column is-one-fifth">
+          <li>
+            <input type="checkbox" id="item5">
+            <label for="item5">
+              <span class="wrapper">
+                <span class="image"></span>
+                <span class="back"></span>
+              </span>
+            </label>
+          </li>
+        </div>
+    </div>
+    </ul>
+
+
+    <!-- Bulma UNFINISHED -->
+
+    <!-- <div class="columns">
+      <div class="column is-one-fifth">1</div>
+      <div class="column">2</div>
+      <div class="column">3</div>
+      <div class="column">4</div>
+      <div class="column">5</div>
+    </div> -->
+
+    <div class="column is-2">
+      <div class="card">
+        <div class="card-image">
+          <figure class="image is-4by3">
+            <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
+          </figure>
+        </div>
+
+        <div class="card-content">
+          <div class="media">
+            <div class="media-left">
+              <figure class="image is-48x48">
+                <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+              </figure>
+            </div>
+
+            <div class="media-content">
+              <p class="title is-4">EXERCISE NAME</p>
+              <p class="subtitle is-6">HYPERLINK</p>
+            </div>
+          </div>
+          <div class="content">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum quae facere maiores eius impedit, esse nisi
+            facilis voluptate beatae delectus tempore sit velit minus id mollitia earum aspernatur placeat dolor.
+          </div>
+        </div>
+      </div>
+
+      <script src="script.js"></script>
+  </body>
+
 </html>
