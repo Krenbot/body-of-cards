@@ -14,6 +14,7 @@ function DeckOfCards(number = 1) {
     },
 
     this.newDeck = function(addJokers = false) {
+        var deck = this;
         var url = this.baseURL;
         url.pathname = url.pathname + "new/";
         if (addJokers) {
@@ -22,7 +23,12 @@ function DeckOfCards(number = 1) {
 
         fetch(url.href)
             .then((response) => response.json())
-            .then((result) => console.log(result))
+            .then((result) => {
+                deck.id = result.deck_id;
+                deck.shuffled = result.shuffled;
+                deck.remaining = result.remaining;
+            })
+        this.shuffle();
     },
 
     this.returnToDeck = function() {
@@ -32,3 +38,4 @@ function DeckOfCards(number = 1) {
 
 var testObj = new DeckOfCards();
 testObj.newDeck(true);
+console.log(testObj);
