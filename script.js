@@ -3,7 +3,13 @@ function Card(cardCode, image, images, value, suit) {
     this.image = image,
     this.images = images,
     this.value = value,
-    this.suit = suit
+    this.suit = suit,
+
+    this.viewCard = function() {
+        var img = document.createElement("img");
+        img.src = this.image;
+        img.alt = this.value + " of " + this.suit;
+    }
 
     // TODO: Add any methods needed for card manipulation
 }
@@ -48,13 +54,16 @@ function DeckOfCards(number = 1) {
             .then((response) => response.json())
             .then((result) => {
                 for (var i = 0; i < result.cards.length; i++) {
-                    var tempCard = new Card(result.cards[i].code, result.cards[i].image, result.cards[i].images, result.cards[i].value, result.cards[i].suit);
-                    cards.push(tempCard);
+                    var temp = new Card(result.cards[i].code, 
+                        result.cards[i].image, result.cards[i].images, 
+                        result.cards[i].value, result.cards[i].suit);
+                    
+                    cards.push(temp);
+                    console.log(cards[i]);
                 }
                 deck.id = result.deck_id;
                 deck.remaining = result.remaining;
             })
-
         return cards;
     },
 
@@ -83,4 +92,9 @@ function DeckOfCards(number = 1) {
 
 var testObj = new DeckOfCards();
 //testObj.newDeck(true);
-console.log(testObj.draw(5));
+testCards = testObj.draw(10);
+console.log(testObj);
+console.log(testCards);
+console.log(testCards[0]);
+//testCards[0].viewCard();
+
