@@ -1,3 +1,7 @@
+var timerText = document.getElementById("timerText")
+var startBtn = document.getElementById("timerStart")
+var timerStatus = "new"
+
 function Card(cardCode, image, images, value, suit) {
     this.code = cardCode,
     this.image = image,
@@ -91,6 +95,7 @@ function DeckOfCards(number = 1) {
 };
 
 var testObj = new DeckOfCards();
+
 //testObj.newDeck(true);
 testCards = testObj.draw(10);
 console.log(testObj);
@@ -98,3 +103,27 @@ console.log(testCards);
 console.log(testCards[0]);
 //testCards[0].viewCard();
 
+var interval
+function startTimer(){
+    if (timerStatus === "new"){
+        var timerCount = 0
+        timerText.innerHTML = 0
+        timerStatus = "running"
+        interval = setInterval(function(){
+            timerCount++
+            timerText.innerHTML = timerCount
+        }, 1000);
+    } else if (timerStatus === "running"){
+        timerStatus = "stopped"
+        clearInterval(interval)
+        interval = null
+        console.log("Help")
+    } else if (timerStatus === "stopped"){
+        timerStatus = "new"
+        var timerCount = 0
+        timerText.innerHTML = ""
+        console.log("Help2")
+    }
+}
+
+startBtn.addEventListener("click", startTimer)
