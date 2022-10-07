@@ -1,0 +1,13 @@
+.box{
+    display: flex;
+    justify-content: flex-start;
+    margin: 10px;
+    margin-bottom: 80px;
+    font-size: 40px;
+    max-width: 1200px;
+}
+#title{
+    font-family:fantasy;
+    font-size: 80px;
+    
+}
