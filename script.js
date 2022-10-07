@@ -20,10 +20,11 @@ function Card(cardCode, image, images, value, suit) {
 
 // Deck of Cards Object to be use the API.
 function DeckOfCards(number = 1) {
-    this.baseURL = new URL("https://deckofcardsapi.com/api/deck/"),
-    this.id = "",
-    this.shuffled = "",
-    this.remaining = "",
+    this.baseURL = new URL("https://deckofcardsapi.com/api/deck/")
+    this.id = ""
+    this.shuffled = ""
+    this.remaining = ""
+    this.cards = []
 
     this.shuffle = function() {
         var deck = this;
@@ -40,12 +41,11 @@ function DeckOfCards(number = 1) {
                 deck.id = result.deck_id;
                 deck.shuffled = result.shuffled;
             })
-    },
+    }
 
     this.draw = function(count = 1) {
         var deck = this;
         var url = this.baseURL;
-        var cards = [];
 
         if (deck.id === "") {
             url.pathname += "new/draw/";
@@ -62,14 +62,13 @@ function DeckOfCards(number = 1) {
                         result.cards[i].image, result.cards[i].images, 
                         result.cards[i].value, result.cards[i].suit);
                     
-                    cards.push(temp);
-                    console.log(cards[i]);
+                    deck.cards.push(temp);
                 }
                 deck.id = result.deck_id;
                 deck.remaining = result.remaining;
+                deck.renderDeck();
             })
-        return cards;
-    },
+    }
 
     this.newDeck = function(addJokers = false) {
         var deck = this;
@@ -87,21 +86,21 @@ function DeckOfCards(number = 1) {
                 deck.remaining = result.remaining;
             })
         this.shuffle();
-    },
+    }
 
     this.returnToDeck = function() {
 
     }
+
+    // Test function for now. draw requires sometime to load the cards from the data fetch.
+    // Calling this methods allows the user to test the renderDeck method if it is called from draw.
+    this.renderDeck = function() {
+        console.log(this.cards);
+        console.log(this.cards[0]);
+    }
 };
 
 var testObj = new DeckOfCards();
-
-//testObj.newDeck(true);
-testCards = testObj.draw(10);
-console.log(testObj);
-console.log(testCards);
-console.log(testCards[0]);
-//testCards[0].viewCard();
 
 var interval
 function startTimer(){
@@ -127,3 +126,6 @@ function startTimer(){
 }
 
 startBtn.addEventListener("click", startTimer)
+
+//testObj.newDeck(true);
+testObj.draw(10);
