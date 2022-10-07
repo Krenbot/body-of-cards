@@ -47,12 +47,15 @@ background-color: #6d695c;
 }
 
 .flipping-cards label .image{
-    transform: rotateY(180deg);
-    -webkit-transform: rotateY(180deg);
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
   backface-visibility:hidden;
--webkit-backface-visibility:hidden; /* Chrome and Safari */
--moz-backface-visibility:hidden; /* Firefox */
--ms-backface-visibility:hidden; /* Internet Explorer */  
+  -webkit-backface-visibility:hidden; /* Chrome and Safari */
+  -moz-backface-visibility:hidden; /* Firefox */
+  -ms-backface-visibility:hidden; /* Internet Explorer */ 
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center; 
 }
 
 
@@ -70,6 +73,7 @@ label[for="item3"] .image{background-image:url(http://farm6.staticflickr.com/546
 
 label[for="item4"] .image{background-image:url(http://farm8.staticflickr.com/7458/8878601681_b8c0499874_o.png);}
 
+label[for="item5"] .image{background-image:url(https://deckofcardsapi.com/static/img/6H.png);}
 
 
 
