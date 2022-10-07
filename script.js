@@ -108,17 +108,20 @@ function startTimer(){
         var timerCount = 0
         timerText.innerHTML = 0
         timerStatus = "running"
+        startBtn.innerHTML = "Stop"
         interval = setInterval(function(){
             timerCount++
             timerText.innerHTML = timerCount
         }, 1000);
     } else if (timerStatus === "running"){
         timerStatus = "stopped"
+        startBtn.innerHTML = "Reset"
         clearInterval(interval)
         interval = null
         console.log("Help")
     } else if (timerStatus === "stopped"){
         timerStatus = "new"
+        startBtn.innerHTML = "Start Timer"
         var timerCount = 0
         timerText.innerHTML = ""
         console.log("Help2")
