@@ -7,9 +7,18 @@
   max-width: 1200px;
 }
 
+<<<<<<< HEAD:style.css
 #title {
   font-family: fantasy;
   font-size: 80px;
+=======
+.button {
+  margin: 10px;
+}
+
+.flipping-cards li{position:relative; float:left; margin-right:10px;}
+.flipping-cards label{  display:block; width:200px; height:250px; cursor:pointer;}
+>>>>>>> aa010486eb9752a695025cad40d658fb937925ca:assets/styles/style.css
 
 }
 
@@ -19,6 +28,7 @@
   margin-right: 10px;
 }
 
+<<<<<<< HEAD:style.css
 .flipping-cards label {
   display: block;
   width: 200px;
@@ -71,12 +81,11 @@
   -moz-backface-visibility: hidden;
   /* Firefox */
   -ms-backface-visibility: hidden;
-  /* Internet Explorer */
-}
+  /* Internet Explorer */}
+  
 
-
-
-.flipping-cards input[type="checkbox"]:checked+label .wrapper {
+.flipping-cards input[type="checkbox"]:checked+label .wrapper 
+{
   transform: rotateY(-180deg);
   -webkit-transform: rotateY(-180deg);
 }
@@ -97,6 +106,7 @@ label[for="item4"] .image {
   background-image: url(http://farm8.staticflickr.com/7458/8878601681_b8c0499874_o.png);
 }
 
+label[for="item5"] .image{background-image:url(https://deckofcardsapi.com/static/img/6H.png);}
 
 
 
