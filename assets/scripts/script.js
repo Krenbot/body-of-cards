@@ -23,7 +23,6 @@ class DeckOfCards {
         this.id = "";
         this.shuffled = "";
         this.remaining = "";
-        this.cards = [];
         this.decks = number;
     }
 
@@ -48,6 +47,7 @@ class DeckOfCards {
     draw(count = 1) {
         var deck = this;
         var url = this.baseURL;
+        var cards;
 
         if (deck.id === "") {
             url.pathname += "new/draw/";
@@ -64,11 +64,13 @@ class DeckOfCards {
                         result.cards[i].image, result.cards[i].images, 
                         result.cards[i].value, result.cards[i].suit);
                     
-                    deck.cards.push(temp);
+                    cards.push(temp);
                 }
                 deck.id = result.deck_id;
                 deck.remaining = result.remaining;
-                deck.renderDeck();
+
+                localStorage.setItem("draw-latest", JSON.stringify(cards));
+
                 // TODO: Either change this method to use async and await, or find a way to prevent downstream methods from trying to access data until the fetch is complete.
             })
     }
@@ -95,13 +97,6 @@ class DeckOfCards {
 
     returnToDeck() {
         // TODO: Implement method for returning cards to the deck API. May not be needed for the MVP
-    }
-
-    // Test function for now. draw requires sometime to load the cards from the data fetch.
-    // Calling this methods allows the user to test the renderDeck method if it is called from draw.
-    renderDeck() {
-        console.log(this.cards);
-        console.log(this.cards[0]);
     }
 
     // TODO: Implement simple instructions for using the DeckOfCards Class
