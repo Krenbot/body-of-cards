@@ -83,7 +83,6 @@
   -ms-backface-visibility: hidden;
   /* Internet Explorer */}
   
-
 .flipping-cards input[type="checkbox"]:checked+label .wrapper 
 {
   transform: rotateY(-180deg);
