@@ -1,11 +1,13 @@
-function Card(cardCode, image, images, value, suit) {
-    this.code = cardCode,
-    this.image = image,
-    this.images = images,
-    this.value = value,
-    this.suit = suit,
+class Card {
+    constructor(cardCode, image, images, value, suit) {
+        this.code = cardCode;
+        this.image = image;
+        this.images = images;
+        this.value = value;
+        this.suit = suit;
+    }
 
-    this.viewCard = function() {
+    viewCard() {
         var img = document.createElement("img");
         img.src = this.image;
         img.alt = this.value + " of " + this.suit;
@@ -15,15 +17,17 @@ function Card(cardCode, image, images, value, suit) {
 }
 
 // Deck of Cards Object to be use the API.
-function DeckOfCards(number = 1) {
-    this.baseURL = new URL("https://deckofcardsapi.com/api/deck/");
-    this.id = "";
-    this.shuffled = "";
-    this.remaining = "";
-    this.cards = [];
-    this.decks = number;
+class DeckOfCards {
+    constructor(number = 1) {
+        this.baseURL = new URL("https://deckofcardsapi.com/api/deck/");
+        this.id = "";
+        this.shuffled = "";
+        this.remaining = "";
+        this.cards = [];
+        this.decks = number;
+    }
 
-    this.shuffle = function() {
+    shuffle() {
         // TODO: Implement functionality for multiple decks
         var deck = this;
         var url = this.baseURL;
@@ -41,7 +45,7 @@ function DeckOfCards(number = 1) {
             })
     }
 
-    this.draw = function(count = 1) {
+    draw(count = 1) {
         var deck = this;
         var url = this.baseURL;
 
@@ -69,7 +73,7 @@ function DeckOfCards(number = 1) {
             })
     }
 
-    this.newDeck = function(addJokers = false) {
+    newDeck(addJokers = false) {
         // TODO: Implement functionality for multiple decks
         var deck = this;
         var url = this.baseURL;
@@ -89,13 +93,13 @@ function DeckOfCards(number = 1) {
         this.shuffle();
     }
 
-    this.returnToDeck = function() {
+    returnToDeck() {
         // TODO: Implement method for returning cards to the deck API. May not be needed for the MVP
     }
 
     // Test function for now. draw requires sometime to load the cards from the data fetch.
     // Calling this methods allows the user to test the renderDeck method if it is called from draw.
-    this.renderDeck = function() {
+    renderDeck() {
         console.log(this.cards);
         console.log(this.cards[0]);
     }
