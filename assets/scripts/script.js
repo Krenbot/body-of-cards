@@ -127,35 +127,77 @@ class DeckOfCards {
 };
 
 class Exercise {
-    constructor(force, exerciseName, pMuscles, sMuscles, exerciseType, workoutType, videoLink) {
+    constructor() {
         this.baseURL = new URL("https://exerciseapi3.p.rapidapi.com/search/");
-        this.force = force;
-        this.name = exerciseName;
-        this.primaryMuscles = pMuscles;
-        this.secondaryMuscles = sMuscles;
-        this.type = exerciseType;
-        this.workoutType = workoutType;
-        this.video = new URL(videoLink);
+        this.force = "";
+        this.name = "";
+        this.primaryMuscles = [];
+        this.secondaryMuscles = [];
+        this.type = "";
+        this.workoutType = "";
+        this.video = null;
     }
+
+    // Key below is provided by PBP66 on https://rapidapi.com/
+    // Must access by invoking the class instance, not the object instance
+    static fetchOptions = {
+        method: 'GET',
+        headers: {
+            'X-RapidAPI-Key': '0198bbaf50msh1011edbb678ad4bp19a4a1jsn246309d212b1',
+            'X-RapidAPI-Host': 'exerciseapi3.p.rapidapi.com'
+        }
+    };
 
     static allMuscles = ['pectoralis major', 'biceps', 'abdominals', 'sartorius', 'abductors', 'trapezius', 'deltoid', 'latissimus dorsi', 'serratus anterior', 'external oblique', 'brachioradialis', 'finger extensors', 'finger flexors', 'quadriceps', 'hamstrings', 'gastrocnemius', 'soleus', 'infraspinatus', 'teres major', 'triceps', 'gluteus medius', 'gluteus maximus'];
 
     static allExercises = []; // TODO: Update at a later date once API provides easy access
 
-    getAllMuscles() {
-
+    resetURL() {
+        this.baseURL = new URL("https://exerciseapi3.p.rapidapi.com/search/");
     }
 
-    getExerciseByName(exercise) {
+    async getAllMuscles() {
+        // Currently does not provide much functionality for the users with card games
+        this.resetURL();
 
+        this.baseURL.pathname += "muscles/";
+        await fetch(this.baseURL.href, Exercise.fetchOptions)
+            .then(response => response.json())
+            .then(response => console.log(response))
+            .catch(err => console.error(err));
     }
 
-    getExerciseByPrimaryMuscle(pMuscle) {
+    async getExerciseByName(exercise) {
+        this.resetURL();
 
+        this.baseURL.searchParams.append("name", exercise);
+
+        await fetch(this.baseURL.href, Exercise.fetchOptions)
+            .then(response => response.json())
+            .then(response => console.log(response))
+            .catch(err => console.error(err));
     }
 
-    getExerciseBySecondaryMuscle(sMuscle) {
+    async getExerciseByPrimaryMuscle(pMuscle) {
+        this.resetURL();
 
+        this.baseURL.searchParams.append("primaryMuscle", pMuscle);
+
+        await fetch(this.baseURL.href, Exercise.fetchOptions)
+            .then(response => response.json())
+            .then(response => console.log(response))
+            .catch(err => console.error(err));
+    }
+
+    async getExerciseBySecondaryMuscle(sMuscle) {
+        this.resetURL();
+
+        this.baseURL.searchParams.append("secondaryMuscle", sMuscle);
+
+        await fetch(this.baseURL.href, Exercise.fetchOptions)
+            .then(response => response.json())
+            .then(response => console.log(response))
+            .catch(err => console.error(err));
     }
 }
 
@@ -195,32 +237,5 @@ startBtn.addEventListener("click", startTimer);
 var testObj = new DeckOfCards();
 testObj.getCards(5);
 
-function test() {
-    const options = { // Key below is provided by PBP66 on https://rapidapi.com/hub
-        method: 'GET',
-        headers: {
-            'X-RapidAPI-Key': '0198bbaf50msh1011edbb678ad4bp19a4a1jsn246309d212b1',
-            'X-RapidAPI-Host': 'exerciseapi3.p.rapidapi.com'
-        }
-    };
-
-    fetch('https://exerciseapi3.p.rapidapi.com/search/muscles/', options)
-        .then(response => response.json())
-        .then(response => console.log(response))
-        .catch(err => console.error(err));
-
-    const options1 = {
-        method: 'GET',
-        headers: {
-            'X-RapidAPI-Key': '0198bbaf50msh1011edbb678ad4bp19a4a1jsn246309d212b1',
-            'X-RapidAPI-Host': 'exerciseapi3.p.rapidapi.com'
-        }
-    };
-    
-    fetch('https://exerciseapi3.p.rapidapi.com/search/?name=Barbell%20Bench%20Press', options1)
-        .then(response => response.json())
-        .then(response => console.log(response))
-        .catch(err => console.error(err));
-}
-
-test();
+var testObj2 = new Exercise();
+//testObj2.getAllMuscles();
