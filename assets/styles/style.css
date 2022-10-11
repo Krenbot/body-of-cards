@@ -70,10 +70,10 @@
   -moz-backface-visibility: hidden;
   /* Firefox */
   -ms-backface-visibility: hidden;
-  /* Internet Explorer */}
-  
-.flipping-cards input[type="checkbox"]:checked+label .wrapper 
-{
+  /* Internet Explorer */
+}
+
+.flipping-cards input[type="checkbox"]:checked+label .wrapper {
   transform: rotateY(-180deg);
   -webkit-transform: rotateY(-180deg);
 }
@@ -94,7 +94,9 @@ label[for="item4"] .image {
   background-image: url(http://farm8.staticflickr.com/7458/8878601681_b8c0499874_o.png);
 }
 
-label[for="item5"] .image{background-image:url(https://deckofcardsapi.com/static/img/6H.png);}
+label[for="item5"] .image {
+  background-image: url(https://deckofcardsapi.com/static/img/6H.png);
+}
 
 input[type="checkbox"] {
   display: none;
@@ -127,3 +129,23 @@ footer a {
   height: 250px;
 } */
 
+.bulma-control-mixin {
+  @include control;
+  background: blue;
+  color: white;
+  size: 200px;
+}
+/* 
+.bulma-control-mixin {
+  &.is-small {
+    @include control-small;
+  }
+
+  &.is-medium {
+    @include control-medium;
+  }
+
+  &.is-large {
+    @include control-large;
+  }
+} */
