@@ -179,12 +179,13 @@ class Exercise {
             .then(response => {
                 exercisesData = Object.keys(response);
                 console.log(exercisesData);
-                for (var i = 0; i < exercisesData.length; i++ ) {
+                for (var i = 0; i < exercisesData.length; i++ ) {      
                     var temp = new Exercise();
-                    Object.assign(temp, response[exercisesData[i]]);
+                    Object.assign(temp, Exercise.convertAPIObject(response[exercisesData[i]]));
                     exercises.push(temp);
                 }
-                console.log(exercises);
+                //console.log(exercises);
+                //localStorage.setItem("testExercise", JSON.stringify(exercises));
             })
             .catch(err => console.error(err));
     }
@@ -209,6 +210,32 @@ class Exercise {
             .then(response => response.json())
             .then(response => console.log(response))
             .catch(err => console.error(err));
+    }
+
+    static convertAPIObject(apiObject) {
+        var properties = Object.keys(apiObject);
+        var oldProperty;
+        var firstLetter;
+        for (var i = 0; i < properties.length; i++) {
+            oldProperty = properties[i];
+            properties[i] = properties[i].split(" ");
+            if (properties[i][0].toLowerCase() === "youtube") {
+                properties[i] = "video";
+            } else {
+                for (var j = 0; j < properties[i].length; j++) {
+                    if (j === 0) {
+                        firstLetter = properties[i][j][0].toLowerCase();
+                    } else {
+                        firstLetter = properties[i][j][0].toUpperCase(); 
+                    }
+                    properties[i][j] = firstLetter + properties[i][j].substring(1);
+                }
+                properties[i] = properties[i].join("");
+            }
+            delete Object.assign(apiObject, {[properties[i]]: apiObject[oldProperty]})[oldProperty];
+        }
+        apiObject.video = new URL(apiObject.video);
+        return apiObject;
     }
 }
 
@@ -240,6 +267,10 @@ function startTimer(){
         timerText.innerHTML = "";
         console.log("Help2");
     }
+}
+
+function capitalizeEachWord(word) {
+
 }
 
 startBtn.addEventListener("click", startTimer);
