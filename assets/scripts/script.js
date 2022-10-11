@@ -134,7 +134,7 @@ class Exercise {
         this.primaryMuscles = [];
         this.secondaryMuscles = [];
         this.type = "";
-        this.workoutType = "";
+        this.workoutType = [];
         this.video = null;
     }
 
@@ -168,17 +168,28 @@ class Exercise {
     }
 
     async getExerciseByName(exercise) {
+        var exercisesData = [];
+        var exercises = [];
         this.resetURL();
-
+        // TODO: sanitize input via a function called capitalizeEachWord(string);
         this.baseURL.searchParams.append("name", exercise);
 
         await fetch(this.baseURL.href, Exercise.fetchOptions)
             .then(response => response.json())
-            .then(response => console.log(response))
+            .then(response => {
+                exercisesData = Object.keys(response);
+                console.log(exercisesData);
+                for (var i = 0; i < exercisesData.length; i++ ) {
+                    var temp = new Exercise();
+                    Object.assign(temp, response[exercisesData[i]]);
+                    exercises.push(temp);
+                }
+                console.log(exercises);
+            })
             .catch(err => console.error(err));
     }
 
-    async getExerciseByPrimaryMuscle(pMuscle) {
+    async getExercisesByPrimaryMuscle(pMuscle) {
         this.resetURL();
 
         this.baseURL.searchParams.append("primaryMuscle", pMuscle);
@@ -189,7 +200,7 @@ class Exercise {
             .catch(err => console.error(err));
     }
 
-    async getExerciseBySecondaryMuscle(sMuscle) {
+    async getExercisesBySecondaryMuscle(sMuscle) {
         this.resetURL();
 
         this.baseURL.searchParams.append("secondaryMuscle", sMuscle);
@@ -238,4 +249,4 @@ var testObj = new DeckOfCards();
 testObj.getCards(5);
 
 var testObj2 = new Exercise();
-//testObj2.getAllMuscles();
+//testObj2.getExerciseByName("Barbell Bench Press");
