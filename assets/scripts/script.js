@@ -5,12 +5,22 @@ class Card {
         this.images = images;
         this.value = value;
         this.suit = suit;
+        this.imgTag = "";
     }
 
-    viewCard() {
+    getImgTag() {
+        if (this.imgTag === "") {
+            this.createImgTag();
+        }
+        return this.imgTag;
+    }
+
+    createImgTag() {
+        // TODO: Refactor to pass appropriate image element for HTML purposes.
         var img = document.createElement("img");
         img.src = this.image;
         img.alt = this.value + " of " + this.suit;
+        this.imgTag = img;
     }
 
     // TODO: Add any methods needed for card manipulation
