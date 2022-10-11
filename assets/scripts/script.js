@@ -1,18 +1,20 @@
+// Cards Class to represent each card pulled from the Deck of Cards API
 class Card {
+    #imgTag; // private member variable
+
     constructor(cardCode, image, images, value, suit) {
         this.code = cardCode;
         this.image = image;
         this.images = images;
         this.value = value;
         this.suit = suit;
-        this.imgTag = "";
     }
 
     getImgTag() {
-        if (this.imgTag === "") {
+        if (this.#imgTag === "") {
             this.createImgTag();
         }
-        return this.imgTag;
+        return this.#imgTag;
     }
 
     createImgTag() {
@@ -20,13 +22,13 @@ class Card {
         var img = document.createElement("img");
         img.src = this.image;
         img.alt = this.value + " of " + this.suit;
-        this.imgTag = img;
+        this.#imgTag = img;
     }
 
     // TODO: Add any methods needed for card manipulation
 }
 
-// Deck of Cards Object to be use the API.
+// Deck of Cards Class used as a wrapper for the Deck of Cards API.
 class DeckOfCards {
     constructor(number = 1) {
         this.baseURL = new URL("https://deckofcardsapi.com/api/deck/");
