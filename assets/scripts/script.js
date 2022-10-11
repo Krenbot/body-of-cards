@@ -140,3 +140,6 @@ startBtn.addEventListener("click", startTimer);
 //testObj.newDeck(true);
 var testObj = new DeckOfCards();
 testObj.draw(10);
+
+//Bulma Accordion Script
+// var accordions = bulmaAccordion.attach(); // accordions now contains an array of all Accordion instances
