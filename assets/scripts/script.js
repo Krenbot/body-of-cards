@@ -30,39 +30,42 @@ class DeckOfCards {
         this.baseURL = new URL("https://deckofcardsapi.com/api/deck/");
     }
 
-    shuffle() {
+    async shuffle() {
         // TODO: Implement functionality for multiple decks
+        this.resetURL();
+
         var deck = this;
         var url = this.baseURL;
         if (deck.id === "") {
             url.pathname += "new/shuffle/"
             url.searchParams.append("deck_count", 1);
         } else {
-            url.pathname += this.id + "/shuffle/";
+            url.pathname += (this.id + "/shuffle/");
         }
 
-        fetch(url.href)
+        await fetch(url.href)
             .then((response) => response.json())
             .then((result) => {
                 deck.id = result.deck_id;
                 deck.shuffled = result.shuffled;
             })
-        this.resetURL();
     }
 
-    draw(count = 1) {
+    async draw(count = 1) {
+        this.resetURL();
+
         var deck = this;
         var url = this.baseURL;
         var cards = [];
 
         if (deck.id === "") {
-            url.pathname += "/new/draw/";
+            url.pathname += "new/draw/";
         } else {
-            url.pathname += this.id + "/draw/";
+            url.pathname += (this.id + "/draw/");
         }
         url.searchParams.append("count", count);
 
-        fetch(url.href)
+        await fetch(url.href)
             .then((response) => response.json())
             .then((result) => {
                 for (var i = 0; i < result.cards.length; i++) {
@@ -72,6 +75,7 @@ class DeckOfCards {
                     
                     cards.push(temp);
                 }
+
                 deck.id = result.deck_id;
                 deck.remaining = result.remaining;
 
@@ -79,12 +83,14 @@ class DeckOfCards {
 
                 // TODO: Either change this method to use async and await, or find a way to prevent downstream methods from trying to access data until the fetch is complete.
             });
-        this.resetURL();
+
         return cards;
     }
 
-    newDeck(shuffleBool = 1, addJokers = false) {
+    async newDeck(shuffleBool = 1, addJokers = false) {
         // TODO: Implement functionality for multiple decks
+        this.resetURL();
+
         var deck = this;
         var url = this.baseURL;
         url.pathname = url.pathname + "new/";
@@ -92,7 +98,7 @@ class DeckOfCards {
             url.searchParams.append("jokers_enabled", "true");
         }
 
-        fetch(url.href)
+        await fetch(url.href)
             .then((response) => response.json())
             .then((result) => {
                 deck.id = result.deck_id;
@@ -101,14 +107,15 @@ class DeckOfCards {
             })
         // TODO: Rather than call the shuffle method, add a method parameter to call https://deckofcardsapi.com/api/deck/new/shuffle/ from this method?
         this.shuffle();
-        this.resetURL();
     }
 
-    getCards(count) {
-        var cardList = [];
-        
+    async getCards(count) {
         this.shuffle();
-        cardList = this.draw(count);
+        const cardList = await this.draw(count);
+        console.log(cardList);
+
+        // TODO: Write cards to html objects. May need to refactor getCards or implement new method to write cards to html.
+        // TODO: Remove console.log once cards are written to HTML
     }
 
     returnToDeck() {
@@ -152,10 +159,5 @@ function startTimer(){
 startBtn.addEventListener("click", startTimer);
 
 // DEV TESTING SECTION
-//testObj.newDeck(true);
 var testObj = new DeckOfCards();
-testObj.draw(10);
-var testObj2 = localStorage.getItem("draw-latest");
-
-var testObj3 = new DeckOfCards();
-console.log(testObj3.getCards(5));
+testObj.getCards(5);
