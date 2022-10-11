@@ -126,6 +126,30 @@ class DeckOfCards {
     // TODO: Add comments explaining the why's of each method
 };
 
+class Exercises {
+    constructor() {
+
+    }
+
+    static allMuscles = ['pectoralis major', 'biceps', 'abdominals', 'sartorius', 'abductors', 'trapezius', 'deltoid', 'latissimus dorsi', 'serratus anterior', 'external oblique', 'brachioradialis', 'finger extensors', 'finger flexors', 'quadriceps', 'hamstrings', 'gastrocnemius', 'soleus', 'infraspinatus', 'teres major', 'triceps', 'gluteus medius', 'gluteus maximus'];
+
+    getAllMuscles() {
+
+    }
+
+    getExerciseByName(exercise) {
+
+    }
+
+    getExerciseByPrimaryMuscle(pMuscle) {
+
+    }
+
+    getExerciseBySecondaryMuscle(sMuscle) {
+
+    }
+}
+
 var timerText = document.getElementById("timerText");
 var startBtn = document.getElementById("timerStart");
 var timerStatus = "new";
@@ -161,3 +185,20 @@ startBtn.addEventListener("click", startTimer);
 // DEV TESTING SECTION
 var testObj = new DeckOfCards();
 testObj.getCards(5);
+
+function test() {
+    const options = { // Key below is provided by PBP66 on https://rapidapi.com/hub
+        method: 'GET',
+        headers: {
+            'X-RapidAPI-Key': '0198bbaf50msh1011edbb678ad4bp19a4a1jsn246309d212b1',
+            'X-RapidAPI-Host': 'exerciseapi3.p.rapidapi.com'
+        }
+    };
+
+    fetch('https://exerciseapi3.p.rapidapi.com/search/muscles/', options)
+        .then(response => response.json())
+        .then(response => console.log(response))
+        .catch(err => console.error(err));
+}
+
+test();
