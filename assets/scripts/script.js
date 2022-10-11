@@ -26,12 +26,17 @@ class DeckOfCards {
         this.decks = number;
     }
 
+    resetURL() {
+        this.baseURL = new URL("https://deckofcardsapi.com/api/deck/");
+    }
+
     shuffle() {
         // TODO: Implement functionality for multiple decks
         var deck = this;
         var url = this.baseURL;
-        if (url.id === "") {
-            url.pathname += "new/shuffle/?deck_count=1";
+        if (deck.id === "") {
+            url.pathname += "new/shuffle/"
+            url.searchParams.append("deck_count", 1);
         } else {
             url.pathname += this.id + "/shuffle/";
         }
@@ -42,15 +47,16 @@ class DeckOfCards {
                 deck.id = result.deck_id;
                 deck.shuffled = result.shuffled;
             })
+        this.resetURL();
     }
 
     draw(count = 1) {
         var deck = this;
         var url = this.baseURL;
-        var cards;
+        var cards = [];
 
         if (deck.id === "") {
-            url.pathname += "new/draw/";
+            url.pathname += "/new/draw/";
         } else {
             url.pathname += this.id + "/draw/";
         }
@@ -72,10 +78,12 @@ class DeckOfCards {
                 localStorage.setItem("draw-latest", JSON.stringify(cards));
 
                 // TODO: Either change this method to use async and await, or find a way to prevent downstream methods from trying to access data until the fetch is complete.
-            })
+            });
+        this.resetURL();
+        return cards;
     }
 
-    newDeck(addJokers = false) {
+    newDeck(shuffleBool = 1, addJokers = false) {
         // TODO: Implement functionality for multiple decks
         var deck = this;
         var url = this.baseURL;
@@ -93,6 +101,14 @@ class DeckOfCards {
             })
         // TODO: Rather than call the shuffle method, add a method parameter to call https://deckofcardsapi.com/api/deck/new/shuffle/ from this method?
         this.shuffle();
+        this.resetURL();
+    }
+
+    getCards(count) {
+        var cardList = [];
+        
+        this.shuffle();
+        cardList = this.draw(count);
     }
 
     returnToDeck() {
@@ -139,3 +155,7 @@ startBtn.addEventListener("click", startTimer);
 //testObj.newDeck(true);
 var testObj = new DeckOfCards();
 testObj.draw(10);
+var testObj2 = localStorage.getItem("draw-latest");
+
+var testObj3 = new DeckOfCards();
+console.log(testObj3.getCards(5));
