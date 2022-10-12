@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+<link rel="stylesheet" type="text/css" href="style.css" />
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="SWAP PLACEHOLDERport" content="width=device-width, initial-scale=1.0">
     <title>Body of Cards</title>
     <link rel="stylesheet" href="./assets/styles/reset.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <link rel="stylesheet" href="./assets/styles/style.css">
 </head>
+
 <body>
-    <div class="box" id="title">
+    <!-- Original Project HTML -->
+    <!-- <div class="box" id="title">
         <div>Playing Card Workout Generator</div>
     </div>
     <div class="box">
@@ -18,7 +22,7 @@
         <button id="timerStart" class="button is-black">Start Timer</button>
         <p id="timerText"></p>
     </div>
-        
+
     <p>Click Card to Flip</p>
     <ul class="flipping-cards">
         <li>
@@ -35,7 +39,7 @@
             <label for="item2">
                 <span class="wrapper">
                     <span class="image"></span>
-                    <span class="back"></span> 
+                    <span class="back"></span>
                 </span>
             </label>
         </li>
@@ -44,32 +48,129 @@
             <label for="item3">
                 <span class="wrapper">
                     <span class="image"></span>
-                    <span class="back"></span> 
+                    <span class="back"></span>
                 </span>
             </label>
         </li>
         <li>
             <input type="checkbox" id="item4">
             <label for="item4">
-                <span class="wrapper">      
+                <span class="wrapper">
                     <span class="image"></span>
-                    <span class="back"></span> 
+                    <span class="back"></span>
                 </span>
             </label>
         </li>
         <li>
             <input type="checkbox" id="item5">
             <label for="item5">
-                <span class="wrapper">      
+                <span class="wrapper">
                     <span class="image"></span>
-                    <span class="back"></span> 
+                    <span class="back"></span>
                 </span>
             </label>
         </li>
     </ul>
-    <footer>      
+    <footer>
         done by Elad Shechter - <a href="https://coderwall.com/elad2412">https://coderwall.com/elad2412</a>
-    </footer>
+    </footer> -->
+
+    <!-- Bulma Cards -->
+    <div class="container">
+        <div class="mt-5 columns is-centered is-8 is-variable">
+            <div class="column is-4-tablet is-3-desktop">
+                <div class="card">
+                    <div class="card-image has-text-centered px-6">
+                        <img src="https://via.placeholder.com/200x250" alt="Placeholder image">
+                    </div>
+                    <div class="card-content">
+                        <p class='title is-size-4'><a href=''>EXERCISE NAME</a></p>
+                        <p>MUSCLE GROUP</p>
+                    </div>
+                    <footer class="card-footer">
+                        <p class="card-footer-item">
+                            <button class="bulma-control-mixin">
+                                Swap Cards
+                            </button>
+                        </p>
+                    </footer>
+                </div>
+            </div>
+
+            <div class="column is-4-tablet is-3-desktop">
+                <div class="card">
+                    <div class="card-image has-text-centered px-6">
+                        <img src="https://via.placeholder.com/200x250" alt="Placeholder image">
+                    </div>
+                    <div class="card-content">
+                        <p class='title is-size-4'><a href=''>EXERCISE NAME</a></p>
+                        <p>MUSCLE GROUP</p>
+                    </div>
+                    <footer class="card-footer">
+                        <p class="card-footer-item">
+                            <a class="has-text-grey">SWAP PLACEHOLDER</a>
+                        </p>
+                    </footer>
+                </div>
+            </div>
+
+            <div class="column is-4-tablet is-3-desktop">
+                <div class="card">
+                    <div class="card-image has-text-centered px-6">
+                        <img src="https://via.placeholder.com/200x250" alt="Placeholder image">
+                    </div>
+                    <div class="card-content">
+                        <p class='title is-size-4'><a href=''>EXERCISE NAME</a></p>
+                        <p>MUSCLE GROUP</p>
+                    </div>
+                    <footer class="card-footer">
+                        <p class="card-footer-item">
+                            <a class="has-text-grey">SWAP PLACEHOLDER</a>
+                        </p>
+                    </footer>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-5 columns is-centered is-8 is-variable">
+        <div class="column is-4-tablet is-3-desktop">
+            <div class="card">
+                <div class="card-image has-text-centered px-6">
+                    <img src="https://via.placeholder.com/200x250" alt="Placeholder image">
+                </div>
+                <div class="card-content">
+                    <p class='title is-size-4'><a href=''>EXERCISE NAME</a></p>
+                    <p>MUSCLE GROUP</p>
+                </div>
+                <footer class="card-footer">
+                    <p class="card-footer-item">
+                        <a class="has-text-grey">SWAP PLACEHOLDER</a>
+                    </p>
+                </footer>
+            </div>
+        </div>
+
+        <div class="column is-4-tablet is-3-desktop">
+            <div class="card">
+                <div class="card-image has-text-centered px-6">
+                    <img src="https://via.placeholder.com/200x250" alt="Placeholder image">
+                </div>
+                <div class="card-content">
+                    <p class='title is-size-4'><a href=''>EXERCISE NAME</a></p>
+                    <p>MUSCLE GROUP</p>
+                </div>
+                <footer class="card-footer">
+                    <p class="card-footer-item">
+                        <a class="has-text-grey">SWAP PLACEHOLDER</a>
+                    </p>
+                </footer>
+            </div>
+        </div>
+    </div>
+    </div>
+    <!-- </section> -->
     <script src="./assets/scripts/script.js"></script>
 </body>
+
 </html>
