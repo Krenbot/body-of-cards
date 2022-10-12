@@ -1,11 +1,13 @@
-function Card(cardCode, image, images, value, suit) {
-    this.code = cardCode,
-    this.image = image,
-    this.images = images,
-    this.value = value,
-    this.suit = suit,
+class Card {
+    constructor(cardCode, image, images, value, suit) {
+        this.code = cardCode;
+        this.image = image;
+        this.images = images;
+        this.value = value;
+        this.suit = suit;
+    }
 
-    this.viewCard = function() {
+    viewCard() {
         var img = document.createElement("img");
         img.src = this.image;
         img.alt = this.value + " of " + this.suit;
@@ -15,25 +17,33 @@ function Card(cardCode, image, images, value, suit) {
 }
 
 // Deck of Cards Object to be use the API.
-function DeckOfCards(number = 1) {
-    this.baseURL = new URL("https://deckofcardsapi.com/api/deck/");
-    this.id = "";
-    this.shuffled = "";
-    this.remaining = "";
-    this.cards = [];
-    this.decks = number;
+class DeckOfCards {
+    constructor(number = 1) {
+        this.baseURL = new URL("https://deckofcardsapi.com/api/deck/");
+        this.id = "";
+        this.shuffled = "";
+        this.remaining = "";
+        this.decks = number;
+    }
 
-    this.shuffle = function() {
+    resetURL() {
+        this.baseURL = new URL("https://deckofcardsapi.com/api/deck/");
+    }
+
+    async shuffle() {
         // TODO: Implement functionality for multiple decks
+        this.resetURL();
+
         var deck = this;
         var url = this.baseURL;
-        if (url.id === "") {
-            url.pathname += "new/shuffle/?deck_count=1";
+        if (deck.id === "") {
+            url.pathname += "new/shuffle/"
+            url.searchParams.append("deck_count", 1);
         } else {
-            url.pathname += this.id + "/shuffle/";
+            url.pathname += (this.id + "/shuffle/");
         }
 
-        fetch(url.href)
+        await fetch(url.href)
             .then((response) => response.json())
             .then((result) => {
                 deck.id = result.deck_id;
@@ -41,18 +51,21 @@ function DeckOfCards(number = 1) {
             })
     }
 
-    this.draw = function(count = 1) {
+    async draw(count = 1) {
+        this.resetURL();
+
         var deck = this;
         var url = this.baseURL;
+        var cards = [];
 
         if (deck.id === "") {
             url.pathname += "new/draw/";
         } else {
-            url.pathname += this.id + "/draw/";
+            url.pathname += (this.id + "/draw/");
         }
         url.searchParams.append("count", count);
 
-        fetch(url.href)
+        await fetch(url.href)
             .then((response) => response.json())
             .then((result) => {
                 for (var i = 0; i < result.cards.length; i++) {
@@ -60,17 +73,24 @@ function DeckOfCards(number = 1) {
                         result.cards[i].image, result.cards[i].images, 
                         result.cards[i].value, result.cards[i].suit);
                     
-                    deck.cards.push(temp);
+                    cards.push(temp);
                 }
+
                 deck.id = result.deck_id;
                 deck.remaining = result.remaining;
-                deck.renderDeck();
+
+                localStorage.setItem("draw-latest", JSON.stringify(cards));
+
                 // TODO: Either change this method to use async and await, or find a way to prevent downstream methods from trying to access data until the fetch is complete.
-            })
+            });
+
+        return cards;
     }
 
-    this.newDeck = function(addJokers = false) {
+    async newDeck(shuffleBool = 1, addJokers = false) {
         // TODO: Implement functionality for multiple decks
+        this.resetURL();
+
         var deck = this;
         var url = this.baseURL;
         url.pathname = url.pathname + "new/";
@@ -78,7 +98,7 @@ function DeckOfCards(number = 1) {
             url.searchParams.append("jokers_enabled", "true");
         }
 
-        fetch(url.href)
+        await fetch(url.href)
             .then((response) => response.json())
             .then((result) => {
                 deck.id = result.deck_id;
@@ -89,15 +109,17 @@ function DeckOfCards(number = 1) {
         this.shuffle();
     }
 
-    this.returnToDeck = function() {
-        // TODO: Implement method for returning cards to the deck API. May not be needed for the MVP
+    async getCards(count) {
+        this.shuffle();
+        const cardList = await this.draw(count);
+        console.log(cardList);
+
+        // TODO: Write cards to html objects. May need to refactor getCards or implement new method to write cards to html.
+        // TODO: Remove console.log once cards are written to HTML
     }
 
-    // Test function for now. draw requires sometime to load the cards from the data fetch.
-    // Calling this methods allows the user to test the renderDeck method if it is called from draw.
-    this.renderDeck = function() {
-        console.log(this.cards);
-        console.log(this.cards[0]);
+    returnToDeck() {
+        // TODO: Implement method for returning cards to the deck API. May not be needed for the MVP
     }
 
     // TODO: Implement simple instructions for using the DeckOfCards Class
@@ -137,9 +159,8 @@ function startTimer(){
 startBtn.addEventListener("click", startTimer);
 
 // DEV TESTING SECTION
-//testObj.newDeck(true);
 var testObj = new DeckOfCards();
-testObj.draw(10);
+testObj.getCards(5);
 
 //Bulma Accordion Script
 // var accordions = bulmaAccordion.attach(); // accordions now contains an array of all Accordion instances
