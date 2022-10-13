@@ -78,7 +78,7 @@
   -webkit-transform: rotateY(-180deg);
 }
 
-label[for="item1"] .image {
+/* label[for="item1"] .image {
   background-image: url(http://farm6.staticflickr.com/5339/8879221754_51e07afc5e_o.png);
 }
 
@@ -96,7 +96,7 @@ label[for="item4"] .image {
 
 label[for="item5"] .image {
   background-image: url(https://deckofcardsapi.com/static/img/6H.png);
-}
+} */
 
 input[type="checkbox"] {
   display: none;
@@ -115,7 +115,7 @@ p {
 
 footer {
   clear: both;
-  padding-top: 20px;
+  /* padding-top: 20px; */
   font-weight: bold;
 }
 
@@ -176,6 +176,18 @@ footer a {
   display: none;
   overflow: hidden;
 }
+
+.card {
+  width: 200px;
+  height: 250px;
+}
+
+.card-content {
+  height: 50px;
+  padding: 0.25rem
+}
+
 #rulesBtn{
   margin: 20px;
 }
+
