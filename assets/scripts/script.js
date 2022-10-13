@@ -234,6 +234,7 @@ class Exercise {
             .catch(err => console.error(err));
 
         localStorage.setItem(sMuscle.toLowerCase(), JSON.stringify(exercises));
+        return exercises;
     }
 
     static convertAPIObject(apiObject) {
