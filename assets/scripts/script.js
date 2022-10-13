@@ -62,6 +62,7 @@ class DeckOfCards {
 
         var deck = this;
         var url = this.baseURL;
+        
         if (deck.id === "") {
             url.pathname += "new/shuffle/"
             url.searchParams.append("deck_count", 1);
@@ -89,6 +90,7 @@ class DeckOfCards {
         } else {
             url.pathname += (this.id + "/draw/");
         }
+
         url.searchParams.append("count", count);
 
         await fetch(url.href)
@@ -140,7 +142,6 @@ class DeckOfCards {
         const cardList = await this.draw(count);
 
         // TODO: Write cards to html objects. May need to refactor getCards or implement new method to write cards to html.
-        // TODO: Remove console.log once cards are written to HTML
     }
 
     returnToDeck() {
@@ -298,13 +299,13 @@ function startTimer() {
         startBtn.innerHTML = "Reset";
         clearInterval(interval);
         interval = null;
-        console.log("Help");
+        //console.log("Help");
     } else if (timerStatus === "stopped") {
         timerStatus = "new";
         startBtn.innerHTML = "Start Timer";
         var timerCount = 0;
         timerText.innerHTML = "";
-        console.log("Help2");
+        //console.log("Help2");
     }
 }
 
@@ -396,7 +397,7 @@ for (var i = 0; i < acc.length; i++) {
     });
 }
 
-    document.getElementById("rulesBtn").addEventListener("click",rulesButtonFunction);
+document.getElementById("rulesBtn").addEventListener("click",rulesButtonFunction);
 
 function rulesButtonFunction() {
     document.getElementById("rulesModal").setAttribute("class","modal is-active");
