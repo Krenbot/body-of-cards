@@ -176,4 +176,6 @@ footer a {
   display: none;
   overflow: hidden;
 }
-
+#rulesBtn{
+  margin: 20px;
+}
