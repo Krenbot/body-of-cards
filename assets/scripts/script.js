@@ -42,13 +42,7 @@ class Card {
     // TODO: Add any methods needed for card manipulation
 }
 
- 
-
-
-// Deck of Cards Object to be use the API.
-
 // Deck of Cards Class used as a wrapper for the Deck of Cards API.
- 
 class DeckOfCards {
     constructor(number = 1) {
         this.baseURL = new URL("https://deckofcardsapi.com/api/deck/");
@@ -283,7 +277,6 @@ class Exercise {
 }
 
 /* VARIABLE DECLARATION */
-
 var timerText = document.getElementById("timerText");
 var startBtn = document.getElementById("timerStart");
 var timerStatus = "new";
@@ -343,70 +336,71 @@ startBtn.addEventListener("click", startTimer);
 document.addEventListener('DOMContentLoaded', () => {
     // Functions to open and close a modal
     function openModal($el) {
-      $el.classList.add('is-active');
+        $el.classList.add('is-active');
     }
   
     function closeModal($el) {
-      $el.classList.remove('is-active');
+        $el.classList.remove('is-active');
     }
   
     function closeAllModals() {
-      (document.querySelectorAll('.modal') || []).forEach(($modal) => {
-        closeModal($modal);
-      });
+        (document.querySelectorAll('.modal') || []).forEach(($modal) => {
+            closeModal($modal);
+        });
     }
   
     // Add a click event on buttons to open a specific modal
     (document.querySelectorAll('.js-modal-trigger') || []).forEach(($trigger) => {
-      const modal = $trigger.dataset.target;
-      const $target = document.getElementById(modal);
+        const modal = $trigger.dataset.target;
+        const $target = document.getElementById(modal);
   
-      $trigger.addEventListener('click', () => {
-        openModal($target);
-      });
+        $trigger.addEventListener('click', () => {
+            openModal($target);
+        });
     });
   
     // Add a click event on various child elements to close the parent modal
     (document.querySelectorAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button') || []).forEach(($close) => {
-      const $target = $close.closest('.modal');
+        const $target = $close.closest('.modal');
   
-      $close.addEventListener('click', () => {
-        closeModal($target);
-      });
+        $close.addEventListener('click', () => {
+            closeModal($target);
+        });
     });
   
     // Add a keyboard event to close all modals
     document.addEventListener('keydown', (event) => {
-      const e = event || window.event;
+        const e = event || window.event;
   
-      if (e.keyCode === 27) { // Escape key
-        closeAllModals();
-      }
+        if (e.keyCode === 27) { // Escape key
+            closeAllModals();
+        }
     });
-  });
+});
 
-  var acc = document.getElementsByClassName("accordion");
-  var i;
+var acc = document.getElementsByClassName("accordion");
   
-  for (i = 0; i < acc.length; i++) {
+for (var i = 0; i < acc.length; i++) {
     acc[i].addEventListener("click", function() {
-      /* Toggle between adding and removing the "active" class,
-      to highlight the button that controls the panel */
-      this.classList.toggle("active");
-  
-      /* Toggle between hiding and showing the active panel */
-      var panel = this.nextElementSibling;
-      if (panel.style.display === "block") {
-        panel.style.display = "none";
-      } else {
-        panel.style.display = "block";
-      }
+        /* Toggle between adding and removing the "active" class,
+        to highlight the button that controls the panel */
+        this.classList.toggle("active");
+        
+        /* Toggle between hiding and showing the active panel */
+        var panel = this.nextElementSibling;
+        if (panel.style.display === "block") {
+            panel.style.display = "none";
+        } else {
+            panel.style.display = "block";
+        }
     });
-  }
-  document.getElementById("rulesBtn").addEventListener("click",rulesButtonFunction)
-  function rulesButtonFunction(){
-    document.getElementById("rulesModal").setAttribute("class","modal is-active")
-    
-  }
+}
+
+    document.getElementById("rulesBtn").addEventListener("click",rulesButtonFunction);
+
+function rulesButtonFunction() {
+    document.getElementById("rulesModal").setAttribute("class","modal is-active");
+}
+
 //Bulma Accordion Script
 // var accordions = bulmaAccordion.attach(); // accordions now contains an array of all Accordion instances
