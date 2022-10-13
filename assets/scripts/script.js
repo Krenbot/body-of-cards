@@ -400,7 +400,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   document.getElementById("rulesBtn").addEventListener("click",rulesButtonFunction)
   function rulesButtonFunction(){
-    alert("rules")
+    document.getElementById("rulesModal").setAttribute("class","modal is-active")
+    
   }
 //Bulma Accordion Script
 // var accordions = bulmaAccordion.attach(); // accordions now contains an array of all Accordion instances
