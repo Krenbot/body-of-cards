@@ -31,10 +31,8 @@ class Card {
     #convertImagesObject(stringObj) {
         var objectKeys = Object.keys(stringObj);
         for(var i = 0; i < objectKeys.length; i++) {
-            console.log(stringObj[objectKeys[i]]);
             stringObj[objectKeys[i]] = new URL(stringObj[objectKeys[i]]);
         }
-        console.log(this.images);
     }
 
     // TODO: Add any methods needed for card manipulation
@@ -136,7 +134,6 @@ class DeckOfCards {
     async getCards(count) {
         this.shuffle();
         const cardList = await this.draw(count);
-        console.log(cardList);
 
         // TODO: Write cards to html objects. May need to refactor getCards or implement new method to write cards to html.
         // TODO: Remove console.log once cards are written to HTML
@@ -192,36 +189,33 @@ class Exercise {
     }
 
     async getExerciseByName(exercise) {
-        var exercisesData = [];
-        var exercises = [];
         this.resetURL();
+
+        var exercises = [];
         this.baseURL.searchParams.append("name", capitalizeEachWord(exercise));
 
-        await fetch(this.baseURL.href, Exercise.fetchOptions)
+        exercises = await fetch(this.baseURL.href, Exercise.fetchOptions)
             .then(response => response.json())
-            .then(response => {
-                exercisesData = Object.keys(response);
-                console.log(exercisesData);
-                for (var i = 0; i < exercisesData.length; i++ ) {      
-                    var temp = new Exercise();
-                    Object.assign(temp, Exercise.convertAPIObject(response[exercisesData[i]]));
-                    exercises.push(temp);
-                }
-                //console.log(exercises);
-                //localStorage.setItem("testExercise", JSON.stringify(exercises));
-            })
+            .then(response => Exercise.#convertFetchResponseToObjects(response))
             .catch(err => console.error(err));
+
+        localStorage.setItem(exercise, JSON.stringify(exercises));
+        return exercises;
     }
 
     async getExercisesByPrimaryMuscle(pMuscle) {
         this.resetURL();
 
-        this.baseURL.searchParams.append("primaryMuscle", pMuscle);
+        var exercises = [];
+        this.baseURL.searchParams.append("primaryMuscle", pMuscle.toLowerCase());
 
-        await fetch(this.baseURL.href, Exercise.fetchOptions)
+        exercises =  await fetch(this.baseURL.href, Exercise.fetchOptions)
             .then(response => response.json())
-            .then(response => console.log(response))
+            .then(response => Exercise.#convertFetchResponseToObjects(response))
             .catch(err => console.error(err));
+
+        localStorage.setItem(pMuscle, JSON.stringify(exercises));
+        return exercises;
     }
 
     async getExercisesBySecondaryMuscle(sMuscle) {
@@ -259,6 +253,18 @@ class Exercise {
         }
         apiObject.video = new URL(apiObject.video);
         return apiObject;
+    }
+
+    static #convertFetchResponseToObjects(response) {
+        var dataList = [];
+        var objectList = [];
+        dataList = Object.keys(response);
+        for (var i = 0; i < dataList.length; i++ ) {      
+            var temp = new Exercise();
+            Object.assign(temp, Exercise.convertAPIObject(response[dataList[i]]));
+            objectList.push(temp);
+        }
+        return objectList;
     }
 }
 
@@ -312,6 +318,11 @@ startBtn.addEventListener("click", startTimer);
 // DEV TESTING SECTION
 var testObj = new DeckOfCards();
 testObj.getCards(5);
+
+var test;
+var exerciseObj = new Exercise();
+test = exerciseObj.getExercisesByPrimaryMuscle("TrIcEpS");
+console.log(test.value);
 
 //Bulma Accordion Script
 // var accordions = bulmaAccordion.attach(); // accordions now contains an array of all Accordion instances
