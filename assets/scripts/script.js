@@ -42,13 +42,7 @@ class Card {
     // TODO: Add any methods needed for card manipulation
 }
 
- 
-
-
-// Deck of Cards Object to be use the API.
-
 // Deck of Cards Class used as a wrapper for the Deck of Cards API.
- 
 class DeckOfCards {
     constructor(number = 1) {
         this.baseURL = new URL("https://deckofcardsapi.com/api/deck/");
@@ -398,9 +392,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
-  document.getElementById("rulesBtn").addEventListener("click",rulesButtonFunction)
-  function rulesButtonFunction(){
-    alert("rules")
-  }
+
 //Bulma Accordion Script
 // var accordions = bulmaAccordion.attach(); // accordions now contains an array of all Accordion instances
