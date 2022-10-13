@@ -5,7 +5,7 @@ class Card {
 
     constructor(cardCode, image, images, value, suit) {
         this.code = cardCode;
-        this.image = image;
+        this.image = new URL(image);
         this.images = images;
         this.value = value;
         this.suit = suit;
@@ -21,7 +21,7 @@ class Card {
     createImgElement() {
         // TODO: Refactor to pass appropriate image element for HTML purposes.
         var img = document.createElement("img");
-        img.src = this.image;
+        img.src = this.image.href;
         img.alt = this.value + " of " + this.suit;
         this.#imgTag = img;
     }
