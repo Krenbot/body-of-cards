@@ -250,10 +250,14 @@ class Exercise {
     }
 }
 
+/* VARIABLE DECLARATION */
+
 var timerText = document.getElementById("timerText");
 var startBtn = document.getElementById("timerStart");
 var timerStatus = "new";
 var interval;
+
+/* FUNCTION DECLARATION */
 
 function startTimer(){
     if (timerStatus === "new"){
@@ -289,6 +293,8 @@ function capitalizeEachWord(stringInput) {
     return newWords.join(" ");
 }
 
+/* MAIN CODE EXECUTION AREA */
+
 startBtn.addEventListener("click", startTimer);
 
 // DEV TESTING SECTION
@@ -297,6 +303,3 @@ testObj.getCards(5);
 
 //Bulma Accordion Script
 // var accordions = bulmaAccordion.attach(); // accordions now contains an array of all Accordion instances
-
-var testObj2 = new Exercise();
-//testObj2.getExerciseByName("Barbell Bench Press");
