@@ -1,90 +1,179 @@
-
-.box{
-    display: flex;
-    justify-content: flex-start;
-    margin: 10px;
-    margin-bottom: 80px;
-    font-size: 40px;
-    max-width: 1200px;
-}
-#title{
-    font-family:fantasy;
-    font-size: 80px;
-    
-}
-
-.button {
+.box {
+  display: flex;
+  justify-content: flex-start;
   margin: 10px;
+  margin-bottom: 80px;
+  font-size: 40px;
+  max-width: 1200px;
 }
 
-.flipping-cards li{position:relative; float:left; margin-right:10px;}
-.flipping-cards label{  display:block; width:200px; height:250px; cursor:pointer;}
-
-.flipping-cards .wrapper{
-  display:block; width:200px; height:250px;  
--webkit-transform-style: preserve-3d;
--moz-transform-style: preserve-3d;
-transform-style: preserve-3d;
-
--webkit-transition: all 2.50s;
--moz-transition: all .50s;
-transition: all .50s;  
-}
-.flipping-cards .wrapper span{
-  display:block;
-  width:200px;
-  height:250px;
-  position:absolute;
-  top:0;
-  left:0;
+#title {
+  font-family: fantasy;
+  font-size: 80px;
 }
 
-.flipping-cards label .back{
-  border-radius:10px;
-  -webkit-backface-visibility:hidden; /* Chrome and Safari */
--moz-backface-visibility:hidden; /* Firefox */
--ms-backface-visibility:hidden; /* Internet Explorer */
-
-background-image: repeating-linear-gradient(120deg, rgba(255,255,255,.1), rgba(255,255,255,.1) 1px, transparent 1px, transparent 60px), repeating-linear-gradient(60deg, rgba(255,255,255,.1), rgba(255,255,255,.1) 1px, transparent 1px, transparent 60px), linear-gradient(60deg, rgba(0,0,0,.1) 25%, transparent 25%, transparent 75%, rgba(0,0,0,.1) 75%, rgba(0,0,0,.1)), linear-gradient(120deg, rgba(0,0,0,.1) 25%, transparent 25%, transparent 75%, rgba(0,0,0,.1) 75%, rgba(0,0,0,.1));
-background-size: 70px 120px;
-background-color: #6d695c;  
+.flipping-cards li {
+  position: relative;
+  float: left;
+  margin-right: 10px;
 }
 
-.flipping-cards label .image{
+.flipping-cards label {
+  display: block;
+  width: 200px;
+  height: 250px;
+  cursor: pointer;
+}
+
+.flipping-cards .wrapper {
+  display: block;
+  width: 200px;
+  height: 250px;
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+
+  -webkit-transition: all 2.50s;
+  -moz-transition: all .50s;
+  transition: all .50s;
+}
+
+.flipping-cards .wrapper span {
+  display: block;
+  width: 200px;
+  height: 250px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.flipping-cards label .back {
+  border-radius: 10px;
+  -webkit-backface-visibility: hidden;
+  /* Chrome and Safari */
+  -moz-backface-visibility: hidden;
+  /* Firefox */
+  -ms-backface-visibility: hidden;
+  /* Internet Explorer */
+
+  background-image: repeating-linear-gradient(120deg, rgba(255, 255, 255, .1), rgba(255, 255, 255, .1) 1px, transparent 1px, transparent 60px), repeating-linear-gradient(60deg, rgba(255, 255, 255, .1), rgba(255, 255, 255, .1) 1px, transparent 1px, transparent 60px), linear-gradient(60deg, rgba(0, 0, 0, .1) 25%, transparent 25%, transparent 75%, rgba(0, 0, 0, .1) 75%, rgba(0, 0, 0, .1)), linear-gradient(120deg, rgba(0, 0, 0, .1) 25%, transparent 25%, transparent 75%, rgba(0, 0, 0, .1) 75%, rgba(0, 0, 0, .1));
+  background-size: 70px 120px;
+  background-color: #6d695c;
+}
+
+.flipping-cards label .image {
   transform: rotateY(180deg);
   -webkit-transform: rotateY(180deg);
-  backface-visibility:hidden;
-  -webkit-backface-visibility:hidden; /* Chrome and Safari */
-  -moz-backface-visibility:hidden; /* Firefox */
-  -ms-backface-visibility:hidden; /* Internet Explorer */ 
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center; 
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  /* Chrome and Safari */
+  -moz-backface-visibility: hidden;
+  /* Firefox */
+  -ms-backface-visibility: hidden;
+  /* Internet Explorer */
 }
 
-
-
-.flipping-cards input[type="checkbox"]:checked + label .wrapper{
-      transform: rotateY(-180deg);
-      -webkit-transform: rotateY(-180deg);
+.flipping-cards input[type="checkbox"]:checked+label .wrapper {
+  transform: rotateY(-180deg);
+  -webkit-transform: rotateY(-180deg);
 }
 
-label[for="item1"] .image{background-image:url(http://farm6.staticflickr.com/5339/8879221754_51e07afc5e_o.png);}
+label[for="item1"] .image {
+  background-image: url(http://farm6.staticflickr.com/5339/8879221754_51e07afc5e_o.png);
+}
 
-label[for="item2"] .image{background-image:url(http://farm8.staticflickr.com/7398/8878601839_e5a56dc65f_o.png);}
+label[for="item2"] .image {
+  background-image: url(http://farm8.staticflickr.com/7398/8878601839_e5a56dc65f_o.png);
+}
 
-label[for="item3"] .image{background-image:url(http://farm6.staticflickr.com/5461/8879221878_b22fdf9ff8_o.png);}
+label[for="item3"] .image {
+  background-image: url(http://farm6.staticflickr.com/5461/8879221878_b22fdf9ff8_o.png);
+}
 
-label[for="item4"] .image{background-image:url(http://farm8.staticflickr.com/7458/8878601681_b8c0499874_o.png);}
+label[for="item4"] .image {
+  background-image: url(http://farm8.staticflickr.com/7458/8878601681_b8c0499874_o.png);
+}
 
-label[for="item5"] .image{background-image:url(https://deckofcardsapi.com/static/img/6H.png);}
+label[for="item5"] .image {
+  background-image: url(https://deckofcardsapi.com/static/img/6H.png);
+}
+
+input[type="checkbox"] {
+  display: none;
+}
+
+ul,
+li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+p {
+  font-weight: bold;
+}
+
+footer {
+  clear: both;
+  padding-top: 20px;
+  font-weight: bold;
+}
+
+footer a {
+  color: blue;
+}
+
+/* BULMA CSS STYLINGS  */
+/* .card{
+  width: 200px;
+  height: 250px;
+} */
+
+.bulma-control-mixin {
+  @include control;
+  background: blue;
+  color: white;
+  size: 200px;
+}
+
+/* 
+.bulma-control-mixin {
+  &.is-small {
+    @include control-small;
+  }
+
+  &.is-medium {
+    @include control-medium;
+  }
+  &.is-large {
+    @include control-large;
+  }
+} */
 
 
+/* Style the buttons that are used to open and close the accordion panel */
+.accordion {
+  background-color: #eee;
+  color: #444;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  text-align: left;
+  border: none;
+  outline: none;
+  transition: 0.4s;
+}
 
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.active, .accordion:hover {
+  background-color: #ccc;
+}
 
-input[type="checkbox"]{display:none;}
-ul,li{list-style:none;padding:0;margin:0;}
-p{font-weight:bold;}
-footer{clear:both; padding-top:20px;font-weight:bold;}
-footer a{color:blue;}
+/* Style the accordion panel. Note: hidden by default */
+.panel {
+  padding: 0 18px;
+  background-color: white;
+  display: none;
+  overflow: hidden;
+}
 
