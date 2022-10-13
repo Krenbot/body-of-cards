@@ -237,7 +237,7 @@ class Exercise {
         return exercises;
     }
 
-    static convertAPIObject(apiObject) {
+    static #convertAPIObject(apiObject) {
         var properties = Object.keys(apiObject);
         var oldProperty;
         var firstLetter;
@@ -269,7 +269,7 @@ class Exercise {
         dataList = Object.keys(response);
         for (var i = 0; i < dataList.length; i++ ) {      
             var temp = new Exercise();
-            Object.assign(temp, Exercise.convertAPIObject(response[dataList[i]]));
+            Object.assign(temp, Exercise.#convertAPIObject(response[dataList[i]]));
             objectList.push(temp);
         }
         return objectList;
