@@ -210,8 +210,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-
-
   var acc = document.getElementsByClassName("accordion");
   var i;
   
