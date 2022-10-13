@@ -295,5 +295,8 @@ startBtn.addEventListener("click", startTimer);
 var testObj = new DeckOfCards();
 testObj.getCards(5);
 
+//Bulma Accordion Script
+// var accordions = bulmaAccordion.attach(); // accordions now contains an array of all Accordion instances
+
 var testObj2 = new Exercise();
 //testObj2.getExerciseByName("Barbell Bench Press");
