@@ -284,7 +284,7 @@ function capitalizeEachWord(stringInput) {
     var words = stringInput.split(" ");
     var newWords = [];
     for(var i = 0; i < words.length; i++) {
-        newWords.push(words[i][0].toUpperCase() + words[i].substring(1));
+        newWords.push(words[i][0].toUpperCase() + words[i].substring(1).toLowerCase());
     }
     return newWords.join(" ");
 }
