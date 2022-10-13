@@ -183,8 +183,7 @@ class Exercise {
         var exercisesData = [];
         var exercises = [];
         this.resetURL();
-        // TODO: sanitize input via a function called capitalizeEachWord(string);
-        this.baseURL.searchParams.append("name", exercise);
+        this.baseURL.searchParams.append("name", capitalizeEachWord(exercise));
 
         await fetch(this.baseURL.href, Exercise.fetchOptions)
             .then(response => response.json())
@@ -281,8 +280,13 @@ function startTimer(){
     }
 }
 
-function capitalizeEachWord(word) {
-
+function capitalizeEachWord(stringInput) {
+    var words = stringInput.split(" ");
+    var newWords = [];
+    for(var i = 0; i < words.length; i++) {
+        newWords.push(words[i][0].toUpperCase() + words[i].substring(1));
+    }
+    return newWords.join(" ");
 }
 
 startBtn.addEventListener("click", startTimer);
