@@ -1,3 +1,4 @@
+/* CLASS DECLARATIONS */
 // Cards Class to represent each card pulled from the Deck of Cards API
 class Card {
     #imgTag; // private member variable
@@ -17,7 +18,7 @@ class Card {
         return this.#imgTag;
     }
 
-    createImgTag() {
+    createImgElement() {
         // TODO: Refactor to pass appropriate image element for HTML purposes.
         var img = document.createElement("img");
         img.src = this.image;
