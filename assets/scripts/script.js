@@ -9,6 +9,8 @@ class Card {
         this.images = images;
         this.value = value;
         this.suit = suit;
+
+        this.#convertImagesObject(images);
     }
 
     getImgTag() {
@@ -24,6 +26,15 @@ class Card {
         img.src = this.image.href;
         img.alt = this.value + " of " + this.suit;
         this.#imgTag = img;
+    }
+
+    #convertImagesObject(stringObj) {
+        var objectKeys = Object.keys(stringObj);
+        for(var i = 0; i < objectKeys.length; i++) {
+            console.log(stringObj[objectKeys[i]]);
+            stringObj[objectKeys[i]] = new URL(stringObj[objectKeys[i]]);
+        }
+        console.log(this.images);
     }
 
     // TODO: Add any methods needed for card manipulation
