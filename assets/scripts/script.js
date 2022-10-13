@@ -69,10 +69,10 @@ class DeckOfCards {
             .then((response) => response.json())
             .then((result) => {
                 for (var i = 0; i < result.cards.length; i++) {
-                    var temp = new Card(result.cards[i].code, 
-                        result.cards[i].image, result.cards[i].images, 
+                    var temp = new Card(result.cards[i].code,
+                        result.cards[i].image, result.cards[i].images,
                         result.cards[i].value, result.cards[i].suit);
-                    
+
                     cards.push(temp);
                 }
 
@@ -131,23 +131,23 @@ var startBtn = document.getElementById("timerStart");
 var timerStatus = "new";
 var interval;
 
-function startTimer(){
-    if (timerStatus === "new"){
+function startTimer() {
+    if (timerStatus === "new") {
         var timerCount = 0;
         timerText.innerHTML = 0;
         timerStatus = "running";
         startBtn.innerHTML = "Stop";
-        interval = setInterval(function(){
+        interval = setInterval(function () {
             timerCount++;
             timerText.innerHTML = timerCount;
         }, 1000);
-    } else if (timerStatus === "running"){
+    } else if (timerStatus === "running") {
         timerStatus = "stopped";
         startBtn.innerHTML = "Reset";
         clearInterval(interval);
         interval = null;
         console.log("Help");
-    } else if (timerStatus === "stopped"){
+    } else if (timerStatus === "stopped") {
         timerStatus = "new";
         startBtn.innerHTML = "Start Timer";
         var timerCount = 0;
