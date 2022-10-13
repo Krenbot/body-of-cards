@@ -328,6 +328,11 @@ function capitalizeEachWord(stringInput) {
 
 startBtn.addEventListener("click", startTimer);
 
+// TODO: For each card container: add javascript to access the DOM element, navigate its child elements until the img container is found, replace its innerHTML with the card img link from the API.
+// TODO: Once the card img html is updated, use the Exercise class to pull the exercise that corresponds with the card (use card code?). Will need additional javascript to link the two...
+// TODO: Update the html element with the exercise. 
+// TODO: Add muscle and/or exercise group/type to the card as well?
+
 // DEV TESTING SECTION
 //var testObj = new DeckOfCards();
 //testObj.getCards(5);
