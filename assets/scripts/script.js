@@ -199,7 +199,7 @@ class Exercise {
             .then(response => Exercise.#convertFetchResponseToObjects(response))
             .catch(err => console.error(err));
 
-        localStorage.setItem(exercise, JSON.stringify(exercises));
+        localStorage.setItem(capitalizeEachWord(exercise), JSON.stringify(exercises));
         return exercises;
     }
 
@@ -214,19 +214,22 @@ class Exercise {
             .then(response => Exercise.#convertFetchResponseToObjects(response))
             .catch(err => console.error(err));
 
-        localStorage.setItem(pMuscle, JSON.stringify(exercises));
+        localStorage.setItem(pMuscle.toLowerCase(), JSON.stringify(exercises));
         return exercises;
     }
 
     async getExercisesBySecondaryMuscle(sMuscle) {
         this.resetURL();
 
-        this.baseURL.searchParams.append("secondaryMuscle", sMuscle);
+        var exercises = [];
+        this.baseURL.searchParams.append("secondaryMuscle", sMuscle.toLowerCase());
 
-        await fetch(this.baseURL.href, Exercise.fetchOptions)
+        exercises = await fetch(this.baseURL.href, Exercise.fetchOptions)
             .then(response => response.json())
-            .then(response => console.log(response))
+            .then(response => Exercise.#convertFetchResponseToObjects(response))
             .catch(err => console.error(err));
+
+        localStorage.setItem(sMuscle.toLowerCase(), JSON.stringify(exercises));
     }
 
     static convertAPIObject(apiObject) {
@@ -317,12 +320,11 @@ startBtn.addEventListener("click", startTimer);
 
 // DEV TESTING SECTION
 var testObj = new DeckOfCards();
-testObj.getCards(5);
+//testObj.getCards(5);
 
-var test;
+
 var exerciseObj = new Exercise();
-test = exerciseObj.getExercisesByPrimaryMuscle("TrIcEpS");
-console.log(test.value);
+//exerciseObj.getExercisesByPrimaryMuscle("TrIcEpS");
 
 //Bulma Accordion Script
 // var accordions = bulmaAccordion.attach(); // accordions now contains an array of all Accordion instances
