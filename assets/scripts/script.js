@@ -324,12 +324,10 @@ function capitalizeEachWord(stringInput) {
 startBtn.addEventListener("click", startTimer);
 
 // DEV TESTING SECTION
-var testObj = new DeckOfCards();
-testObj.getCards(5);
-
-
-var exerciseObj = new Exercise();
-//exerciseObj.getExercisesByPrimaryMuscle("TrIcEpS");
+//var testObj = new DeckOfCards();
+//testObj.getCards(5);
+//var exerciseObj = new Exercise();
+//exerciseObj.getExercisesByPrimaryMuscle("deltoid");
 
 //Bulma Accordion Script
 // var accordions = bulmaAccordion.attach(); // accordions now contains an array of all Accordion instances
