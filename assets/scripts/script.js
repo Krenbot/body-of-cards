@@ -34,7 +34,7 @@ class Card {
 
     #convertImagesObject(stringObj) {
         var objectKeys = Object.keys(stringObj);
-        for(var i = 0; i < objectKeys.length; i++) {
+        for (var i = 0; i < objectKeys.length; i++) {
             stringObj[objectKeys[i]] = new URL(stringObj[objectKeys[i]]);
         }
     }
@@ -42,13 +42,7 @@ class Card {
     // TODO: Add any methods needed for card manipulation
 }
 
- 
-
-
-// Deck of Cards Object to be use the API.
-
 // Deck of Cards Class used as a wrapper for the Deck of Cards API.
- 
 class DeckOfCards {
     constructor(number = 1) {
         this.baseURL = new URL("https://deckofcardsapi.com/api/deck/");
@@ -68,6 +62,7 @@ class DeckOfCards {
 
         var deck = this;
         var url = this.baseURL;
+
         if (deck.id === "") {
             url.pathname += "new/shuffle/"
             url.searchParams.append("deck_count", 1);
@@ -95,6 +90,7 @@ class DeckOfCards {
         } else {
             url.pathname += (this.id + "/draw/");
         }
+
         url.searchParams.append("count", count);
 
         await fetch(url.href)
@@ -146,7 +142,6 @@ class DeckOfCards {
         const cardList = await this.draw(count);
 
         // TODO: Write cards to html objects. May need to refactor getCards or implement new method to write cards to html.
-        // TODO: Remove console.log once cards are written to HTML
     }
 
     returnToDeck() {
@@ -219,7 +214,7 @@ class Exercise {
         var exercises = [];
         this.baseURL.searchParams.append("primaryMuscle", pMuscle.toLowerCase());
 
-        exercises =  await fetch(this.baseURL.href, Exercise.fetchOptions)
+        exercises = await fetch(this.baseURL.href, Exercise.fetchOptions)
             .then(response => response.json())
             .then(response => Exercise.#convertFetchResponseToObjects(response))
             .catch(err => console.error(err));
@@ -257,13 +252,13 @@ class Exercise {
                     if (j === 0) {
                         firstLetter = properties[i][j][0].toLowerCase();
                     } else {
-                        firstLetter = properties[i][j][0].toUpperCase(); 
+                        firstLetter = properties[i][j][0].toUpperCase();
                     }
                     properties[i][j] = firstLetter + properties[i][j].substring(1);
                 }
                 properties[i] = properties[i].join("");
             }
-            delete Object.assign(apiObject, {[properties[i]]: apiObject[oldProperty]})[oldProperty];
+            delete Object.assign(apiObject, { [properties[i]]: apiObject[oldProperty] })[oldProperty];
         }
         apiObject.video = new URL(apiObject.video);
         return apiObject;
@@ -273,7 +268,7 @@ class Exercise {
         var dataList = [];
         var objectList = [];
         dataList = Object.keys(response);
-        for (var i = 0; i < dataList.length; i++ ) {      
+        for (var i = 0; i < dataList.length; i++) {
             var temp = new Exercise();
             Object.assign(temp, Exercise.#convertAPIObject(response[dataList[i]]));
             objectList.push(temp);
@@ -283,7 +278,6 @@ class Exercise {
 }
 
 /* VARIABLE DECLARATION */
-
 var timerText = document.getElementById("timerText");
 var startBtn = document.getElementById("timerStart");
 var timerStatus = "new";
@@ -305,20 +299,20 @@ function startTimer() {
         startBtn.innerHTML = "Reset";
         clearInterval(interval);
         interval = null;
-        console.log("Help");
+        //console.log("Help");
     } else if (timerStatus === "stopped") {
         timerStatus = "new";
         startBtn.innerHTML = "Start Timer";
         var timerCount = 0;
         timerText.innerHTML = "";
-        console.log("Help2");
+        //console.log("Help2");
     }
 }
 
 function capitalizeEachWord(stringInput) {
     var words = stringInput.split(" ");
     var newWords = [];
-    for(var i = 0; i < words.length; i++) {
+    for (var i = 0; i < words.length; i++) {
         newWords.push(words[i][0].toUpperCase() + words[i].substring(1).toLowerCase());
     }
     return newWords.join(" ");
@@ -327,6 +321,11 @@ function capitalizeEachWord(stringInput) {
 /* MAIN CODE EXECUTION AREA */
 
 startBtn.addEventListener("click", startTimer);
+
+// TODO: For each card container: add javascript to access the DOM element, navigate its child elements until the img container is found, replace its innerHTML with the card img link from the API.
+// TODO: Once the card img html is updated, use the Exercise class to pull the exercise that corresponds with the card (use card code?). Will need additional javascript to link the two...
+// TODO: Update the html element with the exercise. 
+// TODO: Add muscle and/or exercise group/type to the card as well?
 
 // DEV TESTING SECTION
 //var testObj = new DeckOfCards();
@@ -338,69 +337,68 @@ startBtn.addEventListener("click", startTimer);
 document.addEventListener('DOMContentLoaded', () => {
     // Functions to open and close a modal
     function openModal($el) {
-      $el.classList.add('is-active');
+        $el.classList.add('is-active');
     }
-  
+
     function closeModal($el) {
-      $el.classList.remove('is-active');
+        $el.classList.remove('is-active');
     }
-  
+
     function closeAllModals() {
-      (document.querySelectorAll('.modal') || []).forEach(($modal) => {
-        closeModal($modal);
-      });
+        (document.querySelectorAll('.modal') || []).forEach(($modal) => {
+            closeModal($modal);
+        });
     }
-  
+
     // Add a click event on buttons to open a specific modal
     (document.querySelectorAll('.js-modal-trigger') || []).forEach(($trigger) => {
-      const modal = $trigger.dataset.target;
-      const $target = document.getElementById(modal);
-  
-      $trigger.addEventListener('click', () => {
-        openModal($target);
-      });
+        const modal = $trigger.dataset.target;
+        const $target = document.getElementById(modal);
+
+        $trigger.addEventListener('click', () => {
+            openModal($target);
+        });
     });
-  
+
     // Add a click event on various child elements to close the parent modal
     (document.querySelectorAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button') || []).forEach(($close) => {
-      const $target = $close.closest('.modal');
-  
-      $close.addEventListener('click', () => {
-        closeModal($target);
-      });
+        const $target = $close.closest('.modal');
+
+        $close.addEventListener('click', () => {
+            closeModal($target);
+        });
     });
-  
+
     // Add a keyboard event to close all modals
     document.addEventListener('keydown', (event) => {
-      const e = event || window.event;
-  
-      if (e.keyCode === 27) { // Escape key
-        closeAllModals();
-      }
-    });
-  });
+        const e = event || window.event;
 
-  var acc = document.getElementsByClassName("accordion");
-  var i;
-  
-  for (i = 0; i < acc.length; i++) {
-    acc[i].addEventListener("click", function() {
-      /* Toggle between adding and removing the "active" class,
-      to highlight the button that controls the panel */
-      this.classList.toggle("active");
-  
-      /* Toggle between hiding and showing the active panel */
-      var panel = this.nextElementSibling;
-      if (panel.style.display === "block") {
-        panel.style.display = "none";
-      } else {
-        panel.style.display = "block";
-      }
+        if (e.keyCode === 27) { // Escape key
+            closeAllModals();
+        }
     });
-  }
-  document.getElementById("rulesBtn").addEventListener("click",rulesButtonFunction)
-  function rulesButtonFunction(){
-    alert("rules")
-  }
-//Bulma Accordion Script
-// var accordions = bulmaAccordion.attach(); // accordions now contains an array of all Accordion instances
+});
+
+var acc = document.getElementsByClassName("accordion");
+
+for (var i = 0; i < acc.length; i++) {
+    acc[i].addEventListener("click", function () {
+        /* Toggle between adding and removing the "active" class,
+        to highlight the button that controls the panel */
+        this.classList.toggle("active");
+
+        /* Toggle between hiding and showing the active panel */
+        var panel = this.nextElementSibling;
+        if (panel.style.display === "block") {
+            panel.style.display = "none";
+        } else {
+            panel.style.display = "block";
+        }
+    });
+}
+
+document.getElementById("rulesBtn").addEventListener("click", rulesButtonFunction);
+
+function rulesButtonFunction() {
+    document.getElementById("rulesModal").setAttribute("class", "modal is-active");
+}
