@@ -14,18 +14,23 @@
 
 <body>
     <!-- Original Project HTML -->
+
     <div class="box" id="title">
         <div>Playing Card Workout Generator</div>
     </div>
     <div class="box">
-        <button class="button is-black">Generate Workout</button>
+        
         <button id="timerStart" class="button is-black">Start Timer</button>
         <p id="timerText"></p>
+        <!--Modal Button-->
+        <button class="js-modal-trigger button is-black" data-target="highScoreModal">
+            Previous Workouts
+          </button>
     </div>
+
 
     <p>Click Card to Flip</p>
     <!-- <ul class="flipping-cards">
-
         <li>
             <input type="checkbox" id="item1">
             <label for="item1">
@@ -77,10 +82,60 @@
         </li> -->
 
     </ul>
-<!-- 
+    
+    <!--Modal HTML-->
+    <div id="highScoreModal" class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">Past Workouts</p>
+            <button class="delete" aria-label="close"></button>
+          </header>
+          <section class="modal-card-body">
+            <!-- Content ... -->
+            <!-- Generate with JS-->
+            <button class="accordion">Date 1</button>
+            <div class="panel">
+                <ul>
+                    <li> Excercise 1</li>
+                    <li> Excercise 2</li>
+                    <li> Excercise 3</li>
+                    <li> Excercise 4</li>
+                    <li> Excercise 5</li>
+                    <li> Time to complete</li>
+                </ul>
+            </div>
+
+            <button class="accordion">Date 2</button>
+            <div class="panel">
+                <ul>
+                    <li> Excercise 1</li>
+                    <li> Excercise 2</li>
+                    <li> Excercise 3</li>
+                    <li> Excercise 4</li>
+                    <li> Excercise 5</li>
+                    <li> Time to complete</li>
+                </ul>
+            </div>
+
+            <button class="accordion">Date 3</button>
+            <div class="panel">
+                <ul>
+                    <li> Excercise 1</li>
+                    <li> Excercise 2</li>
+                    <li> Excercise 3</li>
+                    <li> Excercise 4</li>
+                    <li> Excercise 5</li>
+                    <li> Time to complete</li>
+                </ul>
+            </div>
+          </section> 
+        </div>
+    </div>
+    
     <footer>
         done by Elad Shechter - <a href="https://coderwall.com/elad2412">https://coderwall.com/elad2412</a>
-    </footer> -->
+    </footer>
 
     <!-- Bulma Cards -->
     <div class="container">
