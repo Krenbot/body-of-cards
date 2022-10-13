@@ -398,6 +398,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
-
+  document.getElementById("rulesBtn").addEventListener("click",rulesButtonFunction)
+  function rulesButtonFunction(){
+    alert("rules")
+  }
 //Bulma Accordion Script
 // var accordions = bulmaAccordion.attach(); // accordions now contains an array of all Accordion instances
