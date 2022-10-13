@@ -11,6 +11,10 @@ class Card {
         this.suit = suit;
 
         this.#convertImagesObject(images);
+
+        if (this.image.href.slice(-3) !== "svg") {
+            this.image = this.images.svg;
+        }
     }
 
     getImgTag() {
@@ -320,7 +324,7 @@ startBtn.addEventListener("click", startTimer);
 
 // DEV TESTING SECTION
 var testObj = new DeckOfCards();
-//testObj.getCards(5);
+testObj.getCards(5);
 
 
 var exerciseObj = new Exercise();
