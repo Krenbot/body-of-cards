@@ -108,8 +108,6 @@ class DeckOfCards {
                 deck.remaining = result.remaining;
 
                 localStorage.setItem("draw-latest", JSON.stringify(cards));
-
-                // TODO: Either change this method to use async and await, or find a way to prevent downstream methods from trying to access data until the fetch is complete.
             });
 
         return cards;
