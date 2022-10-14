@@ -178,15 +178,12 @@ class Exercise {
         this.baseURL = new URL("https://exerciseapi3.p.rapidapi.com/search/");
     }
 
-    getAllMuscles() {
+    async getAllMuscles() {
         // Currently does not provide much functionality for the users with card games
         this.resetURL();
 
         this.baseURL.pathname += "muscles/";
-        fetch(this.baseURL.href, Exercise.fetchOptions)
-            .then(response => response.json())
-            .then(response => console.log(response))
-            .catch(err => console.error(err));
+        return await (await fetch(this.baseURL.href, Exercise.fetchOptions)).json();
     }
 
     getExerciseByName(exercise) {
