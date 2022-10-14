@@ -177,10 +177,10 @@ footer a {
   overflow: hidden;
 }
 
-.card {
+/* .card {
   width: 200px;
   height: 250px;
-}
+} */
 
 .card-content {
   height: 50px;
@@ -191,3 +191,26 @@ footer a {
   margin: 20px;
 }
 
+/* CSS Stacking - TEST */
+.card {
+  /* ... */
+
+  border-radius: 16px;
+  background: #17141d;
+  box-shadow: -1rem 0 3rem #000;
+
+  transition: .2s;
+}
+
+.card:hover {
+  transform: translateY(-1rem);
+}
+
+.card:hover~.card {
+  transform: translateX(130px);
+}
+
+
+.card:not(:first-child) {
+  margin-left: -130px;
+}
