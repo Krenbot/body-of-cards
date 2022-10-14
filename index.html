@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,40 +12,44 @@
 </head>
 
 <body>
-    <!-- Original Project HTML -->
 
+    <!-- Start/Previous Buttons -->
     <div class="box" id="title">
         <div>Playing Card Workout Generator</div>
     </div>
+
+    <!-- Start Timer/Previous Workout Buttons -->
     <div class="box">
-        
         <button id="timerStart" class="button is-black">Start Timer</button>
         <p id="timerText"></p>
         <!--Modal Button-->
         <button class="js-modal-trigger button is-black" data-target="highScoreModal">
             Previous Workouts
-          </button>
+        </button>
     </div>
 
-
+    <!-- Shown Card HTML -->
     <p>Click Card to Flip</p>
+
     <ul class="flipping-cards">
+
         <li>
             <input type="checkbox" id="item1">
             <label for="item1">
                 <span class="wrapper">
                     <span class="image">
-                    <div class="card">
-                        <div class="card-image px-6">
-                            <img src="https://deckofcardsapi.com/static/img/5S.png" alt="Placeholder image">
+                        <div class="card">
+                            <div class="card-image px-6">
+                                <img src="https://deckofcardsapi.com/static/img/5S.png" alt="Placeholder image">
+                            </div>
+                            <div class="card-content mt-4">
+                                <p class='title is-size-4 has-text-centered'><a
+                                        href='https://en.wikipedia.org/wiki/Pull-up_(exercise)'>PUSH-UPS</a></p>
+                                <p class="has-text-centered ">ARMS</p>
+                            </div>
                         </div>
-                        <div class="card-content">
-                            <p class='title is-size-4 has-text-centered'><a href='https://en.wikipedia.org/wiki/Pull-up_(exercise)'>PUSH-UPS</a></p>
-                            <p class="has-text-centered">ARMS</p>
-                        </div>
-                    </div>
-                    
-                </span>
+
+                    </span>
                     <span class="back"></span>
                 </span>
             </label>
@@ -66,7 +71,7 @@
                             <div class="card-image px-6">
                                 <img src="https://deckofcardsapi.com/static/img/6H.png" alt="Placeholder image">
                             </div>
-                            <div class="card-content">
+                            <div class="card-content mt-4">
                                 <p class='title is-size-4 has-text-centered'><a href=''>SIDE HOPS</a></p>
                                 <p class="has-text-centered">LEGS</p>
                             </div>
@@ -93,7 +98,7 @@
                             <div class="card-image px-6">
                                 <img src="https://deckofcardsapi.com/static/img/KD.png" alt="Placeholder image">
                             </div>
-                            <div class="card-content">
+                            <div class="card-content mt-4">
                                 <p class='title is-size-4 has-text-centered'><a href=''>SHADOW BOX </a></p>
                                 <p class="has-text-centered">ARMS</p>
                             </div>
@@ -120,7 +125,7 @@
                             <div class="card-image px-6">
                                 <img src="https://deckofcardsapi.com/static/img/0C.png" alt="Placeholder image">
                             </div>
-                            <div class="card-content">
+                            <div class="card-content mt-4">
                                 <p class='title is-size-4 has-text-centered'><a href=''>JUMP ROPE</a></p>
                                 <p class="has-text-centered">LEGS</p>
                             </div>
@@ -147,7 +152,7 @@
                             <div class="card-image px-6">
                                 <img src="https://deckofcardsapi.com/static/img/9C.png" alt="Placeholder image">
                             </div>
-                            <div class="card-content">
+                            <div class="card-content mt-4">
                                 <p class='title is-size-4 has-text-centered'><a href=''>SIT-UPS</a></p>
                                 <p class="has-text-centered">CORE</p>
                             </div>
@@ -165,171 +170,66 @@
             </footer>
         </li>
     </ul>
-    
+
     <!--Modal HTML-->
     <div id="highScoreModal" class="modal">
         <div class="modal-background"></div>
         <div class="modal-card">
-          <header class="modal-card-head">
-            <p class="modal-card-title">Past Workouts</p>
-            <button class="delete" aria-label="close"></button>
-          </header>
-          <section class="modal-card-body">
-            <!-- Content ... -->
-            <!-- Generate with JS-->
-            <button class="accordion">Date 1</button>
-            <div class="panel">
-                <ul>
-                    <li> Excercise 1</li>
-                    <li> Excercise 2</li>
-                    <li> Excercise 3</li>
-                    <li> Excercise 4</li>
-                    <li> Excercise 5</li>
-                    <li> Time to complete</li>
-                </ul>
-            </div>
-
-            <button class="accordion">Date 2</button>
-            <div class="panel">
-                <ul>
-                    <li> Excercise 1</li>
-                    <li> Excercise 2</li>
-                    <li> Excercise 3</li>
-                    <li> Excercise 4</li>
-                    <li> Excercise 5</li>
-                    <li> Time to complete</li>
-                </ul>
-            </div>
-
-            <button class="accordion">Date 3</button>
-            <div class="panel">
-                <ul>
-                    <li> Excercise 1</li>
-                    <li> Excercise 2</li>
-                    <li> Excercise 3</li>
-                    <li> Excercise 4</li>
-                    <li> Excercise 5</li>
-                    <li> Time to complete</li>
-                </ul>
-            </div>
-          </section> 
-        </div>
-    </div>
-    <footer>
-        done by Elad Shechter - <a href="https://coderwall.com/elad2412">https://coderwall.com/elad2412</a>
-    </footer>
-
-    <!-- Bulma Cards -->
-    <!--<div class="container">
-        <div class="mt-5 columns is-centered is-8 is-variable">
-            <div class="column is-4-tablet is-3-desktop">
-                <div class="card">
-                    <div class="card-image px-6">
-                        <img src="https://deckofcardsapi.com/static/img/5S.png" alt="Placeholder image">
-                    </div>
-                    <div class="card-content">
-                        <p class='title is-size-4'><a href='https://en.wikipedia.org/wiki/Pull-up_(exercise)'>PUSH-UPS</a> x 5</p>
-                        <p>ARMS</p>
-                    </div>
-                    <footer class="card-footer">
-                        <p class="card-footer-item is-left">
-                            <button class="bulma-control-mixin">
-                                Swap Cards
-                            </button>
-                        </p>
-                    </footer>
+            <header class="modal-card-head">
+                <p class="modal-card-title">Past Workouts</p>
+                <button class="delete" aria-label="close"></button>
+            </header>
+            <section class="modal-card-body">
+                <!-- Content ... -->
+                <!-- Generate with JS-->
+                <button class="accordion">Date 1</button>
+                <div class="panel">
+                    <ul>
+                        <li> Excercise 1</li>
+                        <li> Excercise 2</li>
+                        <li> Excercise 3</li>
+                        <li> Excercise 4</li>
+                        <li> Excercise 5</li>
+                        <li> Time to complete</li>
+                    </ul>
                 </div>
-            </div>
 
-            <div class="column is-4-tablet is-3-desktop">
-                <div class="card">
-                    <div class="card-image px-6">
-                        <img src="https://deckofcardsapi.com/static/img/6H.png" alt="Placeholder image">
-                    </div>
-                    <div class="card-content">
-                        <p class='title is-size-4'><a href=''>SIDE HOPS</a> x 6</p>
-                        <p>LEGS</p>
-                    </div>
-                    <footer class="card-footer">
-                        <p class="card-footer-item">
-                            <button class="bulma-control-mixin">
-                                Swap Cards
-                            </button>
-                        </p>
-                    </footer>
+                <button class="accordion">Date 2</button>
+                <div class="panel">
+                    <ul>
+                        <li> Excercise 1</li>
+                        <li> Excercise 2</li>
+                        <li> Excercise 3</li>
+                        <li> Excercise 4</li>
+                        <li> Excercise 5</li>
+                        <li> Time to complete</li>
+                    </ul>
                 </div>
-            </div>
 
-            <div class="column is-4-tablet is-3-desktop">
-                <div class="card">
-                    <div class="card-image px-6">
-                        <img src="https://deckofcardsapi.com/static/img/KD.png" alt="Placeholder image">
-                    </div>
-                    <div class="card-content">
-                        <p class='title is-size-4'><a href=''>SHADOW BOX </a> x 10 </p>
-                        <p>ARMS</p>
-                    </div>
-                    <footer class="card-footer">
-                        <p class="card-footer-item">
-                            <button class="bulma-control-mixin">
-                                Swap Cards
-                            </button>
-                        </p>
-                    </footer>
+                <button class="accordion">Date 3</button>
+                <div class="panel">
+                    <ul>
+                        <li> Excercise 1</li>
+                        <li> Excercise 2</li>
+                        <li> Excercise 3</li>
+                        <li> Excercise 4</li>
+                        <li> Excercise 5</li>
+                        <li> Time to complete</li>
+                    </ul>
                 </div>
-            </div>
+            </section>
         </div>
     </div>
 
-    <div class="mt-5 columns is-centered is-8 is-variable">
-        <div class="column is-4-tablet is-3-desktop">
-            <div class="card">
-                <div class="card-image px-6">
-                    <img src="https://deckofcardsapi.com/static/img/0C.png" alt="Placeholder image">
-                </div>
-                <div class="card-content">
-                    <p class='title is-size-4'><a href=''>JUMP ROPE</a> x 10</p>
-                    <p>LEGS</p>
-                </div>
-                <footer class="card-footer">
-                    <p class="card-footer-item">
-                        <button class="bulma-control-mixin">
-                            Swap Cards
-                        </button>
-                    </p>
-                </footer>
-            </div>
-        </div>
-
-        <div class="column is-4-tablet is-3-desktop">
-            <div class="card">
-                <div class="card-image px-6">
-                    <img src="https://deckofcardsapi.com/static/img/9C.png" alt="Placeholder image">
-                </div>
-                <div class="card-content">
-                    <p class='title is-size-4'><a href=''>SIT-UPS</a> x 9 </p>
-                    <p>CORE</p>
-                </div>
-                <footer class="card-footer">
-                    <p class="card-footer-item">
-                        <button class="bulma-control-mixin">
-                            Swap Cards
-                        </button>
-                    </p>
-                </footer>
-            </div>
-        </div>
-    </div> -->
-
+    <!-- Rules Button -->
     <button class="button" id="rulesBtn">Rules</button>
-
     <div class="modal" id="rulesModal">
         <div class="modal-background"></div>
         <div class="modal-content">
-          <div class="box">rules:</div>
+            <div class="box"><img src="assets/images/1_WR7pxaf-gT9Ui4x12AoY2A.png"></div>
         </div>
         <button class="modal-close is-large" aria-label="close"></button>
-      </div>
+    </div>
 
     <script src="./assets/scripts/script.js"></script>
 </body>
