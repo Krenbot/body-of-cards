@@ -78,21 +78,17 @@ class DeckOfCards {
     async draw(count = 1) {
         this.resetURL();
 
-        var deck = this;
-        var url = this.baseURL;
+        var result;
         var cards = [];
 
-        if (deck.id === "") {
-            url.pathname += "new/draw/";
+        if (this.id === "") {
+            this.baseURL.pathname += "new/draw/";
         } else {
-            url.pathname += (this.id + "/draw/");
+            this.baseURL.pathname += (this.id + "/draw/");
         }
+        this.baseURL.searchParams.append("count", count);
 
-        url.searchParams.append("count", count);
-
-        var response = await fetch(url.href)
-        var result = await response.json()
-
+        result = await (await fetch(this.baseURL.href)).json();
         for (var i = 0; i < result.cards.length; i++) {
             var temp = new Card(result.cards[i].code,
                 result.cards[i].image, result.cards[i].images,
@@ -100,12 +96,9 @@ class DeckOfCards {
 
             cards.push(temp);
         }
-
-        deck.id = result.deck_id;
-        deck.remaining = result.remaining;
-
-        localStorage.setItem("draw-latest", JSON.stringify(cards));
-
+        this.id = result.deck_id;
+        this.remaining = result.remaining;
+        //localStorage.setItem("draw-latest", JSON.stringify(cards));
 
         return cards;
     }
