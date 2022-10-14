@@ -21,7 +21,7 @@ class Card {
         if (this.#imgElement === "") {
             this.createImgElement();
         }
-        return this.#imgTag;
+        return this.#imgElement;
     }
 
     createImgElement() {
