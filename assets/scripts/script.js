@@ -56,7 +56,7 @@ class DeckOfCards {
         this.baseURL = new URL("https://deckofcardsapi.com/api/deck/");
     }
 
-    async shuffle() {
+    shuffle() {
         // TODO: Implement functionality for multiple decks
         this.resetURL();
 
@@ -70,7 +70,7 @@ class DeckOfCards {
             url.pathname += (this.id + "/shuffle/");
         }
 
-        await fetch(url.href)
+        fetch(url.href)
             .then((response) => response.json())
             .then((result) => {
                 deck.id = result.deck_id;
@@ -78,7 +78,7 @@ class DeckOfCards {
             })
     }
 
-    async draw(count = 1) {
+    draw(count = 1) {
         this.resetURL();
 
         var deck = this;
@@ -93,7 +93,7 @@ class DeckOfCards {
 
         url.searchParams.append("count", count);
 
-        await fetch(url.href)
+        fetch(url.href)
             .then((response) => response.json())
             .then((result) => {
                 for (var i = 0; i < result.cards.length; i++) {
@@ -108,14 +108,12 @@ class DeckOfCards {
                 deck.remaining = result.remaining;
 
                 localStorage.setItem("draw-latest", JSON.stringify(cards));
-
-                // TODO: Either change this method to use async and await, or find a way to prevent downstream methods from trying to access data until the fetch is complete.
             });
 
         return cards;
     }
 
-    async newDeck(shuffleBool = 1, addJokers = false) {
+    newDeck(shuffleBool = 1, addJokers = false) {
         // TODO: Implement functionality for multiple decks
         this.resetURL();
 
@@ -126,7 +124,7 @@ class DeckOfCards {
             url.searchParams.append("jokers_enabled", "true");
         }
 
-        await fetch(url.href)
+        fetch(url.href)
             .then((response) => response.json())
             .then((result) => {
                 deck.id = result.deck_id;
@@ -137,9 +135,9 @@ class DeckOfCards {
         this.shuffle();
     }
 
-    async getCards(count) {
+    getCards(count) {
         this.shuffle();
-        const cardList = await this.draw(count);
+        const cardList = this.draw(count);
 
         // TODO: Write cards to html objects. May need to refactor getCards or implement new method to write cards to html.
     }
@@ -182,24 +180,24 @@ class Exercise {
         this.baseURL = new URL("https://exerciseapi3.p.rapidapi.com/search/");
     }
 
-    async getAllMuscles() {
+    getAllMuscles() {
         // Currently does not provide much functionality for the users with card games
         this.resetURL();
 
         this.baseURL.pathname += "muscles/";
-        await fetch(this.baseURL.href, Exercise.fetchOptions)
+        fetch(this.baseURL.href, Exercise.fetchOptions)
             .then(response => response.json())
             .then(response => console.log(response))
             .catch(err => console.error(err));
     }
 
-    async getExerciseByName(exercise) {
+    getExerciseByName(exercise) {
         this.resetURL();
 
         var exercises = [];
         this.baseURL.searchParams.append("name", capitalizeEachWord(exercise));
 
-        exercises = await fetch(this.baseURL.href, Exercise.fetchOptions)
+        exercises = fetch(this.baseURL.href, Exercise.fetchOptions)
             .then(response => response.json())
             .then(response => Exercise.#convertFetchResponseToObjects(response))
             .catch(err => console.error(err));
@@ -208,13 +206,13 @@ class Exercise {
         return exercises;
     }
 
-    async getExercisesByPrimaryMuscle(pMuscle) {
+    getExercisesByPrimaryMuscle(pMuscle) {
         this.resetURL();
 
         var exercises = [];
         this.baseURL.searchParams.append("primaryMuscle", pMuscle.toLowerCase());
 
-        exercises =  await fetch(this.baseURL.href, Exercise.fetchOptions)
+        exercises =  fetch(this.baseURL.href, Exercise.fetchOptions)
             .then(response => response.json())
             .then(response => Exercise.#convertFetchResponseToObjects(response))
             .catch(err => console.error(err));
@@ -223,13 +221,13 @@ class Exercise {
         return exercises;
     }
 
-    async getExercisesBySecondaryMuscle(sMuscle) {
+    getExercisesBySecondaryMuscle(sMuscle) {
         this.resetURL();
 
         var exercises = [];
         this.baseURL.searchParams.append("secondaryMuscle", sMuscle.toLowerCase());
 
-        exercises = await fetch(this.baseURL.href, Exercise.fetchOptions)
+        exercises = fetch(this.baseURL.href, Exercise.fetchOptions)
             .then(response => response.json())
             .then(response => Exercise.#convertFetchResponseToObjects(response))
             .catch(err => console.error(err));
