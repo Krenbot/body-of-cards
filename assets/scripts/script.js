@@ -1,7 +1,7 @@
 /* CLASS DECLARATIONS */
 // Cards Class to represent each card pulled from the Deck of Cards API
 class Card {
-    #imgTag; // private member variable
+    #imgElement; // private member variable
 
     constructor(cardCode, image, images, value, suit) {
         this.code = cardCode;
@@ -18,7 +18,7 @@ class Card {
     }
 
     getImgElement() {
-        if (this.#imgTag === "") {
+        if (this.#imgElement === "") {
             this.createImgElement();
         }
         return this.#imgTag;
