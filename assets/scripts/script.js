@@ -58,26 +58,21 @@ class DeckOfCards {
         this.baseURL = new URL("https://deckofcardsapi.com/api/deck/");
     }
 
-    shuffle() {
+    async shuffle() {
         // TODO: Implement functionality for multiple decks
         this.resetURL();
+        var result;
 
-        var deck = this;
-        var url = this.baseURL;
-
-        if (deck.id === "") {
-            url.pathname += "new/shuffle/"
-            url.searchParams.append("deck_count", 1);
+        if (this.id === "") {
+            this.baseURL.pathname += "new/shuffle/"
+            this.baseURL.searchParams.append("deck_count", 1);
         } else {
-            url.pathname += (this.id + "/shuffle/");
+            this.baseURL.pathname += (this.id + "/shuffle/");
         }
 
-        fetch(url.href)
-            .then((response) => response.json())
-            .then((result) => {
-                deck.id = result.deck_id;
-                deck.shuffled = result.shuffled;
-            })
+        result = await (await fetch(this.baseURL.href)).json();
+        this.id = result.deck_id;
+        this.shuffled = result.shuffled;
     }
 
     async draw(count = 1) {
