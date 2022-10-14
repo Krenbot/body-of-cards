@@ -165,6 +165,8 @@ class Exercise {
     static allMuscles = ['pectoralis major', 'biceps', 'abdominals', 'sartorius', 'abductors', 'trapezius', 'deltoid', 'latissimus dorsi', 'serratus anterior', 'external oblique', 'brachioradialis', 'finger extensors', 'finger flexors', 'quadriceps', 'hamstrings', 'gastrocnemius', 'soleus', 'infraspinatus', 'teres major', 'triceps', 'gluteus medius', 'gluteus maximus'];
 
     // Individual lists to draw upon for suits
+    // TODO: Consider an object with the suits as keys?
+    // TODO: Best practice to have these as class properties or remove static so they are referenced by the instance?
     static clubsMuscles = [];
     static diamondsMuscles = [];
     static spadesMuscles = [];
