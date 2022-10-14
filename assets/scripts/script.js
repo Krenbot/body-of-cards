@@ -186,16 +186,14 @@ class Exercise {
         return await (await fetch(this.baseURL.href, Exercise.fetchOptions)).json();
     }
 
-    getExerciseByName(exercise) {
+    async getExerciseByName(exercise) {
         this.resetURL();
 
         var exercises = [];
         this.baseURL.searchParams.append("name", capitalizeEachWord(exercise));
 
-        exercises = fetch(this.baseURL.href, Exercise.fetchOptions)
-            .then(response => response.json())
-            .then(response => Exercise.#convertFetchResponseToObjects(response))
-            .catch(err => console.error(err));
+        exercises = await (await fetch(this.baseURL.href, Exercise.fetchOptions)).json();
+        exercises = Exercise.#convertFetchResponseToObjects(exercises);
 
         localStorage.setItem(capitalizeEachWord(exercise), JSON.stringify(exercises));
         return exercises;
