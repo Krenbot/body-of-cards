@@ -78,26 +78,6 @@
   -webkit-transform: rotateY(-180deg);
 }
 
-/* label[for="item1"] .image {
-  background-image: url(http://farm6.staticflickr.com/5339/8879221754_51e07afc5e_o.png);
-}
-
-label[for="item2"] .image {
-  background-image: url(http://farm8.staticflickr.com/7398/8878601839_e5a56dc65f_o.png);
-}
-
-label[for="item3"] .image {
-  background-image: url(http://farm6.staticflickr.com/5461/8879221878_b22fdf9ff8_o.png);
-}
-
-label[for="item4"] .image {
-  background-image: url(http://farm8.staticflickr.com/7458/8878601681_b8c0499874_o.png);
-}
-
-label[for="item5"] .image {
-  background-image: url(https://deckofcardsapi.com/static/img/6H.png);
-} */
-
 input[type="checkbox"] {
   display: none;
 }
@@ -123,33 +103,12 @@ footer a {
   color: blue;
 }
 
-/* BULMA CSS STYLINGS  */
-/* .card{
-  width: 200px;
-  height: 250px;
-} */
-
 .bulma-control-mixin {
   @include control;
   background: blue;
   color: white;
   size: 200px;
 }
-
-/* 
-.bulma-control-mixin {
-  &.is-small {
-    @include control-small;
-  }
-
-  &.is-medium {
-    @include control-medium;
-  }
-  &.is-large {
-    @include control-large;
-  }
-} */
-
 
 /* Style the buttons that are used to open and close the accordion panel */
 .accordion {
@@ -165,7 +124,8 @@ footer a {
 }
 
 /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
-.active, .accordion:hover {
+.active,
+.accordion:hover {
   background-color: #ccc;
 }
 
@@ -177,29 +137,21 @@ footer a {
   overflow: hidden;
 }
 
-/* .card {
-  width: 200px;
-  height: 250px;
-} */
+#rulesBtn {
+  margin: 20px;
+}
+
+.card {
+  width: 100vh;
+  height: 100%;
+
+  box-shadow: -.25rem 0 3rem #000;
+  transition: .2s;
+}
 
 .card-content {
   height: 50px;
   padding: 0.25rem
-}
-
-#rulesBtn{
-  margin: 20px;
-}
-
-/* CSS Stacking - TEST */
-.card {
-  /* ... */
-
-  border-radius: 16px;
-  background: #17141d;
-  box-shadow: -1rem 0 3rem #000;
-
-  transition: .2s;
 }
 
 .card:hover {
@@ -209,7 +161,6 @@ footer a {
 .card:hover~.card {
   transform: translateX(130px);
 }
-
 
 .card:not(:first-child) {
   margin-left: -130px;
