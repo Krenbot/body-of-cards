@@ -18,6 +18,9 @@ class Card {
 
         this.#imgElement = "";
     }
+    show() {
+        return this
+    }
 
     getImgElement() {
         if (this.#imgElement === "") {
@@ -80,7 +83,7 @@ class DeckOfCards {
             })
     }
 
-    draw(count = 1) {
+    async draw(count = 1) {
         this.resetURL();
 
         var deck = this;
@@ -95,22 +98,22 @@ class DeckOfCards {
 
         url.searchParams.append("count", count);
 
-        fetch(url.href)
-            .then((response) => response.json())
-            .then((result) => {
-                for (var i = 0; i < result.cards.length; i++) {
-                    var temp = new Card(result.cards[i].code,
-                        result.cards[i].image, result.cards[i].images,
-                        result.cards[i].value, result.cards[i].suit);
+        var response = await fetch(url.href)
+        var result = await response.json()
 
-                    cards.push(temp);
-                }
+        for (var i = 0; i < result.cards.length; i++) {
+            var temp = new Card(result.cards[i].code,
+                result.cards[i].image, result.cards[i].images,
+                result.cards[i].value, result.cards[i].suit);
 
-                deck.id = result.deck_id;
-                deck.remaining = result.remaining;
+            cards.push(temp);
+        }
 
-                localStorage.setItem("draw-latest", JSON.stringify(cards));
-            });
+        deck.id = result.deck_id;
+        deck.remaining = result.remaining;
+
+        localStorage.setItem("draw-latest", JSON.stringify(cards));
+
 
         return cards;
     }
@@ -214,7 +217,7 @@ class Exercise {
         var exercises = [];
         this.baseURL.searchParams.append("primaryMuscle", pMuscle.toLowerCase());
 
-        exercises =  fetch(this.baseURL.href, Exercise.fetchOptions)
+        exercises = fetch(this.baseURL.href, Exercise.fetchOptions)
             .then(response => response.json())
             .then(response => Exercise.#convertFetchResponseToObjects(response))
             .catch(err => console.error(err));
@@ -383,7 +386,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 var acc = document.getElementsByClassName("accordion");
 
-for (var i = 0; i < acc.length; i++) {
+for (let i = 0; i < acc.length; i++) {
     acc[i].addEventListener("click", function () {
         /* Toggle between adding and removing the "active" class,
         to highlight the button that controls the panel */
@@ -403,4 +406,21 @@ document.getElementById("rulesBtn").addEventListener("click", rulesButtonFunctio
 
 function rulesButtonFunction() {
     document.getElementById("rulesModal").setAttribute("class", "modal is-active");
+}
+var swapBtns = document.querySelectorAll(".bulma-control-mixin")
+for (let i = 0; i < swapBtns.length; i++) {
+    swapBtns[i].addEventListener("click", async function (event) {
+        var newDeck = new DeckOfCards
+
+        var newCardDraw = await newDeck.draw()
+        console.log(newCardDraw)
+        console.log(newCardDraw[0])
+
+        var cardsDivsImage = document.getElementById(i.toString())
+        console.log(i)
+        console.log(cardsDivsImage)
+        console.log(JSON.parse(localStorage.getItem("draw-latest"))[0].image)
+        cardsDivsImage.setAttribute("src", JSON.parse(localStorage.getItem("draw-latest"))[0].image)
+
+    })
 }
