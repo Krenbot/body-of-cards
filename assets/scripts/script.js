@@ -225,6 +225,7 @@ class Exercise {
         return exercises;
     }
 
+    // TODO: Comment method below to explain its purpose and summarize its flow
     static #convertAPIObject(apiObject) {
         var properties = Object.keys(apiObject);
         var oldProperty;
@@ -251,6 +252,7 @@ class Exercise {
         return apiObject;
     }
 
+    // TODO: Comment method below to explain its purpose and summarize its flow
     static #convertFetchResponseToObjects(response) {
         var dataList = [];
         var objectList = [];
