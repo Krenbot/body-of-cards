@@ -12,9 +12,9 @@ class Card {
 
         this.#convertImagesObject(images);
 
-        if (this.image.href.slice(-3) !== "svg") {
-            this.image = this.images.svg;
-        }
+        // if (this.image.href.slice(-3) !== "svg") {
+        //     this.image = this.images.svg;
+        // }
 
         this.#imgElement = "";
     }
