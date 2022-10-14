@@ -15,6 +15,8 @@ class Card {
         if (this.image.href.slice(-3) !== "svg") {
             this.image = this.images.svg;
         }
+
+        this.#imgElement = "";
     }
 
     getImgElement() {
