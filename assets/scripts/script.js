@@ -297,6 +297,8 @@ function startTimer() {
         }, 1000);
 
     } else if (timerStatus === "running") {
+        console.log(timerText.innerHTML)
+        localStorage.setItem("time", timerText.innerHTML)
         timerStatus = "stopped";
         startBtn.innerHTML = "Reset";
         clearInterval(interval);
