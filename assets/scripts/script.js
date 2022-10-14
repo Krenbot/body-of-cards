@@ -29,7 +29,7 @@ class Card {
         var img = document.createElement("img");
         img.src = this.image.href;
         img.alt = this.value + " of " + this.suit;
-        this.#imgTag = img;
+        this.#imgElement = img;
     }
 
     #convertImagesObject(stringObj) {
