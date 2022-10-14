@@ -199,16 +199,14 @@ class Exercise {
         return exercises;
     }
 
-    getExercisesByPrimaryMuscle(pMuscle) {
+    async getExercisesByPrimaryMuscle(pMuscle) {
         this.resetURL();
 
         var exercises = [];
         this.baseURL.searchParams.append("primaryMuscle", pMuscle.toLowerCase());
 
-        exercises = fetch(this.baseURL.href, Exercise.fetchOptions)
-            .then(response => response.json())
-            .then(response => Exercise.#convertFetchResponseToObjects(response))
-            .catch(err => console.error(err));
+        exercises = await (await fetch(this.baseURL.href, Exercise.fetchOptions)).json();
+        exercises = Exercise.#convertFetchResponseToObjects(exercises);
 
         localStorage.setItem(pMuscle.toLowerCase(), JSON.stringify(exercises));
         return exercises;
