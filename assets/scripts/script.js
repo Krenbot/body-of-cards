@@ -103,26 +103,26 @@ class DeckOfCards {
         return cards;
     }
 
-    newDeck(shuffleBool = 1, addJokers = false) {
+    async newDeck(shuffleBool = 1, addJokers = false) {
         // TODO: Implement functionality for multiple decks
+        // TODO: Change input to take an object rather than passing variables
         this.resetURL();
 
-        var deck = this;
-        var url = this.baseURL;
-        url.pathname = url.pathname + "new/";
-        if (addJokers) {
-            url.searchParams.append("jokers_enabled", "true");
+        var result;
+
+        this.baseURL.pathname += "new/";
+        if (shuffleBool) {
+            this.baseURL.pathname += "shuffle/";
         }
 
-        fetch(url.href)
-            .then((response) => response.json())
-            .then((result) => {
-                deck.id = result.deck_id;
-                deck.shuffled = result.shuffled;
-                deck.remaining = result.remaining;
-            })
-        // TODO: Rather than call the shuffle method, add a method parameter to call https://deckofcardsapi.com/api/deck/new/shuffle/ from this method?
-        this.shuffle();
+        if (addJokers) {
+            this.baseURL.searchParams.append("jokers_enabled", "true");
+        }
+
+        result = await (await fetch(this.baseURL.href)).json();
+        this.id = result.deck_id;
+        this.shuffled = result.shuffled;
+        this.remaining = result.remaining;
     }
 
     getCards(count) {
