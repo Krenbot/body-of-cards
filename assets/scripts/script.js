@@ -152,7 +152,7 @@ class Exercise {
         this.video = null;
     }
 
-    // Key below is provided by PBP66 on https://rapidapi.com/
+    // Key below is provided by James Perry (PBP66) on https://rapidapi.com/
     // Must access by invoking the class instance, not the object instance
     static fetchOptions = {
         method: 'GET',
@@ -163,6 +163,12 @@ class Exercise {
     };
 
     static allMuscles = ['pectoralis major', 'biceps', 'abdominals', 'sartorius', 'abductors', 'trapezius', 'deltoid', 'latissimus dorsi', 'serratus anterior', 'external oblique', 'brachioradialis', 'finger extensors', 'finger flexors', 'quadriceps', 'hamstrings', 'gastrocnemius', 'soleus', 'infraspinatus', 'teres major', 'triceps', 'gluteus medius', 'gluteus maximus'];
+
+    // Individual lists to draw upon for suits
+    static clubsMuscles = [];
+    static diamondsMuscles = [];
+    static spadesMuscles = [];
+    static heartsMuscles = [];
 
     static allExercises = []; // TODO: Update at a later date once API provides easy access
 
