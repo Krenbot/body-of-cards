@@ -278,9 +278,17 @@ class Exercise {
 /* VARIABLE DECLARATION */
 var timerText = document.getElementById("timerText");
 var startBtn = document.getElementById("timerStart");
+var excerciseNameText = document.querySelectorAll("a")
 var timerStatus = "new";
 var interval;
+var pastExcercises = []
 
+function storeExcerciseNames() {
+    for (var i = 0; i < excerciseNameText.length; i++) {
+        pastExcercises.push(excerciseNameText[i].innerText)
+    }
+}
+console.log(excerciseNameText.length)
 /* FUNCTION DECLARATION */
 function startTimer() {
     var timerCount;
@@ -290,6 +298,10 @@ function startTimer() {
         timerText.innerHTML = 0;
         timerStatus = "running";
         startBtn.innerHTML = "Stop";
+        
+        storeExcerciseNames();
+
+        localStorage.setItem("excercises", pastExcercises)
 
         interval = setInterval(function () {
             timerCount++;
@@ -303,11 +315,11 @@ function startTimer() {
         startBtn.innerHTML = "Reset";
         clearInterval(interval);
         interval = null;
-
     } else if (timerStatus === "stopped") {
         timerStatus = "new";
         startBtn.innerHTML = "Start Timer";
         timerText.innerHTML = "";
+        pastExcercises = []
     }
 }
 
