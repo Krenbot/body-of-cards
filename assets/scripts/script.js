@@ -18,9 +18,6 @@ class Card {
 
         this.#imgElement = "";
     }
-    show() {
-        return this
-    }
 
     getImgElement() {
         if (this.#imgElement === "") {
