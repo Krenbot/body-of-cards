@@ -165,3 +165,74 @@ footer a {
 .card:not(:first-child) {
   margin-left: -130px;
 }
+
+/* Swap Button CSS - https://codepen.io/geekvie/pen/QWgVQpv */
+/* @import url('https://fonts.googleapis.com/css2?family=Cookie&display=swap'); */
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  transition: 2s ease;
+}
+
+:root {
+  --neon-clr: rgb(53, 101, 77);
+}
+
+body {
+  transition: 2s ease;
+  display: grid;
+  place-content: center;
+}
+
+/* neon button */
+.neon-btn {
+  /* font-size: 12vw; */
+  border: .125em solid var(--neon-clr);
+  padding: .1em .5em;
+  border-radius: .125em;
+  background: transparent;
+  color: var(--neon-clr);
+  font-family: 'Ultra';
+  letter-spacing: 2px;
+  text-transform : capitalize;
+  position: relative;
+  cursor: pointer;
+  transition: 100ms linear;
+  animation: 2s pulse linear 2 paused;
+  /* text-shadow: 
+    0 0 .125em hsla(0 0% 70% / .5),
+    0 0 .3em var(--neon-clr); */
+  box-shadow: 
+    0 0 .6em var(--neon-clr),
+    inset 0 0 .4em var(--neon-clr);
+}
+
+.neon-btn:hover {
+  background-color: var(--neon-clr);
+  color:  hsl(323 21% 76%);
+}
+
+/* glow around the button */
+.neon-btn::before{
+   position: absolute;
+   height: 100%;
+   width: 100%;
+   inset: 0;
+   opacity: 0;
+   box-shadow: 0 0 .4em .2em var(--neon-clr); 
+   transition: 100ms linear;
+}
+
+.neon-btn:hover::before{
+  opacity: 1;
+}
+
+@keyframes pulse{
+  0%, 50%, 100% {
+    transform: scale(1);
+  }
+  25%, 75% {
+    transform: scale(1.12);
+  } 
+}
