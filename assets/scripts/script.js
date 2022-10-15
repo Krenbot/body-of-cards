@@ -33,9 +33,8 @@ class Card {
         if (!(this.value) || !(this.suit)) {
             this.#convertCardCode();
         }
-        // if (this.image.href.slice(-3) !== "svg") {
-        //     this.image = this.images.svg;
-        // }
+
+        // this.setImageTypeToSVG();
 
         this.#imgElement = "";
     }
@@ -53,6 +52,13 @@ class Card {
         img.src = this.image.href;
         img.alt = this.value + " of " + this.suit;
         this.#imgElement = img;
+    }
+
+    // TODO: Upgrade method(s) to include other file types: PNG, JPEG
+    setImageTypeToSVG() {
+        if (this.image.href.slice(-3) !== "svg") {
+            this.image = this.images.svg;
+        }
     }
 
     #convertImagesObject(stringObj) {
