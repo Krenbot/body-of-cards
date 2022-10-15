@@ -230,6 +230,7 @@ class Exercise {
 
     async getExercises(apiMethod, value) {
         let exercises = [];
+        let exerciseNames = [];
         this.resetURL();
         switch(apiMethod) {
             case "name":
@@ -250,12 +251,15 @@ class Exercise {
         this.baseURL.searchParams.append(apiMethod, value);
         exercises = await (await fetch(this.baseURL.href, Exercise.fetchOptions)).json();
 
-        console.log(exercises);
-
+        // Depending on the muscle chosen, some only exist as secondary muscles on the API
+        if (exercises.length === 0) {
+            this.getExercisesBySecondaryMuscle(value);
+            return;
+        }
         exercises = Exercise.#convertFetchResponseToObjects(exercises);
 
-        console.log(exercises);
-
+        
+        // capitalizeEachWord takes a string only. It does NOT take an array of Exercise objects.
         localStorage.setItem(capitalizeEachWord(exercises), JSON.stringify(exercises));
         return exercises;
     }
