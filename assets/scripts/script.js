@@ -216,6 +216,14 @@ class Exercise {
         "HEARTS": ['trapezius', 'latissimus dorsi', 'infraspinatus','teres major']
     };
 
+    static suitToExerciseType = {
+        "CLUBS": "ARMS",
+        "DIAMONDS": "CHEST",
+        "SPADES": "LEGS",
+        "HEARTS": "BACK"
+    };
+
+
     resetURL() {
         this.baseURL = new URL("https://exerciseapi3.p.rapidapi.com/search/");
     }
@@ -378,6 +386,16 @@ function capitalizeEachWord(stringInput) {
     return newWords.join(" ");
 }
 
+function removeSpacesFromString(stringInput) {
+    let words = stringInput.split(" ");
+    let newWords = [];
+    for (let i = 0; i < words.length; i++) {
+        newWords.push(words[i].toLowerCase());
+    }
+    return newWords.join("-");
+}
+
+// TODO: Wrap this method into a class or something that doesn't require strict and verbose DOM navigation
 async function loadCards(deck) {
     let numCards;
     let cards;
@@ -389,16 +407,25 @@ async function loadCards(deck) {
     cards = await deck.draw(numCards);
     for (let i = 0; i < numCards; i++) {
         let exerciseHTMLElement = exerciseContentContainers[i].children[0].children[0];
+
+        // Update Card in DOM
         cardContainers[i].innerHTML = "";
         cardContainers[i].appendChild(cards[i].getImgElement());
 
+        // Fetch and Assign Exercises
         exercises.push(new Exercise());
         muscles.push(exercises[i].getMuscle(cards[i].suit));
         listOfExercises = await exercises[i].getExercisesByPrimaryMuscle(muscles[i]);
         Object.assign(exercises[i], listOfExercises[randomInt(listOfExercises.length)]);
-        exerciseHTMLElement.innerText = exercises[i].name;
-        exerciseHTMLElement.href = "#";
 
+        // Update Exercise Information in DOM
+        exerciseHTMLElement.innerText = exercises[i].name;
+        exerciseHTMLElement.href = exercises[i].video;
+        exerciseHTMLElement.id = removeSpacesFromString(exercises[i].name);
+        exerciseHTMLElement.classList.add(Exercise.suitToExerciseType[cards[i].suit]);
+
+        exerciseContentContainers[i].children[1].innerText = 
+            Exercise.suitToExerciseType[cards[i].suit];
     }
 
     // TODO: Add muscle and/or exercise group/type to the card as well?
@@ -488,13 +515,14 @@ let exerciseDeck = new DeckOfCards();
 let timer = new Timer(); // Automatically generates an event listener on page load through class initialization
 
 // Add event listeners
-document.getElementById("rulesBtn").addEventListener("click", rulesButtonFunction);
+//document.getElementById("rulesBtn").addEventListener("click", rulesButtonFunction);
+
+// FOR TESTING PURPOSES
+document.getElementById("rulesBtn").addEventListener("click", () => loadCards(exerciseDeck));
 
 // On page load, set the cards and exercises.
 //loadCards(exerciseDeck);
 //TODO: User cannot flip cards until all cards have been loaded!
-
-
 
 // Test code for swap
 let swapButtons = document.querySelectorAll(".bulma-control-mixin");
