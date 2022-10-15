@@ -2,16 +2,37 @@
 // Cards Class to represent each card pulled from the Deck of Cards API
 class Card {
     #imgElement; // private member variable
+    #codeToValue = { // TODO: Need to add joker
+        "J": "JACK",
+        "Q": "QUEEN",
+        "K": "KING",
+        "A": "ACE",
+    };
+
+    #codeToSuit = {
+        "C": "CLUBS", 
+        "D": "DIAMONDS", 
+        "S": "SPADES", 
+        "H": "HEARTS"};
 
     constructor(cardCode, image, images, value, suit) {
         this.code = cardCode;
-        this.image = new URL(image);
-        this.images = images;
         this.value = value;
         this.suit = suit;
 
-        this.#convertImagesObject(images);
+        this.image = image;
+        if (image != null) {
+            this.image = new URL(this.image);
+        }
+        
+        this.images = images;
+        if (images != null) {
+            this.#convertImagesObject(images);
+        }
 
+        if (!(this.value) || !(this.suit)) {
+            this.#convertCardCode();
+        }
         // if (this.image.href.slice(-3) !== "svg") {
         //     this.image = this.images.svg;
         // }
@@ -27,7 +48,6 @@ class Card {
     }
 
     createImgElement() {
-        // TODO: Refactor to pass appropriate image element for HTML purposes.
         var img = document.createElement("img");
         img.id = this.code;
         img.src = this.image.href;
@@ -42,7 +62,17 @@ class Card {
         }
     }
 
-    // TODO: Add any methods needed for card manipulation
+    #convertCardCode() {
+        let cardCode = this.code.split("");
+        console.log(cardCode);
+        if (Number.isNaN(cardCode[0])) {
+            this.value = this.#codeToValue[cardCode[0]];
+        } else {
+            this.value = cardCode[0];
+        }
+        this.suit = this.#codeToSuit[cardCode[1]];
+    }
+    //Add any methods needed for card manipulation
 }
 
 // Deck of Cards Class used as a wrapper for the Deck of Cards API.
@@ -267,6 +297,7 @@ class Exercise {
     }
 }
 
+// TODO: Wrap timer within a timer class
 /* VARIABLE DECLARATION */
 var timerText = document.getElementById("timerText");
 var startBtn = document.getElementById("timerStart");
