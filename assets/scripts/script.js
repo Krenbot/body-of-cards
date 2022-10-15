@@ -545,7 +545,7 @@ for (let i = 0; i < acc.length; i++) {
 // TODO: Below variables are global variables. Can they be wrapped into a class or function?
 let cardContainers = document.getElementsByClassName("card-image");
 let exerciseContentContainers = document.getElementsByClassName("card-content");
-let swapButtons = document.querySelectorAll(".bulma-control-mixin");
+let swapButtons = document.getElementsByClassName(".bulma-control-mixin");
 
 for (let i = 0; i < swapButtons.length; i++) {
     swapButtons[i].addEventListener("click", async (event) => {
@@ -560,42 +560,75 @@ let timer = new Timer(); // Automatically generates an event listener on page lo
 //document.getElementById("rulesBtn").addEventListener("click", rulesButtonFunction);
 
 // FOR TESTING PURPOSES
-document.getElementById("rulesBtn").addEventListener("click", () => loadCards(exerciseDeck));
+document.getElementById("rulesBtn").addEventListener("click", 
+    () => loadCards(exerciseDeck));
 
 // On page load, set the cards and exercises.
 //loadCards(exerciseDeck);
 //TODO: User cannot flip cards until all cards have been loaded!
 
+// Represent an HTML container with html children
+class Container {
+    // The containerElement contains all Card Container classes
+    constructor(containerElement) {
+        this.container = containerElement;
+        this.cardContainers = this.container.getElementsByClassName("card");
+        for (let i = 0; i < this.cardContainers.length; i++) {
+            this.cardContainers[i] = new CardContainer(this.cardContainers[i]);
+        }
+    }
 
-// class Swap {
-//     constructor(deck, buttonElement, containerElement) {
-//         this.deck = deck;
-//         this.button = buttonElement;
-//         this.container = containerElement;
-//         this.currentCard;
-//         this.newCard;
+    // Add additional functions to manipulate the information within a Container
+};
 
-//         this.createButtonEventListener();
-//     }
+// Container for each card which contains a playing card, exercise content, and a footer
+class CardContainer {
+    constructor(containerElement) {
+        this.id = containerElement.id; // id=card-#
+        this.cardHTML= containerElement.children[0]; // class=card-image
+        this.contentHTML = containerElement.children[1]; // class=card-content
 
-//     createButtonEventListener() {
-//         this.button.addEventListener("click", this.swapCard.bind(this));
-//     }
+        this.card = new Card(this.cardElement.id, this.cardElement.src);
+        this.exercise = new Exercise(); // Empty placeholder exercise until one can be fetched
+        this.cardContent; // Contains the exercise information
 
-//     loadCurrentCard() {
-//         console.log(this.container);
-//         console.log(this.container.innerHTML);
-//     }
+        this.swap; //this.swap = new Swap();
+    }
 
-//     async getNewCard() {
-//         this.newCard = await this.deck.draw(1);
-//         return this.newCard;
-//     }
+    swapContents() {
 
-//     swapCard() {
-//         this.cardContainer.innerHTML = "";
-//         this.cardContainer.appendChild(this.newCard.getImgElement());
-//     }
-// }
+    }
+};
+
+class Swap {
+    constructor(deck, buttonElement, containerElement) {
+        this.deck = deck;
+        this.button = buttonElement;
+        this.container = containerElement;
+        this.currentCard;
+        this.newCard;
+
+        this.createButtonEventListener();
+        //this.setCurrentCard(containerElement);
+    }
+
+    createButtonEventListener() {
+        this.button.addEventListener("click", this.swapCard.bind(this));
+    }
+
+    setCurrentCard(containerHTML) { // Direct descendant must contain the card image tag
+        this.currentCard = new Card(containerHTML.id, containerHTML.src);
+    }
+
+    async getNewCard() {
+        this.newCard = await this.deck.draw(1);
+        return this.newCard;
+    }
+
+    swapCard() {
+        this.cardContainer.innerHTML = "";
+        this.cardContainer.appendChild(this.newCard.getImgElement());
+    }
+}
 
 //let test = new Swap();
