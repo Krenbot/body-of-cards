@@ -1,7 +1,8 @@
 /* CLASS DECLARATIONS */
 // Cards Class to represent each card pulled from the Deck of Cards API
 class Card {
-    #imgElement; // private member variable
+    // Private Class Properties
+    #imgElement; 
     #codeToValue = { // TODO: Need to add joker
         "J": "JACK",
         "Q": "QUEEN",
@@ -15,6 +16,7 @@ class Card {
         "S": "SPADES", 
         "H": "HEARTS"};
 
+    // Constructor Definition
     constructor(cardCode, image, images, value, suit) {
         this.code = cardCode;
         this.value = value;
@@ -39,6 +41,7 @@ class Card {
         this.#imgElement = "";
     }
 
+    // Class Methods
     getImgElement() {
         if (this.#imgElement === "") {
             this.createImgElement();
@@ -61,6 +64,7 @@ class Card {
         }
     }
 
+    // Private Class Methods
     #convertImagesObject(stringObj) {
         var objectKeys = Object.keys(stringObj);
         for (var i = 0; i < objectKeys.length; i++) {
@@ -78,6 +82,7 @@ class Card {
         }
         this.suit = this.#codeToSuit[cardCode[1]];
     }
+
     //Add any methods needed for card manipulation
 }
 
@@ -162,15 +167,8 @@ class DeckOfCards {
         this.remaining = result.remaining;
     }
 
-    getCards(count) {
-        this.shuffle();
-        const cardList = this.draw(count);
-
-        // TODO: Write cards to html objects. May need to refactor getCards or implement new method to write cards to html.
-    }
-
-    returnToDeck() {
-        // TODO: Implement method for returning cards to the deck API. May not be needed for the MVP
+    returnCardToDeck() {
+        // TODO: Implement method for returning cards to the deck API. NOT needed for the MVP
     }
 
     // TODO: Implement simple instructions for using the DeckOfCards Class
