@@ -29,6 +29,7 @@ class Card {
     createImgElement() {
         // TODO: Refactor to pass appropriate image element for HTML purposes.
         var img = document.createElement("img");
+        img.id = this.code;
         img.src = this.image.href;
         img.alt = this.value + " of " + this.suit;
         this.#imgElement = img;
@@ -405,13 +406,44 @@ var cardContainers = document.getElementsByClassName("card-image");
 var newDeck = new DeckOfCards();
 var draw;
 
-console.log(cardContainers);
-
 for (let i = 0; i < swapButtons.length; i++) {
     swapButtons[i].addEventListener("click", async function () {
         draw = await newDeck.draw();
         cardContainers[i].innerHTML = "";
-        console.log(draw[0].getImgElement());
         cardContainers[i].appendChild(draw[0].getImgElement());
     })
 }
+
+class Swap {
+    constructor(deck, buttonElement, containerElement) {
+        this.deck = deck;
+        this.button = buttonElement;
+        this.container = containerElement;
+        this.currentCard;
+        this.newCard;
+
+        this.createButtonEventListener();
+    }
+
+    createButtonEventListener() {
+        this.button.addEventListener("click", this.swapCard.bind(this));
+    }
+
+    loadCurrentCard() {
+        console.log(this.container);
+        console.log(this.container.innerHTML);
+    }
+
+    async getNewCard() {
+        this.newCard = await this.deck.draw(1);
+        return this.newCard;
+    }
+
+    swapCard() {
+        this.cardContainer.innerHTML = "";
+        this.cardContainer.appendChild(this.newCard.getImgElement());
+    }
+}
+
+var test = new Swap(new DeckOfCards(), swapButtons[0], cardContainers[0]);
+test.loadCurrentCard();
