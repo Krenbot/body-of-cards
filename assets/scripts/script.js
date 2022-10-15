@@ -200,7 +200,12 @@ class Exercise {
 
     static allExercises = []; // TODO: Update at a later date once API provides easy access
 
-    static allMuscles = ['pectoralis major', 'biceps', 'abdominals', 'sartorius', 'abductors', 'trapezius', 'deltoid', 'latissimus dorsi', 'serratus anterior', 'external oblique', 'brachioradialis', 'finger extensors', 'finger flexors', 'quadriceps', 'hamstrings', 'gastrocnemius', 'soleus', 'infraspinatus', 'teres major', 'triceps', 'gluteus medius', 'gluteus maximus'];
+    static allMuscles = ['pectoralis major', 'biceps', 'abdominals', 
+        'sartorius', 'abductors', 'trapezius', 'deltoid', 'latissimus dorsi', 
+        'serratus anterior', 'external oblique', 'brachioradialis', 
+        'finger extensors', 'finger flexors', 'quadriceps', 'hamstrings', 
+        'gastrocnemius', 'soleus', 'infraspinatus', 'teres major', 'triceps', 
+        'gluteus medius', 'gluteus maximus'];
 
     // Object to convert from suit to a list of associated muscles
     // TODO: Best practice to have these as class properties or remove static so they are referenced by the instance?
