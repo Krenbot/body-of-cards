@@ -216,7 +216,7 @@ class Exercise {
     }
 
     getMuscle(suit) {
-        let index = randomInt(this.suitToMuscles[suit].length);
+        let index = randomInt(Exercise.suitToMuscles[suit].length);
         return Exercise.suitToMuscles[suit][index];
     }
 
@@ -230,7 +230,6 @@ class Exercise {
 
     async getExercises(apiMethod, value) {
         let exercises = [];
-        let exerciseNames = [];
         this.resetURL();
         switch(apiMethod) {
             case "name":
@@ -253,9 +252,9 @@ class Exercise {
 
         // Depending on the muscle chosen, some only exist as secondary muscles on the API
         if (exercises.length === 0) {
-            this.getExercisesBySecondaryMuscle(value);
-            return;
+            return this.getExercisesBySecondaryMuscle(value);
         }
+
         exercises = Exercise.#convertFetchResponseToObjects(exercises);
         for (let i = 0; i < exercises.length; i++) {
             // capitalizeEachWord takes a string only. It does NOT take an array of Exercise objects.
@@ -264,16 +263,16 @@ class Exercise {
         return exercises;
     }
 
-    getExerciseByName(exercise) {
-        this.getExercises("name", exercise);
+    async getExerciseByName(exercise) {
+        return await this.getExercises("name", exercise);
     }
 
-    getExercisesByPrimaryMuscle(pMuscle) {
-        this.getExercises("primaryMuscle", pMuscle);
+    async getExercisesByPrimaryMuscle(pMuscle) {
+        return await this.getExercises("primaryMuscle", pMuscle);
     }
 
-    getExercisesBySecondaryMuscle(sMuscle) {
-        this.getExercises("secondaryMuscle", sMuscle);
+    async getExercisesBySecondaryMuscle(sMuscle) {
+        return await this.getExercises("secondaryMuscle", sMuscle);
     }
 
     // TODO: Comment method below to explain its purpose and summarize its flow
@@ -379,6 +378,7 @@ async function loadCards(deck) {
     let cards;
     let exercises = [];
     let muscles = [];
+    let listOfExercises = [];
     //exerciseContentContainers
     numCards = cardContainers.length;
     cards = await deck.draw(numCards);
@@ -388,8 +388,11 @@ async function loadCards(deck) {
 
         exercises.push(new Exercise());
         muscles.push(exercises[i].getMuscle(cards[i].suit));
-        //exercises[i].getExercisesByPrimaryMuscle(muscles[i]);
+        listOfExercises = await exercises[i].getExercisesByPrimaryMuscle(muscles[i]);
+        Object.assign(exercises[i], listOfExercises[randomInt(listOfExercises.length)]);
     }
+    console.log(exercises);
+}
 
 function rulesButtonFunction() {
     document.getElementById("rulesModal").setAttribute("class", 
