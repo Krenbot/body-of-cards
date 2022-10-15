@@ -169,6 +169,7 @@ class DeckOfCards {
 
     returnCardToDeck() {
         // TODO: Implement method for returning cards to the deck API. NOT needed for the MVP
+        // TODO: Connect with the swap button method. Whenever swapping cards, that card needs to return to the desk to be reused.
     }
 
     // TODO: Implement simple instructions for using the DeckOfCards Class
@@ -197,17 +198,18 @@ class Exercise {
         }
     };
 
-    static allMuscles = ['pectoralis major', 'biceps', 'abdominals', 'sartorius', 'abductors', 'trapezius', 'deltoid', 'latissimus dorsi', 'serratus anterior', 'external oblique', 'brachioradialis', 'finger extensors', 'finger flexors', 'quadriceps', 'hamstrings', 'gastrocnemius', 'soleus', 'infraspinatus', 'teres major', 'triceps', 'gluteus medius', 'gluteus maximus'];
-
-    // Individual lists to draw upon for suits
-    // TODO: Consider an object with the suits as keys?
-    // TODO: Best practice to have these as class properties or remove static so they are referenced by the instance?
-    static clubsMuscles = [];
-    static diamondsMuscles = [];
-    static spadesMuscles = [];
-    static heartsMuscles = [];
-
     static allExercises = []; // TODO: Update at a later date once API provides easy access
+
+    allMuscles = ['pectoralis major', 'biceps', 'abdominals', 'sartorius', 'abductors', 'trapezius', 'deltoid', 'latissimus dorsi', 'serratus anterior', 'external oblique', 'brachioradialis', 'finger extensors', 'finger flexors', 'quadriceps', 'hamstrings', 'gastrocnemius', 'soleus', 'infraspinatus', 'teres major', 'triceps', 'gluteus medius', 'gluteus maximus'];
+
+    // Object to convert from suit to a list of associated muscles
+    // TODO: Best practice to have these as class properties or remove static so they are referenced by the instance?
+    suitToMuscles = {
+        "CLUBS": ['biceps', 'deltoid', 'brachioradialis', 'finger extensors', 'finger flexors', 'triceps'],
+        "DIAMONDS": ['pectoralis major', 'abdominals', 'serratus anterior','external oblique'],
+        "SPADES": ['sartorius', 'abductors', 'quadriceps', 'hamstrings', 'gastrocnemius', 'soleus', 'gluteus medius', 'gluteus maximus'],
+        "HEARTS": ['trapezius', 'latissimus dorsi', 'infraspinatus','teres major']
+    };
 
     resetURL() {
         this.baseURL = new URL("https://exerciseapi3.p.rapidapi.com/search/");
