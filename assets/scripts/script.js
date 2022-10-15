@@ -310,9 +310,24 @@ function capitalizeEachWord(stringInput) {
     return newWords.join(" ");
 }
 
+async function loadCards(deck) {
+    let numCards;
+    let cards;
+    
+    numCards = cardContainers.length;
+    cards = await deck.draw(numCards);
+    for (let i = 0; i < numCards; i++) {
+        cardContainers[i].innerHTML = "";
+        cardContainers[i].appendChild(cards[i].getImgElement());
+    }
+}
+
 /* MAIN CODE EXECUTION AREA */
+var cardContainers = document.getElementsByClassName("card-image");
+var exerciseDeck = new DeckOfCards();
 
 startBtn.addEventListener("click", startTimer);
+loadCards(exerciseDeck);
 
 // TODO: For each card container: add javascript to access the DOM element, navigate its child elements until the img container is found, replace its innerHTML with the card img link from the API.
 // TODO: Once the card img html is updated, use the Exercise class to pull the exercise that corresponds with the card (use card code?). Will need additional javascript to link the two...
@@ -402,7 +417,6 @@ function rulesButtonFunction() {
 
 // Test code for swap
 var swapButtons = document.querySelectorAll(".bulma-control-mixin");
-var cardContainers = document.getElementsByClassName("card-image");
 var newDeck = new DeckOfCards();
 var draw;
 
@@ -445,5 +459,4 @@ class Swap {
     }
 }
 
-var test = new Swap(new DeckOfCards(), swapButtons[0], cardContainers[0]);
-test.loadCurrentCard();
+//var test = new Swap();
