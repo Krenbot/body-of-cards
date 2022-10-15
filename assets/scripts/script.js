@@ -215,6 +215,11 @@ class Exercise {
         this.baseURL = new URL("https://exerciseapi3.p.rapidapi.com/search/");
     }
 
+    getMuscle(suit) {
+        let index = randomInt(this.suitToMuscles[suit].length);
+        return this.suitToMuscles[suit][index];
+    }
+
     async getAllMuscles() {
         // Currently does not provide much functionality for the users with card games
         this.resetURL();
@@ -244,18 +249,23 @@ class Exercise {
 
         this.baseURL.searchParams.append(apiMethod, value);
         exercises = await (await fetch(this.baseURL.href, Exercise.fetchOptions)).json();
+
+        console.log(exercises);
+
         exercises = Exercise.#convertFetchResponseToObjects(exercises);
 
-        localStorage.setItem(capitalizeEachWord(exercise), JSON.stringify(exercises));
+        console.log(exercises);
+
+        localStorage.setItem(capitalizeEachWord(exercises), JSON.stringify(exercises));
         return exercises;
     }
 
     getExerciseByName(exercise) {
-        this.getExercise("name", exercise);
+        this.getExercises("name", exercise);
     }
 
     getExercisesByPrimaryMuscle(pMuscle) {
-        this.getExercise("primaryMuscle", pMuscle);
+        this.getExercises("primaryMuscle", pMuscle);
     }
 
     getExercisesBySecondaryMuscle(sMuscle) {
@@ -283,7 +293,8 @@ class Exercise {
                 }
                 properties[i] = properties[i].join("");
             }
-            delete Object.assign(apiObject, { [properties[i]]: apiObject[oldProperty] })[oldProperty];
+            delete Object.assign(apiObject, 
+                { [properties[i]]: apiObject[oldProperty] })[oldProperty];
         }
         apiObject.video = new URL(apiObject.video);
         return apiObject;
@@ -296,7 +307,8 @@ class Exercise {
         dataList = Object.keys(response);
         for (let i = 0; i < dataList.length; i++) {
             let temp = new Exercise();
-            Object.assign(temp, Exercise.#convertAPIObject(response[dataList[i]]));
+            Object.assign(temp, 
+                Exercise.#convertAPIObject(response[dataList[i]]));
             objectList.push(temp);
         }
         return objectList;
@@ -348,7 +360,11 @@ class Timer {
     }
 }
 
+/* FUNCTION DECLARATIONS */
 function capitalizeEachWord(stringInput) {
+    console.log("stringInput:");
+    console.log(stringInput);
+
     let words = stringInput.split(" ");
     let newWords = [];
     for (let i = 0; i < words.length; i++) {
@@ -360,17 +376,27 @@ function capitalizeEachWord(stringInput) {
 async function loadCards(deck) {
     let numCards;
     let cards;
-    
+    let exercises = [];
+    let muscles = [];
+    //exerciseContentContainers
     numCards = cardContainers.length;
     cards = await deck.draw(numCards);
     for (let i = 0; i < numCards; i++) {
         cardContainers[i].innerHTML = "";
         cardContainers[i].appendChild(cards[i].getImgElement());
+        exercises.push(new Exercise());
+        muscles.push(exercises[i].getMuscle(cards[i].suit));
+        //exercises[i].getExercisesByPrimaryMuscle(muscles[i]);
     }
 }
 
 function rulesButtonFunction() {
-    document.getElementById("rulesModal").setAttribute("class", "modal is-active");
+    document.getElementById("rulesModal").setAttribute("class", 
+        "modal is-active");
+}
+
+function randomInt(range) {
+    return Math.floor(Math.random() * range);
 }
 
 // TODO: Consider remaking the modal code below into a class to wrap everything?
@@ -442,12 +468,12 @@ for (let i = 0; i < acc.length; i++) {
 /* MAIN CODE EXECUTION AREA */
 // TODO: Below variables are global variables. Can they be wrapped into a class or function?
 let cardContainers = document.getElementsByClassName("card-image");
+let exerciseContentContainers = document.getElementsByClassName("card-content");
 let exerciseDeck = new DeckOfCards();
-let timer = new Timer();
+let timer = new Timer(); // Automatically generates an event listener on page load through class initialization
 
 // Add event listeners
 document.getElementById("rulesBtn").addEventListener("click", rulesButtonFunction);
-
 
 // On page load, set the cards and exercises.
 loadCards(exerciseDeck);
