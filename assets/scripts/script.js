@@ -324,7 +324,8 @@ startBtn.addEventListener("click", startTimer);
 //var exerciseObj = new Exercise();
 //exerciseObj.getExercisesByPrimaryMuscle("deltoid");
 
-// Modal JS
+// TODO: Consider remaking the modal code below into a class to wrap everything?
+// START MODAL JS CODE
 document.addEventListener('DOMContentLoaded', () => {
     // Functions to open and close a modal
     function openModal($el) {
@@ -388,12 +389,17 @@ for (let i = 0; i < acc.length; i++) {
     });
 }
 
+// END MODAL JS CODE
+
+// Create Rules Button and Content
 document.getElementById("rulesBtn").addEventListener("click", rulesButtonFunction);
 
 function rulesButtonFunction() {
     document.getElementById("rulesModal").setAttribute("class", "modal is-active");
 }
 
+
+// Test code for swap
 var swapButtons = document.querySelectorAll(".bulma-control-mixin");
 var cardContainers = document.getElementsByClassName("card-image");
 var newDeck = new DeckOfCards();
