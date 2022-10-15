@@ -303,40 +303,82 @@ class Exercise {
     }
 }
 
-// TODO: Wrap timer within a timer class
-/* VARIABLE DECLARATION */
-let timerText = document.getElementById("timerText");
-let startBtn = document.getElementById("timerStart");
-let timerStatus = "new";
-let interval;
+class Timer {
+    constructor() {
+        this.timerText = document.getElementById("timerText");
+        this.startButton = document.getElementById("timerStart");
+        this.timerStatus = "new";
+        this.timerCount;
+        this.interval;
+    }
 
-/* FUNCTION DECLARATION */
-function startTimer() {
-    let timerCount;
-    if (timerStatus === "new") {
-        timerCount = 0;
+    startTimer() {
+        if (this.timerStatus === "new") {
+            this.initialize();
+            this.interval = setInterval(this.updateTimer().bind(this), 1000);
+        } else if (this.timerStatus === "running") {
+            this.update(this.timerCount, this.timerText, "stopped", "Reset");
+            this.clear();
+        } else if (this.timerStatus === "stopped") {
+            this.update(0, "", "new", "Start Timer")
+        }
+    }
 
-        timerText.innerHTML = 0;
-        timerStatus = "running";
-        startBtn.innerHTML = "Stop";
+    initialize() {
+        this.update(0, 0, "running", "Stop");
+    }
 
-        interval = setInterval(function () {
-            timerCount++;
-            timerText.innerHTML = timerCount;
-        }, 1000);
+    update(count, timerText, status, buttonText) {
+        this.timerCount = count;
+        this.timerText.innerHTML = timerText;
+        this.timerStatus = status;
+        this.startButton.innerHTML = buttonText;
+    }
 
-    } else if (timerStatus === "running") {
-        timerStatus = "stopped";
-        startBtn.innerHTML = "Reset";
-        clearInterval(interval);
-        interval = null;
+    updateTimer() {
+        this.timerCount++;
+        this.timerText.innerHTML = timerCount;
+    }
 
-    } else if (timerStatus === "stopped") {
-        timerStatus = "new";
-        startBtn.innerHTML = "Start Timer";
-        timerText.innerHTML = "";
+    clear() {
+        clearInterval(this.interval);
+        this.interval = null;
     }
 }
+// TODO: Wrap timer within a timer class
+/* VARIABLE DECLARATION */
+// let timerText = document.getElementById("timerText");
+// let startBtn = document.getElementById("timerStart");
+// let timerStatus = "new";
+// let interval;
+
+// /* FUNCTION DECLARATION */
+// function startTimer() {
+//     let timerCount;
+//     if (timerStatus === "new") {
+//         timerCount = 0;
+
+//         timerText.innerHTML = 0;
+//         timerStatus = "running";
+//         startBtn.innerHTML = "Stop";
+
+//         interval = setInterval(function () {
+//             timerCount++;
+//             timerText.innerHTML = timerCount;
+//         }, 1000);
+
+//     } else if (timerStatus === "running") {
+//         timerStatus = "stopped";
+//         startBtn.innerHTML = "Reset";
+//         clearInterval(interval);
+//         interval = null;
+
+//     } else if (timerStatus === "stopped") {
+//         timerStatus = "new";
+//         startBtn.innerHTML = "Start Timer";
+//         timerText.innerHTML = "";
+//     }
+// }
 
 function capitalizeEachWord(stringInput) {
     let words = stringInput.split(" ");
