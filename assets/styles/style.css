@@ -1,3 +1,16 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  transition: .5s ease;
+  word-wrap: break-word
+}
+
+.explain{
+  padding: 20px 20px 20px;
+  text-align: center;
+}
+
 .box {
   display: flex;
   justify-content: space-evenly;
@@ -7,9 +20,24 @@
   max-width: 1200px;
 }
 
+h3 {
+  display: flex;
+  justify-items: flex-end;
+}
+
 #title {
   font-family: 'Ultra';
   font-size: 80px;
+  color: rgb(0, 0, 0);
+  /* text-shadow:
+    0 0 7px #fff,
+    0 0 10px #fff,
+    0 0 21px #fff,
+    0 0 42px red,
+    0 0 82px yellow,
+    0 0 92px blue,
+    0 0 102px rgba(0, 0, 255, 0),
+    0 0 151px rgba(0, 0, 255, 0); */
 }
 
 .flipping-cards li {
@@ -154,7 +182,8 @@ footer a {
   padding: 0.25rem
 }
 
-.back:hover, .card:hover {
+.back:hover,
+.card:hover {
   transform: translateY(-1rem);
 }
 
@@ -168,12 +197,6 @@ footer a {
 
 /* Swap Button CSS - https://codepen.io/geekvie/pen/QWgVQpv */
 /* @import url('https://fonts.googleapis.com/css2?family=Cookie&display=swap'); */
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-  transition: .5s ease;
-}
 
 :root {
   --neon-clr: rgb(53, 101, 77);
@@ -195,7 +218,7 @@ body {
   color: var(--neon-clr);
   font-family: 'Ultra';
   letter-spacing: 2px;
-  text-transform : capitalize;
+  text-transform: capitalize;
   position: relative;
   cursor: pointer;
   transition: 100ms linear;
@@ -203,36 +226,41 @@ body {
   /* text-shadow: 
     0 0 .125em hsla(0 0% 70% / .5),
     0 0 .3em var(--neon-clr); */
-  box-shadow: 
+  box-shadow:
     0 0 .6em var(--neon-clr),
     inset 0 0 .4em var(--neon-clr);
 }
 
 .neon-btn:hover {
   background-color: var(--neon-clr);
-  color:  hsl(323 21% 76%);
+  color: hsl(323 21% 76%);
 }
 
 /* glow around the button */
-.neon-btn::before{
-   position: absolute;
-   height: 100%;
-   width: 100%;
-   inset: 0;
-   opacity: 0;
-   box-shadow: 0 0 .4em .2em var(--neon-clr); 
-   transition: 100ms linear;
+.neon-btn::before {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  inset: 0;
+  opacity: 0;
+  box-shadow: 0 0 .4em .2em var(--neon-clr);
+  transition: 100ms linear;
 }
 
-.neon-btn:hover::before{
+.neon-btn:hover::before {
   opacity: 1;
 }
 
-@keyframes pulse{
-  0%, 50%, 100% {
+@keyframes pulse {
+
+  0%,
+  50%,
+  100% {
     transform: scale(1);
   }
-  25%, 75% {
+
+  25%,
+  75% {
     transform: scale(1.12);
-  } 
+  }
 }
