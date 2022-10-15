@@ -393,20 +393,19 @@ document.getElementById("rulesBtn").addEventListener("click", rulesButtonFunctio
 function rulesButtonFunction() {
     document.getElementById("rulesModal").setAttribute("class", "modal is-active");
 }
-var swapBtns = document.querySelectorAll(".bulma-control-mixin")
-for (let i = 0; i < swapBtns.length; i++) {
-    swapBtns[i].addEventListener("click", async function (event) {
-        var newDeck = new DeckOfCards
 
-        var newCardDraw = await newDeck.draw()
-        console.log(newCardDraw)
-        console.log(newCardDraw[0])
+var swapButtons = document.querySelectorAll(".bulma-control-mixin");
+var cardContainers = document.getElementsByClassName("card-image");
+var newDeck = new DeckOfCards();
+var draw;
 
-        var cardsDivsImage = document.getElementById(i.toString())
-        console.log(i)
-        console.log(cardsDivsImage)
-        console.log(JSON.parse(localStorage.getItem("draw-latest"))[0].image)
-        cardsDivsImage.setAttribute("src", JSON.parse(localStorage.getItem("draw-latest"))[0].image)
+console.log(cardContainers);
 
+for (let i = 0; i < swapButtons.length; i++) {
+    swapButtons[i].addEventListener("click", async function () {
+        draw = await newDeck.draw();
+        cardContainers[i].innerHTML = "";
+        console.log(draw[0].getImgElement());
+        cardContainers[i].appendChild(draw[0].getImgElement());
     })
 }
