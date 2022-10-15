@@ -221,12 +221,26 @@ class Exercise {
         return await (await fetch(this.baseURL.href, Exercise.fetchOptions)).json();
     }
 
-    async getExerciseByName(exercise) {
-        this.resetURL();
-
+    async getExercises(apiMethod, value) {
         var exercises = [];
-        this.baseURL.searchParams.append("name", capitalizeEachWord(exercise));
+        this.resetURL();
+        switch(apiMethod) {
+            case "name":
+                value = capitalizeEachWord(value);
+                break;
+            case "primaryMuscle":
+                value = value.toLowerCase();
+                break;
+            case "secondaryMuscle":
+                value = value.toLowerCase();
+                break;
+            default: 
+                console.log("Bad value provided to getExercises()\n" + 
+                    "API method provided: " + apiMethod + "\nValue provided: " + 
+                    value + "\nCurrent exercise instance object: " + this);
+        }
 
+        this.baseURL.searchParams.append(apiMethod, value);
         exercises = await (await fetch(this.baseURL.href, Exercise.fetchOptions)).json();
         exercises = Exercise.#convertFetchResponseToObjects(exercises);
 
@@ -234,30 +248,16 @@ class Exercise {
         return exercises;
     }
 
-    async getExercisesByPrimaryMuscle(pMuscle) {
-        this.resetURL();
-
-        var exercises = [];
-        this.baseURL.searchParams.append("primaryMuscle", pMuscle.toLowerCase());
-
-        exercises = await (await fetch(this.baseURL.href, Exercise.fetchOptions)).json();
-        exercises = Exercise.#convertFetchResponseToObjects(exercises);
-
-        localStorage.setItem(pMuscle.toLowerCase(), JSON.stringify(exercises));
-        return exercises;
+    getExerciseByName(exercise) {
+        this.getExercise("name", exercise);
     }
 
-    async getExercisesBySecondaryMuscle(sMuscle) {
-        this.resetURL();
+    getExercisesByPrimaryMuscle(pMuscle) {
+        this.getExercise("primaryMuscle", pMuscle);
+    }
 
-        var exercises = [];
-        this.baseURL.searchParams.append("secondaryMuscle", sMuscle.toLowerCase());
-
-        exercises = await (await fetch(this.baseURL.href, Exercise.fetchOptions)).json();
-        exercises = Exercise.#convertFetchResponseToObjects(exercises);
-
-        localStorage.setItem(sMuscle.toLowerCase(), JSON.stringify(exercises));
-        return exercises;
+    getExercisesBySecondaryMuscle(sMuscle) {
+        this.getExercises("secondaryMuscle", sMuscle);
     }
 
     // TODO: Comment method below to explain its purpose and summarize its flow
