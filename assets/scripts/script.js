@@ -200,11 +200,11 @@ class Exercise {
 
     static allExercises = []; // TODO: Update at a later date once API provides easy access
 
-    allMuscles = ['pectoralis major', 'biceps', 'abdominals', 'sartorius', 'abductors', 'trapezius', 'deltoid', 'latissimus dorsi', 'serratus anterior', 'external oblique', 'brachioradialis', 'finger extensors', 'finger flexors', 'quadriceps', 'hamstrings', 'gastrocnemius', 'soleus', 'infraspinatus', 'teres major', 'triceps', 'gluteus medius', 'gluteus maximus'];
+    static allMuscles = ['pectoralis major', 'biceps', 'abdominals', 'sartorius', 'abductors', 'trapezius', 'deltoid', 'latissimus dorsi', 'serratus anterior', 'external oblique', 'brachioradialis', 'finger extensors', 'finger flexors', 'quadriceps', 'hamstrings', 'gastrocnemius', 'soleus', 'infraspinatus', 'teres major', 'triceps', 'gluteus medius', 'gluteus maximus'];
 
     // Object to convert from suit to a list of associated muscles
     // TODO: Best practice to have these as class properties or remove static so they are referenced by the instance?
-    suitToMuscles = {
+    static suitToMuscles = {
         "CLUBS": ['biceps', 'deltoid', 'brachioradialis', 'finger extensors', 'finger flexors', 'triceps'],
         "DIAMONDS": ['pectoralis major', 'abdominals', 'serratus anterior','external oblique'],
         "SPADES": ['sartorius', 'abductors', 'quadriceps', 'hamstrings', 'gastrocnemius', 'soleus', 'gluteus medius', 'gluteus maximus'],
@@ -217,7 +217,7 @@ class Exercise {
 
     getMuscle(suit) {
         let index = randomInt(this.suitToMuscles[suit].length);
-        return this.suitToMuscles[suit][index];
+        return Exercise.suitToMuscles[suit][index];
     }
 
     async getAllMuscles() {
@@ -257,10 +257,10 @@ class Exercise {
             return;
         }
         exercises = Exercise.#convertFetchResponseToObjects(exercises);
-
-        
-        // capitalizeEachWord takes a string only. It does NOT take an array of Exercise objects.
-        localStorage.setItem(capitalizeEachWord(exercises), JSON.stringify(exercises));
+        for (let i = 0; i < exercises.length; i++) {
+            // capitalizeEachWord takes a string only. It does NOT take an array of Exercise objects.
+            localStorage.setItem(capitalizeEachWord(exercises[i].name), JSON.stringify(exercises[i]));
+        }        
         return exercises;
     }
 
@@ -366,9 +366,6 @@ class Timer {
 
 /* FUNCTION DECLARATIONS */
 function capitalizeEachWord(stringInput) {
-    console.log("stringInput:");
-    console.log(stringInput);
-
     let words = stringInput.split(" ");
     let newWords = [];
     for (let i = 0; i < words.length; i++) {
@@ -388,11 +385,11 @@ async function loadCards(deck) {
     for (let i = 0; i < numCards; i++) {
         cardContainers[i].innerHTML = "";
         cardContainers[i].appendChild(cards[i].getImgElement());
+
         exercises.push(new Exercise());
         muscles.push(exercises[i].getMuscle(cards[i].suit));
         //exercises[i].getExercisesByPrimaryMuscle(muscles[i]);
     }
-}
 
 function rulesButtonFunction() {
     document.getElementById("rulesModal").setAttribute("class", 
