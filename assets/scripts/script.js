@@ -384,10 +384,11 @@ async function loadCards(deck) {
     let exercises = [];
     let muscles = [];
     let listOfExercises = [];
-    //exerciseContentContainers
+
     numCards = cardContainers.length;
     cards = await deck.draw(numCards);
     for (let i = 0; i < numCards; i++) {
+        let exerciseHTMLElement = exerciseContentContainers[i].children[0].children[0];
         cardContainers[i].innerHTML = "";
         cardContainers[i].appendChild(cards[i].getImgElement());
 
@@ -395,8 +396,13 @@ async function loadCards(deck) {
         muscles.push(exercises[i].getMuscle(cards[i].suit));
         listOfExercises = await exercises[i].getExercisesByPrimaryMuscle(muscles[i]);
         Object.assign(exercises[i], listOfExercises[randomInt(listOfExercises.length)]);
+        exerciseHTMLElement.innerText = exercises[i].name;
+        exerciseHTMLElement.href = "#";
+
     }
-    console.log(exercises);
+
+    // TODO: Add muscle and/or exercise group/type to the card as well?
+
 }
 
 function rulesButtonFunction() {
@@ -485,11 +491,10 @@ let timer = new Timer(); // Automatically generates an event listener on page lo
 document.getElementById("rulesBtn").addEventListener("click", rulesButtonFunction);
 
 // On page load, set the cards and exercises.
-loadCards(exerciseDeck);
+//loadCards(exerciseDeck);
+//TODO: User cannot flip cards until all cards have been loaded!
 
-// TODO: Once the card img html is updated, use the Exercise class to pull the exercise that corresponds with the card (use card code?). Will need additional javascript to link the two...
-// TODO: Update the html element with the exercise. 
-// TODO: Add muscle and/or exercise group/type to the card as well?
+
 
 // Test code for swap
 let swapButtons = document.querySelectorAll(".bulma-control-mixin");
