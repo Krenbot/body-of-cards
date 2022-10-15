@@ -430,13 +430,15 @@ for (let i = 0; i < acc.length; i++) {
 // END MODAL JS CODE
 
 /* MAIN CODE EXECUTION AREA */
-// TODO: cardContainers is a global variable. Can this be wrapped into a class or function?
+// TODO: Below variables are global variables. Can they be wrapped into a class or function?
 let cardContainers = document.getElementsByClassName("card-image");
 let exerciseDeck = new DeckOfCards();
 
-// Create Rules Button and Content
+// Add event listeners
 document.getElementById("rulesBtn").addEventListener("click", rulesButtonFunction);
 startBtn.addEventListener("click", startTimer);
+
+// On page load, set the cards and exercises.
 loadCards(exerciseDeck);
 
 // TODO: Once the card img html is updated, use the Exercise class to pull the exercise that corresponds with the card (use card code?). Will need additional javascript to link the two...
