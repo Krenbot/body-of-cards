@@ -50,7 +50,7 @@ class Card {
     }
 
     createImgElement() {
-        var img = document.createElement("img");
+        let img = document.createElement("img");
         img.id = this.code;
         img.src = this.image.href;
         img.alt = this.value + " of " + this.suit;
@@ -66,8 +66,8 @@ class Card {
 
     // Private Class Methods
     #convertImagesObject(stringObj) {
-        var objectKeys = Object.keys(stringObj);
-        for (var i = 0; i < objectKeys.length; i++) {
+        let objectKeys = Object.keys(stringObj);
+        for (let i = 0; i < objectKeys.length; i++) {
             stringObj[objectKeys[i]] = new URL(stringObj[objectKeys[i]]);
         }
     }
@@ -103,7 +103,7 @@ class DeckOfCards {
     async shuffle() {
         // TODO: Implement functionality for multiple decks
         this.resetURL();
-        var result;
+        let result;
 
         if (this.id === "") {
             this.baseURL.pathname += "new/shuffle/"
@@ -120,8 +120,8 @@ class DeckOfCards {
     async draw(count = 1) {
         this.resetURL();
 
-        var result;
-        var cards = [];
+        let result;
+        let cards = [];
 
         if (this.id === "") {
             this.baseURL.pathname += "new/draw/";
@@ -131,8 +131,8 @@ class DeckOfCards {
         this.baseURL.searchParams.append("count", count);
 
         result = await (await fetch(this.baseURL.href)).json();
-        for (var i = 0; i < result.cards.length; i++) {
-            var temp = new Card(result.cards[i].code,
+        for (let i = 0; i < result.cards.length; i++) {
+            let temp = new Card(result.cards[i].code,
                 result.cards[i].image, result.cards[i].images,
                 result.cards[i].value, result.cards[i].suit);
 
@@ -150,7 +150,7 @@ class DeckOfCards {
         // TODO: Change input to take an object rather than passing variables
         this.resetURL();
 
-        var result;
+        let result;
 
         this.baseURL.pathname += "new/";
         if (shuffleBool) {
@@ -222,7 +222,7 @@ class Exercise {
     }
 
     async getExercises(apiMethod, value) {
-        var exercises = [];
+        let exercises = [];
         this.resetURL();
         switch(apiMethod) {
             case "name":
@@ -262,16 +262,16 @@ class Exercise {
 
     // TODO: Comment method below to explain its purpose and summarize its flow
     static #convertAPIObject(apiObject) {
-        var properties = Object.keys(apiObject);
-        var oldProperty;
-        var firstLetter;
-        for (var i = 0; i < properties.length; i++) {
+        let properties = Object.keys(apiObject);
+        let oldProperty;
+        let firstLetter;
+        for (let i = 0; i < properties.length; i++) {
             oldProperty = properties[i];
             properties[i] = properties[i].split(" ");
             if (properties[i][0].toLowerCase() === "youtube") {
                 properties[i] = "video";
             } else {
-                for (var j = 0; j < properties[i].length; j++) {
+                for (let j = 0; j < properties[i].length; j++) {
                     if (j === 0) {
                         firstLetter = properties[i][j][0].toLowerCase();
                     } else {
@@ -289,11 +289,11 @@ class Exercise {
 
     // TODO: Comment method below to explain its purpose and summarize its flow
     static #convertFetchResponseToObjects(response) {
-        var dataList = [];
-        var objectList = [];
+        let dataList = [];
+        let objectList = [];
         dataList = Object.keys(response);
-        for (var i = 0; i < dataList.length; i++) {
-            var temp = new Exercise();
+        for (let i = 0; i < dataList.length; i++) {
+            let temp = new Exercise();
             Object.assign(temp, Exercise.#convertAPIObject(response[dataList[i]]));
             objectList.push(temp);
         }
@@ -303,14 +303,14 @@ class Exercise {
 
 // TODO: Wrap timer within a timer class
 /* VARIABLE DECLARATION */
-var timerText = document.getElementById("timerText");
-var startBtn = document.getElementById("timerStart");
-var timerStatus = "new";
-var interval;
+let timerText = document.getElementById("timerText");
+let startBtn = document.getElementById("timerStart");
+let timerStatus = "new";
+let interval;
 
 /* FUNCTION DECLARATION */
 function startTimer() {
-    var timerCount;
+    let timerCount;
     if (timerStatus === "new") {
         timerCount = 0;
 
@@ -337,9 +337,9 @@ function startTimer() {
 }
 
 function capitalizeEachWord(stringInput) {
-    var words = stringInput.split(" ");
-    var newWords = [];
-    for (var i = 0; i < words.length; i++) {
+    let words = stringInput.split(" ");
+    let newWords = [];
+    for (let i = 0; i < words.length; i++) {
         newWords.push(words[i][0].toUpperCase() + words[i].substring(1).toLowerCase());
     }
     return newWords.join(" ");
@@ -358,8 +358,8 @@ async function loadCards(deck) {
 }
 
 /* MAIN CODE EXECUTION AREA */
-var cardContainers = document.getElementsByClassName("card-image");
-var exerciseDeck = new DeckOfCards();
+let cardContainers = document.getElementsByClassName("card-image");
+let exerciseDeck = new DeckOfCards();
 
 startBtn.addEventListener("click", startTimer);
 loadCards(exerciseDeck);
@@ -370,9 +370,9 @@ loadCards(exerciseDeck);
 // TODO: Add muscle and/or exercise group/type to the card as well?
 
 // DEV TESTING SECTION
-//var testObj = new DeckOfCards();
+//let testObj = new DeckOfCards();
 //testObj.getCards(5);
-//var exerciseObj = new Exercise();
+//let exerciseObj = new Exercise();
 //exerciseObj.getExercisesByPrimaryMuscle("deltoid");
 
 // TODO: Consider remaking the modal code below into a class to wrap everything?
@@ -422,7 +422,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-var acc = document.getElementsByClassName("accordion");
+let acc = document.getElementsByClassName("accordion");
 
 for (let i = 0; i < acc.length; i++) {
     acc[i].addEventListener("click", function () {
@@ -431,7 +431,7 @@ for (let i = 0; i < acc.length; i++) {
         this.classList.toggle("active");
 
         /* Toggle between hiding and showing the active panel */
-        var panel = this.nextElementSibling;
+        let panel = this.nextElementSibling;
         if (panel.style.display === "block") {
             panel.style.display = "none";
         } else {
@@ -451,9 +451,9 @@ function rulesButtonFunction() {
 
 
 // Test code for swap
-var swapButtons = document.querySelectorAll(".bulma-control-mixin");
-var newDeck = new DeckOfCards();
-var draw;
+let swapButtons = document.querySelectorAll(".bulma-control-mixin");
+let newDeck = new DeckOfCards();
+let draw;
 
 for (let i = 0; i < swapButtons.length; i++) {
     swapButtons[i].addEventListener("click", async function () {
@@ -494,4 +494,4 @@ class Swap {
     }
 }
 
-//var test = new Swap();
+//let test = new Swap();
