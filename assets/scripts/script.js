@@ -2,7 +2,7 @@
 // Cards Class to represent each card pulled from the Deck of Cards API
 class Card {
     // Private Class Properties
-    #imgElement; 
+    #imgElement;
     #codeToValue = { // TODO: Need to add joker
         "J": "JACK",
         "Q": "QUEEN",
@@ -11,10 +11,11 @@ class Card {
     };
 
     #codeToSuit = {
-        "C": "CLUBS", 
-        "D": "DIAMONDS", 
-        "S": "SPADES", 
-        "H": "HEARTS"};
+        "C": "CLUBS",
+        "D": "DIAMONDS",
+        "S": "SPADES",
+        "H": "HEARTS"
+    };
 
     // Constructor Definition
     constructor(cardCode, image, images, value, suit) {
@@ -26,7 +27,7 @@ class Card {
         if (image != null) {
             this.image = new URL(this.image);
         }
-        
+
         this.images = images;
         if (images != null) {
             this.#convertImagesObject(images);
@@ -177,6 +178,9 @@ class DeckOfCards {
 };
 
 class Exercise {
+
+    #fetchCount = 0;
+
     constructor() {
         this.baseURL = new URL("https://exerciseapi3.p.rapidapi.com/search/");
         this.force = "";
@@ -200,20 +204,21 @@ class Exercise {
 
     static allExercises = []; // TODO: Update at a later date once API provides easy access
 
-    static allMuscles = ['pectoralis major', 'biceps', 'abdominals', 
-        'sartorius', 'abductors', 'trapezius', 'deltoid', 'latissimus dorsi', 
-        'serratus anterior', 'external oblique', 'brachioradialis', 
-        'finger extensors', 'finger flexors', 'quadriceps', 'hamstrings', 
-        'gastrocnemius', 'soleus', 'infraspinatus', 'teres major', 'triceps', 
+    // soleus does not provide ANY VALID EXERCISES.
+    static allMuscles = ['pectoralis major', 'biceps', 'abdominals',
+        'sartorius', 'abductors', 'trapezius', 'deltoid', 'latissimus dorsi',
+        'serratus anterior', 'external oblique', 'brachioradialis',
+        'finger extensors', 'finger flexors', 'quadriceps', 'hamstrings',
+        'gastrocnemius', 'soleus', 'infraspinatus', 'teres major', 'triceps',
         'gluteus medius', 'gluteus maximus'];
 
     // Object to convert from suit to a list of associated muscles
     // TODO: Best practice to have these as class properties or remove static so they are referenced by the instance?
     static suitToMuscles = {
         "CLUBS": ['biceps', 'deltoid', 'brachioradialis', 'finger extensors', 'finger flexors', 'triceps'],
-        "DIAMONDS": ['pectoralis major', 'abdominals', 'serratus anterior','external oblique'],
-        "SPADES": ['sartorius', 'abductors', 'quadriceps', 'hamstrings', 'gastrocnemius', 'soleus', 'gluteus medius', 'gluteus maximus'],
-        "HEARTS": ['trapezius', 'latissimus dorsi', 'infraspinatus','teres major']
+        "DIAMONDS": ['pectoralis major', 'abdominals', 'serratus anterior', 'external oblique'],
+        "SPADES": ['sartorius', 'abductors', 'quadriceps', 'hamstrings', 'gastrocnemius', 'gluteus medius', 'gluteus maximus'],
+        "HEARTS": ['trapezius', 'latissimus dorsi', 'infraspinatus', 'teres major']
     };
 
     static suitToExerciseType = {
@@ -222,7 +227,6 @@ class Exercise {
         "SPADES": "LEGS",
         "HEARTS": "BACK"
     };
-
 
     resetURL() {
         this.baseURL = new URL("https://exerciseapi3.p.rapidapi.com/search/");
@@ -244,7 +248,7 @@ class Exercise {
     async getExercises(apiMethod, value) {
         let exercises = [];
         this.resetURL();
-        switch(apiMethod) {
+        switch (apiMethod) {
             case "name":
                 value = capitalizeEachWord(value);
                 break;
@@ -254,9 +258,9 @@ class Exercise {
             case "secondaryMuscle":
                 value = value.toLowerCase();
                 break;
-            default: 
-                console.log("Bad value provided to getExercises()\n" + 
-                    "API method provided: " + apiMethod + "\nValue provided: " + 
+            default:
+                console.log("Bad value provided to getExercises()\n" +
+                    "API method provided: " + apiMethod + "\nValue provided: " +
                     value + "\nCurrent exercise instance object: " + this);
         }
 
@@ -264,7 +268,13 @@ class Exercise {
         exercises = await (await fetch(this.baseURL.href, Exercise.fetchOptions)).json();
 
         // Depending on the muscle chosen, some only exist as secondary muscles on the API
+        // TODO: Check which muscles are causing an infinite loop?
         if (exercises.length === 0) {
+            console.log("Bad muscle value: " + value);
+            if (this.#fetchCount > 2) {
+                return;
+            }
+            this.#fetchCount++;
             return this.getExercisesBySecondaryMuscle(value);
         }
 
@@ -272,7 +282,7 @@ class Exercise {
         for (let i = 0; i < exercises.length; i++) {
             // capitalizeEachWord takes a string only. It does NOT take an array of Exercise objects.
             localStorage.setItem(capitalizeEachWord(exercises[i].name), JSON.stringify(exercises[i]));
-        }        
+        }
         return exercises;
     }
 
@@ -309,7 +319,7 @@ class Exercise {
                 }
                 properties[i] = properties[i].join("");
             }
-            delete Object.assign(apiObject, 
+            delete Object.assign(apiObject,
                 { [properties[i]]: apiObject[oldProperty] })[oldProperty];
         }
         apiObject.video = new URL(apiObject.video);
@@ -323,7 +333,7 @@ class Exercise {
         dataList = Object.keys(response);
         for (let i = 0; i < dataList.length; i++) {
             let temp = new Exercise();
-            Object.assign(temp, 
+            Object.assign(temp,
                 Exercise.#convertAPIObject(response[dataList[i]]));
             objectList.push(temp);
         }
@@ -338,7 +348,7 @@ class Timer {
         this.timerStatus = "new";
         this.timerCount;
         this.interval;
-        
+
         this.startButton.addEventListener("click", this.startTimer.bind(this));
     }
 
@@ -424,16 +434,40 @@ async function loadCards(deck) {
         exerciseHTMLElement.id = removeSpacesFromString(exercises[i].name);
         exerciseHTMLElement.classList.add(Exercise.suitToExerciseType[cards[i].suit]);
 
-        exerciseContentContainers[i].children[1].innerText = 
+        exerciseContentContainers[i].children[1].innerText =
             Exercise.suitToExerciseType[cards[i].suit];
     }
+}
 
-    // TODO: Add muscle and/or exercise group/type to the card as well?
+async function swapCards(deck, id) {
+    let draw;
+    let cardExercise;
+    let muscle;
+    let listOfExercises;
 
+    let exerciseHTMLElement = exerciseContentContainers[id].children[0].children[0];
+
+    draw = (await deck.draw(1))[0];
+    cardContainers[id].innerHTML = "";
+    cardContainers[id].appendChild(draw.getImgElement());
+
+    cardExercise = new Exercise();
+    muscle = await cardExercise.getMuscle(draw.suit);
+    listOfExercises = await cardExercise.getExercisesByPrimaryMuscle(muscle);
+    Object.assign(cardExercise, listOfExercises[randomInt(listOfExercises.length)]);
+
+    // Update Exercise Information in DOM
+    exerciseHTMLElement.innerText = cardExercise.name;
+    exerciseHTMLElement.href = cardExercise.video;
+    exerciseHTMLElement.id = removeSpacesFromString(cardExercise.name);
+    exerciseHTMLElement.classList.add(Exercise.suitToExerciseType[draw.suit]);
+
+    exerciseContentContainers[id].children[1].innerText =
+        Exercise.suitToExerciseType[draw.suit];
 }
 
 function rulesButtonFunction() {
-    document.getElementById("rulesModal").setAttribute("class", 
+    document.getElementById("rulesModal").setAttribute("class",
         "modal is-active");
 }
 
@@ -511,6 +545,14 @@ for (let i = 0; i < acc.length; i++) {
 // TODO: Below variables are global variables. Can they be wrapped into a class or function?
 let cardContainers = document.getElementsByClassName("card-image");
 let exerciseContentContainers = document.getElementsByClassName("card-content");
+let swapButtons = document.querySelectorAll(".bulma-control-mixin");
+
+for (let i = 0; i < swapButtons.length; i++) {
+    swapButtons[i].addEventListener("click", async (event) => {
+        swapCards(exerciseDeck, (event.target.id.split("-")[1]) - 1);
+    });
+}
+
 let exerciseDeck = new DeckOfCards();
 let timer = new Timer(); // Automatically generates an event listener on page load through class initialization
 
@@ -524,48 +566,36 @@ document.getElementById("rulesBtn").addEventListener("click", () => loadCards(ex
 //loadCards(exerciseDeck);
 //TODO: User cannot flip cards until all cards have been loaded!
 
-// Test code for swap
-let swapButtons = document.querySelectorAll(".bulma-control-mixin");
-let newDeck = new DeckOfCards();
-let draw;
 
-for (let i = 0; i < swapButtons.length; i++) {
-    swapButtons[i].addEventListener("click", async function () {
-        draw = await newDeck.draw();
-        cardContainers[i].innerHTML = "";
-        cardContainers[i].appendChild(draw[0].getImgElement());
-    })
-}
+// class Swap {
+//     constructor(deck, buttonElement, containerElement) {
+//         this.deck = deck;
+//         this.button = buttonElement;
+//         this.container = containerElement;
+//         this.currentCard;
+//         this.newCard;
 
-class Swap {
-    constructor(deck, buttonElement, containerElement) {
-        this.deck = deck;
-        this.button = buttonElement;
-        this.container = containerElement;
-        this.currentCard;
-        this.newCard;
+//         this.createButtonEventListener();
+//     }
 
-        this.createButtonEventListener();
-    }
+//     createButtonEventListener() {
+//         this.button.addEventListener("click", this.swapCard.bind(this));
+//     }
 
-    createButtonEventListener() {
-        this.button.addEventListener("click", this.swapCard.bind(this));
-    }
+//     loadCurrentCard() {
+//         console.log(this.container);
+//         console.log(this.container.innerHTML);
+//     }
 
-    loadCurrentCard() {
-        console.log(this.container);
-        console.log(this.container.innerHTML);
-    }
+//     async getNewCard() {
+//         this.newCard = await this.deck.draw(1);
+//         return this.newCard;
+//     }
 
-    async getNewCard() {
-        this.newCard = await this.deck.draw(1);
-        return this.newCard;
-    }
-
-    swapCard() {
-        this.cardContainer.innerHTML = "";
-        this.cardContainer.appendChild(this.newCard.getImgElement());
-    }
-}
+//     swapCard() {
+//         this.cardContainer.innerHTML = "";
+//         this.cardContainer.appendChild(this.newCard.getImgElement());
+//     }
+// }
 
 //let test = new Swap();
