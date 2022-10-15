@@ -310,14 +310,16 @@ class Timer {
         this.timerStatus = "new";
         this.timerCount;
         this.interval;
+        
+        this.startButton.addEventListener("click", this.startTimer.bind(this));
     }
 
     startTimer() {
         if (this.timerStatus === "new") {
             this.initialize();
-            this.interval = setInterval(this.updateTimer().bind(this), 1000);
+            this.interval = setInterval(this.updateTimer.bind(this), 1000);
         } else if (this.timerStatus === "running") {
-            this.update(this.timerCount, this.timerText, "stopped", "Reset");
+            this.update(this.timerCount, this.timerCount, "stopped", "Reset");
             this.clear();
         } else if (this.timerStatus === "stopped") {
             this.update(0, "", "new", "Start Timer")
@@ -337,7 +339,7 @@ class Timer {
 
     updateTimer() {
         this.timerCount++;
-        this.timerText.innerHTML = timerCount;
+        this.timerText.innerHTML = this.timerCount;
     }
 
     clear() {
@@ -345,40 +347,6 @@ class Timer {
         this.interval = null;
     }
 }
-// TODO: Wrap timer within a timer class
-/* VARIABLE DECLARATION */
-// let timerText = document.getElementById("timerText");
-// let startBtn = document.getElementById("timerStart");
-// let timerStatus = "new";
-// let interval;
-
-// /* FUNCTION DECLARATION */
-// function startTimer() {
-//     let timerCount;
-//     if (timerStatus === "new") {
-//         timerCount = 0;
-
-//         timerText.innerHTML = 0;
-//         timerStatus = "running";
-//         startBtn.innerHTML = "Stop";
-
-//         interval = setInterval(function () {
-//             timerCount++;
-//             timerText.innerHTML = timerCount;
-//         }, 1000);
-
-//     } else if (timerStatus === "running") {
-//         timerStatus = "stopped";
-//         startBtn.innerHTML = "Reset";
-//         clearInterval(interval);
-//         interval = null;
-
-//     } else if (timerStatus === "stopped") {
-//         timerStatus = "new";
-//         startBtn.innerHTML = "Start Timer";
-//         timerText.innerHTML = "";
-//     }
-// }
 
 function capitalizeEachWord(stringInput) {
     let words = stringInput.split(" ");
@@ -475,10 +443,11 @@ for (let i = 0; i < acc.length; i++) {
 // TODO: Below variables are global variables. Can they be wrapped into a class or function?
 let cardContainers = document.getElementsByClassName("card-image");
 let exerciseDeck = new DeckOfCards();
+let timer = new Timer();
 
 // Add event listeners
 document.getElementById("rulesBtn").addEventListener("click", rulesButtonFunction);
-startBtn.addEventListener("click", startTimer);
+
 
 // On page load, set the cards and exercises.
 loadCards(exerciseDeck);
