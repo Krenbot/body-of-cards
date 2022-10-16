@@ -294,6 +294,7 @@ class Exercise {
         return await (await fetch(this.baseURL.href, Exercise.fetchOptions)).json();
     }
 
+    // TODO: Make private method
     async getExercises(apiMethod, value) {
         let exercises = [];
         this.resetURL();
