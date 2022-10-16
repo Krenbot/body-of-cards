@@ -677,34 +677,36 @@ for (let i = 0; i < acc.length; i++) {
 // END MODAL JS CODE
 
 /* MAIN CODE EXECUTION AREA */
-// TODO: Below variables are global variables. Can they be wrapped into a class or function?
-let cardContainers = document.getElementsByClassName("card-image");
-let exerciseContentContainers = document.getElementsByClassName("card-content");
-let swapButtons = document.getElementsByClassName(".bulma-control-mixin");
+function main() {
+    // TODO: Below variables are global variables. Can they be wrapped into a class or function?
+    let cardContainers = document.getElementsByClassName("card-image");
+    let exerciseContentContainers = document.getElementsByClassName("card-content");
+    let swapButtons = document.getElementsByClassName(".bulma-control-mixin");
 
-for (let i = 0; i < swapButtons.length; i++) {
-    swapButtons[i].addEventListener("click", async (event) => {
-        swapCards(exerciseDeck, (event.target.id.split("-")[1]) - 1);
-    });
+    for (let i = 0; i < swapButtons.length; i++) {
+        swapButtons[i].addEventListener("click", async (event) => {
+            swapCards(exerciseDeck, (event.target.id.split("-")[1]) - 1);
+        });
+    }
+
+    let exerciseDeck = new DeckOfCards();
+    let timer = new Timer(); // Automatically generates an event listener on page load through class initialization
+    let flippingCards = document.getElementsByClassName("flipping-cards")[0];
+    let workoutContainer = new Container(flippingCards);
+    workoutContainer.setDeck(exerciseDeck);
+
+    // Add event listeners
+    //document.getElementById("rulesBtn").addEventListener("click", rulesButtonFunction);
+
+    // FOR TESTING PURPOSES
+    //document.getElementById("rulesBtn").addEventListener("click", () => loadCards(exerciseDeck));
+    document.getElementById("rulesBtn").addEventListener("click", () => workoutContainer.loadCards());
+
+    // On page load, set the cards and exercises.
+    //loadCards(exerciseDeck);
+    //TODO: User cannot flip cards until all cards have been loaded!
+
+    //let test = new Swap();
 }
 
-let exerciseDeck = new DeckOfCards();
-let timer = new Timer(); // Automatically generates an event listener on page load through class initialization
-let flippingCards = document.getElementsByClassName("flipping-cards")[0];
-let workoutContainer = new Container(flippingCards);
-workoutContainer.setDeck(exerciseDeck);
-
-// Add event listeners
-//document.getElementById("rulesBtn").addEventListener("click", rulesButtonFunction);
-
-// FOR TESTING PURPOSES
-//document.getElementById("rulesBtn").addEventListener("click", () => loadCards(exerciseDeck));
-document.getElementById("rulesBtn").addEventListener("click", () => workoutContainer.loadCards());
-
-// On page load, set the cards and exercises.
-//loadCards(exerciseDeck);
-//TODO: User cannot flip cards until all cards have been loaded!
-
-
-
-//let test = new Swap();
+main();
