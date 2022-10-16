@@ -313,16 +313,49 @@ function updatePastWorkouts(workoutData){
     pastWorkoutEl.appendChild(panelEl)
 
     var dataList = document.createElement("ul");
-    panelEl.appendChild(dataList)
+    panelEl.appendChild(dataList);
 
     var lifts = document.createElement("li")
     lifts.innerText = workoutData.excercises;
     dataList.appendChild(lifts);
 
     var timeToComplete = document.createElement("li");
-    timeToComplete.innerText = workoutData.timerStatus + "seconds"
+    timeToComplete.innerText = workoutData.timerStatus + " seconds"
     dataList.appendChild(timeToComplete);
+    activateAccordion();
 }
+
+function renderPastWorkouts(){
+    var loadedWorkouts = localStorage.getItem("workouts")
+
+    loadedWorkouts = JSON.parse(loadedWorkouts);
+
+    for (var i = 0; i < loadedWorkouts.length; i++){
+        var newAccordionBtn = document.createElement("button");
+        newAccordionBtn.setAttribute("class", "accordion");
+        newAccordionBtn.innerText = loadedWorkouts[i].date;
+        pastWorkoutEl.appendChild(newAccordionBtn);
+
+        var newPanelEl = document.createElement("div");
+        newPanelEl.setAttribute("class", "panel");
+        pastWorkoutEl.appendChild(newPanelEl);
+
+        var newDataList = document.createElement("ul");
+        newPanelEl.appendChild(newDataList);
+
+        var newLifts = document.createElement("li")
+        newLifts.innerText = loadedWorkouts[i].exercises;
+        newDataList.appendChild(newLifts);
+
+        var newTimeToComplete = document.createElement("li");
+        newTimeToComplete.innerText = loadedWorkouts[i].timerStatus + " seconds"
+        newDataList.appendChild(newTimeToComplete);
+        activateAccordion();
+
+
+    }
+}
+
 /* FUNCTION DECLARATION */
 function startTimer() {
     var timerCount;
@@ -426,22 +459,24 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-var acc = document.getElementsByClassName("accordion");
+function activateAccordion(){
+    var acc = document.getElementsByClassName("accordion");
 
-for (var i = 0; i < acc.length; i++) {
-    acc[i].addEventListener("click", function () {
+    for (var i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function () {
         /* Toggle between adding and removing the "active" class,
         to highlight the button that controls the panel */
-        this.classList.toggle("active");
+            this.classList.toggle("active");
 
         /* Toggle between hiding and showing the active panel */
-        var panel = this.nextElementSibling;
-        if (panel.style.display === "block") {
+            var panel = this.nextElementSibling;
+            if (panel.style.display === "block") {
             panel.style.display = "none";
-        } else {
+            } else {
             panel.style.display = "block";
-        }
-    });
+            }
+        });
+    }
 }
 
 document.getElementById("rulesBtn").addEventListener("click", rulesButtonFunction);
@@ -449,3 +484,5 @@ document.getElementById("rulesBtn").addEventListener("click", rulesButtonFunctio
 function rulesButtonFunction() {
     document.getElementById("rulesModal").setAttribute("class", "modal is-active");
 }
+
+window.onload = renderPastWorkouts();
