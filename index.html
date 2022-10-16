@@ -29,10 +29,17 @@
             </div>
             <button class="modal-close is-large" aria-label="close"></button>
         </div>
-
+    </div>
+    <!-- Start Timer/Previous Workout Buttons -->
+    <div class="box">
+        <button id="timerStart" class="button is-black">Start Timer</button>
+        <p id="timerText"></p>
+        <!--Modal Button-->
+        <button id='workouts' class="js-modal-trigger button is-black" data-target="highScoreModal">
+            Previous Workouts
+        </button>
     </div>
     <p class='explain'>Click Card to Flip</p>
-
     <!-- Shown Card HTML -->
     <ul class="flipping-cards">
         <!-- Front of Card -->
@@ -174,16 +181,6 @@
             </footer>
         </li>
     </ul>
-
-    <!-- Start Timer/Previous Workout Buttons -->
-    <div class="box">
-        <button id="timerStart" class="button is-black">Start Timer</button>
-        <p id="timerText"></p>
-        <!--Modal Button-->
-        <button id='workouts' class="js-modal-trigger button is-black" data-target="highScoreModal">
-            Previous Workouts
-        </button>
-    </div>
 
     <!--Modal HTML-->
     <div id="highScoreModal" class="modal">
