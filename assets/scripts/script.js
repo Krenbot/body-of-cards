@@ -180,18 +180,24 @@ class DeckOfCards {
     }
 
     // Takes an array of cards to return
-    returnCardsToDeck(cardsToReturn) {
+    async returnCardsToDeck(cardsToReturn) {
+        let cardValues = [];
+        let result;
+
         if (!(cardsToReturn instanceof Array)) {
             cardsToReturn = [cardsToReturn];
         }
         this.resetURL();
         this.baseURL.pathname += (this.id + "/return");
 
-        this.baseURL.searchParams.append("cards", cardsToReturn);
-        console.log(this.baseURL);
+        for (let i = 0; i < cardsToReturn.length; i++) {
+            cardValues.push(cardsToReturn[i].code);
+        }
 
-        // TODO: Implement method for returning cards to the deck API. NOT needed for the MVP
-        // TODO: Connect with the swap button method. Whenever swapping cards, that card needs to return to the desk to be reused.
+        this.baseURL.searchParams.append("cards", cardValues.join());
+        result = await (await fetch(this.baseURL.href)).json();
+        this.id = result.deck_id;
+        this.remaining = result.remaining;
     }
 
     // TODO: Implement simple instructions for using the DeckOfCards Class
@@ -508,14 +514,16 @@ class CardContainer {
         this.container = containerElement; // Container HTML
         this.parent = parentObj; // Parent = Container Object
         this.id = containerElement.id; // id=card-#
+
         this.cardImage = containerElement.getElementsByClassName("card-image")[0];
         this.cardContent = containerElement.getElementsByClassName("card-content")[0];
         this.footer = parentObj.container.getElementsByClassName("card-footer")[0];
+        this.swapButton = this.footer.getElementsByClassName("bulma-control-mixin")[0];
 
         this.card = new Card(this.cardImage.id, this.cardImage.src);
-        this.exercise = new Exercise(); // Empty placeholder exercise until one can be fetched
-        this.swap; //this.swap = new Swap();
-    }
+        this.exercise = new Exercise();
+        this.swap = this.swapButton.addEventListener("click", this.swapContents.bind(this));
+        }
 
     async loadCard(card) {
         if (this.card.images) {
@@ -527,8 +535,10 @@ class CardContainer {
         return await this.#loadExercise();
     }
     
-    swapContents() {
+    async swapContents() {
         // TODO: Implement the loadCard method
+        let deck = this.parent.getDeck();
+        this.loadCard((await deck.draw(1))[0]);
     }
 
     async #loadExercise() {
@@ -547,37 +557,6 @@ class CardContainer {
         return true;
     }
 };
-
-class Swap {
-    constructor(deck, buttonElement, containerElement) {
-        this.deck = deck;
-        this.button = buttonElement;
-        this.container = containerElement;
-        this.currentCard;
-        this.newCard;
-
-        this.createButtonEventListener();
-        //this.setCurrentCard(containerElement);
-    }
-
-    createButtonEventListener() {
-        this.button.addEventListener("click", this.swapCard.bind(this));
-    }
-
-    setCurrentCard(containerHTML) { // Direct descendant must contain the card image tag
-        this.currentCard = new Card(containerHTML.id, containerHTML.src);
-    }
-
-    async getNewCard() {
-        this.newCard = await this.deck.draw(1);
-        return this.newCard;
-    }
-
-    swapCard() {
-        this.cardContainer.innerHTML = "";
-        this.cardContainer.appendChild(this.newCard.getImgElement());
-    }
-}
 
 /* FUNCTION DECLARATIONS */
 function capitalizeEachWord(stringInput) {
@@ -598,32 +577,32 @@ function removeSpacesFromString(stringInput) {
     return newWords.join("-");
 }
 
-async function swapCards(deck, id) {
-    let draw;
-    let cardExercise;
-    let muscle;
-    let listOfExercises;
+// async function swapCards(deck, id) {
+//     let draw;
+//     let cardExercise;
+//     let muscle;
+//     let listOfExercises;
 
-    let exerciseHTMLElement = exerciseContentContainers[id].children[0].children[0];
+//     let exerciseHTMLElement = exerciseContentContainers[id].children[0].children[0];
 
-    draw = (await deck.draw(1))[0];
-    cardContainers[id].innerHTML = "";
-    cardContainers[id].appendChild(draw.getImgElement());
+//     draw = (await deck.draw(1))[0];
+//     cardContainers[id].innerHTML = "";
+//     cardContainers[id].appendChild(draw.getImgElement());
 
-    cardExercise = new Exercise();
-    muscle = Exercise.getMuscle(draw.suit);
-    listOfExercises = await cardExercise.getExercisesByPrimaryMuscle(muscle);
-    Object.assign(cardExercise, listOfExercises[randomInt(listOfExercises.length)]);
+//     cardExercise = new Exercise();
+//     muscle = Exercise.getMuscle(draw.suit);
+//     listOfExercises = await cardExercise.getExercisesByPrimaryMuscle(muscle);
+//     Object.assign(cardExercise, listOfExercises[randomInt(listOfExercises.length)]);
 
-    // Update Exercise Information in DOM
-    exerciseHTMLElement.innerText = cardExercise.name;
-    exerciseHTMLElement.href = cardExercise.video;
-    exerciseHTMLElement.id = removeSpacesFromString(cardExercise.name);
-    exerciseHTMLElement.classList.add(Exercise.suitToExerciseType[draw.suit]);
+//     // Update Exercise Information in DOM
+//     exerciseHTMLElement.innerText = cardExercise.name;
+//     exerciseHTMLElement.href = cardExercise.video;
+//     exerciseHTMLElement.id = removeSpacesFromString(cardExercise.name);
+//     exerciseHTMLElement.classList.add(Exercise.suitToExerciseType[draw.suit]);
 
-    exerciseContentContainers[id].children[1].innerText =
-        Exercise.suitToExerciseType[draw.suit];
-}
+//     exerciseContentContainers[id].children[1].innerText =
+//         Exercise.suitToExerciseType[draw.suit];
+// }
 
 function rulesButtonFunction() {
     document.getElementById("rulesModal").setAttribute("class",
@@ -704,13 +683,6 @@ for (let i = 0; i < acc.length; i++) {
 function main() {
     // TODO: Below variables are global variables. Can they be wrapped into a class or function?
 
-    let swapButtons = document.getElementsByClassName(".bulma-control-mixin");
-
-    for (let i = 0; i < swapButtons.length; i++) {
-        swapButtons[i].addEventListener("click", async (event) => {
-            swapCards(exerciseDeck, (event.target.id.split("-")[1]) - 1);
-        });
-    }
 
     // On page load, set the cards and exercises.
     let exerciseDeck = new DeckOfCards();
@@ -727,8 +699,17 @@ function main() {
 
     //TODO: User cannot flip cards until all cards have been loaded!
 }
-let cardContainers = document.getElementsByClassName("card-image");
-let exerciseContentContainers = document.getElementsByClassName("card-content");
+// let cardContainers = document.getElementsByClassName("card-image");
+// let exerciseContentContainers = document.getElementsByClassName("card-content");
+// let swapButtons = document.getElementsByClassName(".bulma-control-mixin");
+
+// let exerciseDeck = new DeckOfCards();
+
+// for (let i = 0; i < swapButtons.length; i++) {
+//     swapButtons[i].addEventListener("click", async (event) => {
+//         swapCards(exerciseDeck, (event.target.id.split("-")[1]) - 1);
+//     });
+// }
 
 main();
 
