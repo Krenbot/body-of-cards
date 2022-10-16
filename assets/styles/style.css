@@ -5,9 +5,9 @@
   /* word-wrap: break-word */
 }
 
-h3{
-font-size: x-large;
-text-align: left;
+h3 {
+  font-size: x-large;
+  text-align: left;
 }
 
 ul,
@@ -189,7 +189,7 @@ input[type="checkbox"] {
   margin-left: -130px;
 }
 
-/* Swap Button CSS - https://codepen.io/geekvie/pen/QWgVQpv */
+
 :root {
   --neon-clr: rgb(53, 101, 77);
 }
@@ -233,11 +233,13 @@ input[type="checkbox"] {
 }
 
 @keyframes pulse {
+
   0%,
   50%,
   100% {
     transform: scale(1);
   }
+
   25%,
   75% {
     transform: scale(1.12);
