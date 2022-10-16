@@ -75,7 +75,6 @@ class Card {
 
     #convertCardCode() {
         let cardCode = this.code.split("");
-        console.log(cardCode);
         if (Number.isNaN(cardCode[0])) {
             this.value = this.#codeToValue[cardCode[0]];
         } else {
@@ -199,30 +198,34 @@ class Exercise {
     // Key below is provided by James Perry (PBP66) on https://rapidapi.com/
     // Must access by invoking the class instance, not the object instance
     static fetchOptions = {
-        method: 'GET',
+        method: "GET",
         headers: {
-            'X-RapidAPI-Key': '0198bbaf50msh1011edbb678ad4bp19a4a1jsn246309d212b1',
-            'X-RapidAPI-Host': 'exerciseapi3.p.rapidapi.com'
+            "X-RapidAPI-Key": "0198bbaf50msh1011edbb678ad4bp19a4a1jsn246309d212b1",
+            "X-RapidAPI-Host": "exerciseapi3.p.rapidapi.com"
         }
     };
 
     static allExercises = []; // TODO: Update at a later date once API provides easy access
 
     // soleus does not provide ANY VALID EXERCISES.
-    static allMuscles = ['pectoralis major', 'biceps', 'abdominals',
-        'sartorius', 'abductors', 'trapezius', 'deltoid', 'latissimus dorsi',
-        'serratus anterior', 'external oblique', 'brachioradialis',
-        'finger extensors', 'finger flexors', 'quadriceps', 'hamstrings',
-        'gastrocnemius', 'soleus', 'infraspinatus', 'teres major', 'triceps',
-        'gluteus medius', 'gluteus maximus'];
+    static allMuscles = ["pectoralis major", "biceps", "abdominals",
+        "sartorius", "abductors", "trapezius", "deltoid", "latissimus dorsi",
+        "serratus anterior", "external oblique", "brachioradialis",
+        "finger extensors", "finger flexors", "quadriceps", "hamstrings",
+        "gastrocnemius", "soleus", "infraspinatus", "teres major", "triceps",
+        "gluteus medius", "gluteus maximus"];
+
+    static secondaryMuscles = ["infraspinatus", "gastrocnemius", "trapezius", 
+        "abductors", "teres major", "brachioradialis", "serratus anterior", 
+        "sartorius", "finger flexors", "finger extensors"];
 
     // Object to convert from suit to a list of associated muscles
     // TODO: Best practice to have these as class properties or remove static so they are referenced by the instance?
     static suitToMuscles = {
-        "CLUBS": ['biceps', 'deltoid', 'brachioradialis', 'finger extensors', 'finger flexors', 'triceps'],
-        "DIAMONDS": ['pectoralis major', 'abdominals', 'serratus anterior', 'external oblique'],
-        "SPADES": ['sartorius', 'abductors', 'quadriceps', 'hamstrings', 'gastrocnemius', 'gluteus medius', 'gluteus maximus'],
-        "HEARTS": ['trapezius', 'latissimus dorsi', 'infraspinatus', 'teres major']
+        "CLUBS": ["biceps", "deltoid", "brachioradialis", "finger extensors", "finger flexors", "triceps"],
+        "DIAMONDS": ["pectoralis major", "abdominals", "serratus anterior", "external oblique", "teres major"],
+        "SPADES": ["abductors", "quadriceps", "hamstrings", "gluteus medius", "gluteus maximus"],
+        "HEARTS": ["sartorius", "trapezius", "latissimus dorsi"]
     };
 
     static suitToExerciseType = {
@@ -267,6 +270,11 @@ class Exercise {
     async getExercises(apiMethod, value) {
         let exercises = [];
         this.resetURL();
+
+        if (Exercise.secondaryMuscles.includes(value)) {
+            apiMethod = "secondaryMuscle";
+        }
+
         switch (apiMethod) {
             case "name":
                 value = capitalizeEachWord(value);
@@ -344,6 +352,10 @@ class Exercise {
     static getMuscle(key) {
         let index = randomInt(Exercise.suitToMuscles[key].length);
         return Exercise.suitToMuscles[key][index];
+    }
+
+    static getExerciseType(key) {
+        return Exercise.suitToExerciseType[key];
     }
 
     // TODO: Comment method below to explain its purpose and summarize its flow
@@ -434,187 +446,6 @@ class Timer {
     }
 }
 
-/* FUNCTION DECLARATIONS */
-function capitalizeEachWord(stringInput) {
-    let words = stringInput.split(" ");
-    let newWords = [];
-    for (let i = 0; i < words.length; i++) {
-        newWords.push(words[i][0].toUpperCase() + words[i].substring(1).toLowerCase());
-    }
-    return newWords.join(" ");
-}
-
-function removeSpacesFromString(stringInput) {
-    let words = stringInput.split(" ");
-    let newWords = [];
-    for (let i = 0; i < words.length; i++) {
-        newWords.push(words[i].toLowerCase());
-    }
-    return newWords.join("-");
-}
-
-// TODO: Wrap this method into a class or something that doesn't require strict and verbose DOM navigation
-async function loadCards(deck) {
-    let numCards;
-    let cards;
-    let exercises = [];
-    let muscles = [];
-    let listOfExercises = [];
-
-    numCards = cardContainers.length;
-    cards = await deck.draw(numCards);
-    for (let i = 0; i < numCards; i++) {
-        let exerciseHTMLElement = exerciseContentContainers[i].children[0].children[0];
-
-        // Update Card in DOM
-        cardContainers[i].innerHTML = "";
-        cardContainers[i].appendChild(cards[i].getImgElement());
-
-        // Fetch and Assign Exercises
-        exercises.push(new Exercise());
-        muscles.push(exercises[i].getMuscle(cards[i].suit));
-        listOfExercises = await exercises[i].getExercisesByPrimaryMuscle(muscles[i]);
-        Object.assign(exercises[i], listOfExercises[randomInt(listOfExercises.length)]);
-
-        // Update Exercise Information in DOM
-        exerciseHTMLElement.innerText = exercises[i].name;
-        exerciseHTMLElement.href = exercises[i].video;
-        exerciseHTMLElement.id = removeSpacesFromString(exercises[i].name);
-        exerciseHTMLElement.classList.add(Exercise.suitToExerciseType[cards[i].suit]);
-
-        exerciseContentContainers[i].children[1].innerText =
-            Exercise.suitToExerciseType[cards[i].suit];
-    }
-}
-
-async function swapCards(deck, id) {
-    let draw;
-    let cardExercise;
-    let muscle;
-    let listOfExercises;
-
-    let exerciseHTMLElement = exerciseContentContainers[id].children[0].children[0];
-
-    draw = (await deck.draw(1))[0];
-    cardContainers[id].innerHTML = "";
-    cardContainers[id].appendChild(draw.getImgElement());
-
-    cardExercise = new Exercise();
-    muscle = await cardExercise.getMuscle(draw.suit);
-    listOfExercises = await cardExercise.getExercisesByPrimaryMuscle(muscle);
-    Object.assign(cardExercise, listOfExercises[randomInt(listOfExercises.length)]);
-
-    // Update Exercise Information in DOM
-    exerciseHTMLElement.innerText = cardExercise.name;
-    exerciseHTMLElement.href = cardExercise.video;
-    exerciseHTMLElement.id = removeSpacesFromString(cardExercise.name);
-    exerciseHTMLElement.classList.add(Exercise.suitToExerciseType[draw.suit]);
-
-    exerciseContentContainers[id].children[1].innerText =
-        Exercise.suitToExerciseType[draw.suit];
-}
-
-function rulesButtonFunction() {
-    document.getElementById("rulesModal").setAttribute("class",
-        "modal is-active");
-}
-
-function randomInt(range) {
-    return Math.floor(Math.random() * range);
-}
-
-// TODO: Consider remaking the modal code below into a class to wrap everything?
-// START MODAL JS CODE
-document.addEventListener('DOMContentLoaded', () => {
-    // Functions to open and close a modal
-    function openModal($el) {
-        $el.classList.add('is-active');
-    }
-
-    function closeModal($el) {
-        $el.classList.remove('is-active');
-    }
-
-    function closeAllModals() {
-        (document.querySelectorAll('.modal') || []).forEach(($modal) => {
-            closeModal($modal);
-        });
-    }
-
-    // Add a click event on buttons to open a specific modal
-    (document.querySelectorAll('.js-modal-trigger') || []).forEach(($trigger) => {
-        const modal = $trigger.dataset.target;
-        const $target = document.getElementById(modal);
-
-        $trigger.addEventListener('click', () => {
-            openModal($target);
-        });
-    });
-
-    // Add a click event on various child elements to close the parent modal
-    (document.querySelectorAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button') || []).forEach(($close) => {
-        const $target = $close.closest('.modal');
-
-        $close.addEventListener('click', () => {
-            closeModal($target);
-        });
-    });
-
-    // Add a keyboard event to close all modals
-    document.addEventListener('keydown', (event) => {
-        const e = event || window.event;
-
-        if (e.keyCode === 27) { // Escape key
-            closeAllModals();
-        }
-    });
-});
-
-let acc = document.getElementsByClassName("accordion");
-
-for (let i = 0; i < acc.length; i++) {
-    acc[i].addEventListener("click", function () {
-        /* Toggle between adding and removing the "active" class,
-        to highlight the button that controls the panel */
-        this.classList.toggle("active");
-
-        /* Toggle between hiding and showing the active panel */
-        let panel = this.nextElementSibling;
-        if (panel.style.display === "block") {
-            panel.style.display = "none";
-        } else {
-            panel.style.display = "block";
-        }
-    });
-}
-// END MODAL JS CODE
-
-/* MAIN CODE EXECUTION AREA */
-// TODO: Below variables are global variables. Can they be wrapped into a class or function?
-let cardContainers = document.getElementsByClassName("card-image");
-let exerciseContentContainers = document.getElementsByClassName("card-content");
-let swapButtons = document.getElementsByClassName(".bulma-control-mixin");
-
-for (let i = 0; i < swapButtons.length; i++) {
-    swapButtons[i].addEventListener("click", async (event) => {
-        swapCards(exerciseDeck, (event.target.id.split("-")[1]) - 1);
-    });
-}
-
-let exerciseDeck = new DeckOfCards();
-let timer = new Timer(); // Automatically generates an event listener on page load through class initialization
-
-// Add event listeners
-//document.getElementById("rulesBtn").addEventListener("click", rulesButtonFunction);
-
-// FOR TESTING PURPOSES
-document.getElementById("rulesBtn").addEventListener("click", 
-    () => loadCards(exerciseDeck));
-
-// On page load, set the cards and exercises.
-//loadCards(exerciseDeck);
-//TODO: User cannot flip cards until all cards have been loaded!
-
 // Represent an HTML container with html children
 class Container {
     // Private Class Properties
@@ -623,9 +454,10 @@ class Container {
     // The containerElement contains all Card Container classes
     constructor(containerElement) {
         this.container = containerElement;
-        this.cardContainers = this.container.getElementsByClassName("card");
-        for (let i = 0; i < this.cardContainers.length; i++) {
-            this.cardContainers[i] = new CardContainer(this.cardContainers[i], this);
+        this.cardContainers = [];
+        let containerElements = this.container.getElementsByClassName("card");
+        for (let i = 0; i < containerElements.length; i++) {
+            this.cardContainers.push(new CardContainer(containerElements[i], this));
         }
     }
 
@@ -645,7 +477,7 @@ class Container {
         if (!(this.#deck)) {
             this.#deck = new DeckOfCards();
         }
-        cards = await deck.draw(numCards);
+        cards = await this.#deck.draw(numCards);
 
         for (let i = 0; i < numCards; i++) {
             loadBool.push(await this.cardContainers[i].loadCard(cards[i])); // TODO: What was the plan with this/
@@ -666,7 +498,7 @@ class CardContainer {
         this.cardContent = containerElement.children[1]; // class=card-content
         this.footer = parent.container.getElementsByClassName("card-footer")[0]; // Only one footer per card
 
-        this.card = new Card(this.cardElement.id, this.cardElement.src);
+        this.card = new Card(this.cardImage.id, this.cardImage.src);
         this.exercise = new Exercise(); // Empty placeholder exercise until one can be fetched
 
         this.swap; //this.swap = new Swap();
@@ -685,7 +517,7 @@ class CardContainer {
 
     async #loadExercise() {
         let muscle = Exercise.getMuscle(this.card.suit);
-        let exerciseType = Exercise.suitToExerciseType(this.card.suit);
+        let exerciseType = Exercise.getExerciseType(this.card.suit);
         let exerciseList = await this.exercise.getExercisesByPrimaryMuscle(muscle);
         Object.assign(this.exercise, exerciseList[randomInt(exerciseList.length)]);
 
@@ -729,5 +561,191 @@ class Swap {
         this.cardContainer.appendChild(this.newCard.getImgElement());
     }
 }
+
+/* FUNCTION DECLARATIONS */
+function capitalizeEachWord(stringInput) {
+    let words = stringInput.split(" ");
+    let newWords = [];
+    for (let i = 0; i < words.length; i++) {
+        newWords.push(words[i][0].toUpperCase() + words[i].substring(1).toLowerCase());
+    }
+    return newWords.join(" ");
+}
+
+function removeSpacesFromString(stringInput) {
+    let words = stringInput.split(" ");
+    let newWords = [];
+    for (let i = 0; i < words.length; i++) {
+        newWords.push(words[i].toLowerCase());
+    }
+    return newWords.join("-");
+}
+
+// TODO: Wrap this method into a class or something that doesn't require strict and verbose DOM navigation
+async function loadCards(deck) {
+    let numCards;
+    let cards;
+    let exercises = [];
+    let muscles = [];
+    let listOfExercises = [];
+
+    numCards = cardContainers.length;
+    cards = await deck.draw(numCards);
+    for (let i = 0; i < numCards; i++) {
+        let exerciseHTMLElement = exerciseContentContainers[i].children[0].children[0];
+
+        // Update Card in DOM
+        cardContainers[i].innerHTML = "";
+        cardContainers[i].appendChild(cards[i].getImgElement());
+
+        // Fetch and Assign Exercises
+        exercises.push(new Exercise());
+        muscles.push(Exercise.getMuscle(cards[i].suit));
+        listOfExercises = await exercises[i].getExercisesByPrimaryMuscle(muscles[i]);
+        Object.assign(exercises[i], listOfExercises[randomInt(listOfExercises.length)]);
+
+        // Update Exercise Information in DOM
+        exerciseHTMLElement.innerText = exercises[i].name;
+        exerciseHTMLElement.href = exercises[i].video;
+        exerciseHTMLElement.id = removeSpacesFromString(exercises[i].name);
+        exerciseHTMLElement.classList.add(Exercise.suitToExerciseType[cards[i].suit]);
+
+        exerciseContentContainers[i].children[1].innerText =
+            Exercise.suitToExerciseType[cards[i].suit];
+    }
+}
+
+async function swapCards(deck, id) {
+    let draw;
+    let cardExercise;
+    let muscle;
+    let listOfExercises;
+
+    let exerciseHTMLElement = exerciseContentContainers[id].children[0].children[0];
+
+    draw = (await deck.draw(1))[0];
+    cardContainers[id].innerHTML = "";
+    cardContainers[id].appendChild(draw.getImgElement());
+
+    cardExercise = new Exercise();
+    muscle = Exercise.getMuscle(draw.suit);
+    listOfExercises = await cardExercise.getExercisesByPrimaryMuscle(muscle);
+    Object.assign(cardExercise, listOfExercises[randomInt(listOfExercises.length)]);
+
+    // Update Exercise Information in DOM
+    exerciseHTMLElement.innerText = cardExercise.name;
+    exerciseHTMLElement.href = cardExercise.video;
+    exerciseHTMLElement.id = removeSpacesFromString(cardExercise.name);
+    exerciseHTMLElement.classList.add(Exercise.suitToExerciseType[draw.suit]);
+
+    exerciseContentContainers[id].children[1].innerText =
+        Exercise.suitToExerciseType[draw.suit];
+}
+
+function rulesButtonFunction() {
+    document.getElementById("rulesModal").setAttribute("class",
+        "modal is-active");
+}
+
+function randomInt(range) {
+    return Math.floor(Math.random() * range);
+}
+
+// TODO: Consider remaking the modal code below into a class to wrap everything?
+// START MODAL JS CODE
+document.addEventListener("DOMContentLoaded", () => {
+    // Functions to open and close a modal
+    function openModal($el) {
+        $el.classList.add("is-active");
+    }
+
+    function closeModal($el) {
+        $el.classList.remove("is-active");
+    }
+
+    function closeAllModals() {
+        (document.querySelectorAll(".modal") || []).forEach(($modal) => {
+            closeModal($modal);
+        });
+    }
+
+    // Add a click event on buttons to open a specific modal
+    (document.querySelectorAll(".js-modal-trigger") || []).forEach(($trigger) => {
+        const modal = $trigger.dataset.target;
+        const $target = document.getElementById(modal);
+
+        $trigger.addEventListener("click", () => {
+            openModal($target);
+        });
+    });
+
+    // Add a click event on various child elements to close the parent modal
+    (document.querySelectorAll(".modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button") || []).forEach(($close) => {
+        const $target = $close.closest(".modal");
+
+        $close.addEventListener("click", () => {
+            closeModal($target);
+        });
+    });
+
+    // Add a keyboard event to close all modals
+    document.addEventListener("keydown", (event) => {
+        const e = event || window.event;
+
+        if (e.keyCode === 27) { // Escape key
+            closeAllModals();
+        }
+    });
+});
+
+let acc = document.getElementsByClassName("accordion");
+
+for (let i = 0; i < acc.length; i++) {
+    acc[i].addEventListener("click", function () {
+        /* Toggle between adding and removing the "active" class,
+        to highlight the button that controls the panel */
+        this.classList.toggle("active");
+
+        /* Toggle between hiding and showing the active panel */
+        let panel = this.nextElementSibling;
+        if (panel.style.display === "block") {
+            panel.style.display = "none";
+        } else {
+            panel.style.display = "block";
+        }
+    });
+}
+// END MODAL JS CODE
+
+/* MAIN CODE EXECUTION AREA */
+// TODO: Below variables are global variables. Can they be wrapped into a class or function?
+let cardContainers = document.getElementsByClassName("card-image");
+let exerciseContentContainers = document.getElementsByClassName("card-content");
+let swapButtons = document.getElementsByClassName(".bulma-control-mixin");
+
+for (let i = 0; i < swapButtons.length; i++) {
+    swapButtons[i].addEventListener("click", async (event) => {
+        swapCards(exerciseDeck, (event.target.id.split("-")[1]) - 1);
+    });
+}
+
+let exerciseDeck = new DeckOfCards();
+let timer = new Timer(); // Automatically generates an event listener on page load through class initialization
+let flippingCards = document.getElementsByClassName("flipping-cards")[0];
+let workoutContainer = new Container(flippingCards);
+workoutContainer.setDeck(exerciseDeck);
+
+// Add event listeners
+//document.getElementById("rulesBtn").addEventListener("click", rulesButtonFunction);
+
+// FOR TESTING PURPOSES
+//document.getElementById("rulesBtn").addEventListener("click", () => loadCards(exerciseDeck));
+document.getElementById("rulesBtn").addEventListener("click", () => workoutContainer.loadCards());
+
+// On page load, set the cards and exercises.
+//loadCards(exerciseDeck);
+//TODO: User cannot flip cards until all cards have been loaded!
+
+
 
 //let test = new Swap();
