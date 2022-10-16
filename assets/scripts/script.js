@@ -77,6 +77,8 @@ class Card {
         let cardCode = this.code.split("");
         if (Number.isNaN(cardCode[0])) {
             this.value = this.#codeToValue[cardCode[0]];
+        } else if (parseInt(cardCode[0]) === 0) {
+            this.value = 10;
         } else {
             this.value = cardCode[0];
         }
@@ -145,7 +147,7 @@ class DeckOfCards {
         return cards;
     }
 
-    async newDeck(shuffleBool = 1, addJokers = false) {
+    async newDeck(shuffleBool = true, addJokers = false) {
         // TODO: Implement functionality for multiple decks
         // TODO: Change input to take an object rather than passing variables
         this.resetURL();
@@ -482,18 +484,16 @@ class Container {
 
 // Container for each card which contains a playing card, exercise content, and a footer
 class CardContainer {
-    constructor(containerElement, parent) {
+    constructor(containerElement, parentObj) {
         this.container = containerElement; // Container HTML
-        this.parent = parent; // Parent Container HTML
+        this.parent = parentObj; // Parent = Container Object
         this.id = containerElement.id; // id=card-#
-        // TODO: Change to DOM getElements methods by searching either class or id
-        this.cardImage = containerElement.children[0]; // class=card-image
-        this.cardContent = containerElement.children[1]; // class=card-content
-        this.footer = parent.container.getElementsByClassName("card-footer")[0]; // Only one footer per card
+        this.cardImage = containerElement.getElementsByClassName("card-image")[0];
+        this.cardContent = containerElement.getElementsByClassName("card-content")[0];
+        this.footer = parentObj.container.getElementsByClassName("card-footer")[0];
 
         this.card = new Card(this.cardImage.id, this.cardImage.src);
         this.exercise = new Exercise(); // Empty placeholder exercise until one can be fetched
-
         this.swap; //this.swap = new Swap();
     }
 
@@ -514,10 +514,11 @@ class CardContainer {
         let exerciseList = await this.exercise.getExercisesByPrimaryMuscle(muscle);
         Object.assign(this.exercise, exerciseList[randomInt(exerciseList.length)]);
 
+        // TODO: Change to DOM getElements methods by searching either class or id
         // Update Exercise Information in DOM
-        this.cardContent.children[0].innerText = "";  // TODO: Change to DOM getElements methods by searching either class or id
+        this.cardContent.children[0].innerText = "";  
         this.cardContent.appendChild(this.exercise.getExerciseElement());
-        this.cardContent.children[0].classList.add(exerciseType); // TODO: Move to line above? Might make it hard to read...
+        this.cardContent.children[0].classList.add(exerciseType);
         this.cardContent.children[1].innerText = exerciseType;
 
         return true;
@@ -679,8 +680,7 @@ for (let i = 0; i < acc.length; i++) {
 /* MAIN CODE EXECUTION AREA */
 function main() {
     // TODO: Below variables are global variables. Can they be wrapped into a class or function?
-    let cardContainers = document.getElementsByClassName("card-image");
-    let exerciseContentContainers = document.getElementsByClassName("card-content");
+
     let swapButtons = document.getElementsByClassName(".bulma-control-mixin");
 
     for (let i = 0; i < swapButtons.length; i++) {
@@ -689,6 +689,7 @@ function main() {
         });
     }
 
+    // On page load, set the cards and exercises.
     let exerciseDeck = new DeckOfCards();
     let timer = new Timer(); // Automatically generates an event listener on page load through class initialization
     let flippingCards = document.getElementsByClassName("flipping-cards")[0];
@@ -699,14 +700,15 @@ function main() {
     //document.getElementById("rulesBtn").addEventListener("click", rulesButtonFunction);
 
     // FOR TESTING PURPOSES
-    //document.getElementById("rulesBtn").addEventListener("click", () => loadCards(exerciseDeck));
     document.getElementById("rulesBtn").addEventListener("click", () => workoutContainer.loadCards());
 
-    // On page load, set the cards and exercises.
-    //loadCards(exerciseDeck);
     //TODO: User cannot flip cards until all cards have been loaded!
-
-    //let test = new Swap();
 }
+let cardContainers = document.getElementsByClassName("card-image");
+let exerciseContentContainers = document.getElementsByClassName("card-content");
 
 main();
+
+// DEV TESTING SECTION
+
+//let test = new Swap();
