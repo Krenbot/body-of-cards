@@ -557,10 +557,10 @@ let exerciseDeck = new DeckOfCards();
 let timer = new Timer(); // Automatically generates an event listener on page load through class initialization
 
 // Add event listeners
-//document.getElementById("rulesBtn").addEventListener("click", rulesButtonFunction);
+document.getElementById("rulesBtn").addEventListener("click", rulesButtonFunction);
 
 // FOR TESTING PURPOSES
-document.getElementById("rulesBtn").addEventListener("click", () => loadCards(exerciseDeck));
+// document.getElementById("rulesBtn").addEventListener("click", () => loadCards(exerciseDeck));
 
 // On page load, set the cards and exercises.
 //loadCards(exerciseDeck);
