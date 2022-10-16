@@ -574,40 +574,6 @@ function removeSpacesFromString(stringInput) {
     return newWords.join("-");
 }
 
-// TODO: Wrap this method into a class or something that doesn't require strict and verbose DOM navigation
-async function loadCards(deck) {
-    let numCards;
-    let cards;
-    let exercises = [];
-    let muscles = [];
-    let listOfExercises = [];
-
-    numCards = cardContainers.length;
-    cards = await deck.draw(numCards);
-    for (let i = 0; i < numCards; i++) {
-        let exerciseHTMLElement = exerciseContentContainers[i].children[0].children[0];
-
-        // Update Card in DOM
-        cardContainers[i].innerHTML = "";
-        cardContainers[i].appendChild(cards[i].getImgElement());
-
-        // Fetch and Assign Exercises
-        exercises.push(new Exercise());
-        muscles.push(Exercise.getMuscle(cards[i].suit));
-        listOfExercises = await exercises[i].getExercisesByPrimaryMuscle(muscles[i]);
-        Object.assign(exercises[i], listOfExercises[randomInt(listOfExercises.length)]);
-
-        // Update Exercise Information in DOM
-        exerciseHTMLElement.innerText = exercises[i].name;
-        exerciseHTMLElement.href = exercises[i].video;
-        exerciseHTMLElement.id = removeSpacesFromString(exercises[i].name);
-        exerciseHTMLElement.classList.add(Exercise.suitToExerciseType[cards[i].suit]);
-
-        exerciseContentContainers[i].children[1].innerText =
-            Exercise.suitToExerciseType[cards[i].suit];
-    }
-}
-
 async function swapCards(deck, id) {
     let draw;
     let cardExercise;
