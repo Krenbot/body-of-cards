@@ -157,7 +157,6 @@ class DeckOfCards {
     }
 
     async newDeck(shuffleBool = true, addJokers = false) {
-        // TODO: Implement functionality for multiple decks
         // TODO: Change input to take an object rather than passing variables
         this.resetURL();
 
@@ -234,8 +233,6 @@ class Exercise {
             "X-RapidAPI-Host": "exerciseapi3.p.rapidapi.com"
         }
     };
-
-    static allExercises = []; // TODO: Update at a later date once API provides easy access
 
     // soleus does not provide ANY VALID EXERCISES.
     static allMuscles = ["pectoralis major", "biceps", "abdominals",
@@ -688,7 +685,7 @@ function main() {
     // Add event listeners
     document.getElementById("rulesBtn").addEventListener("click", rulesButtonFunction);
 
-    //TODO: User cannot flip cards until all cards have been loaded!
+    //TODO: User cannot flip cards until all cards have been loaded! Move javascript src file to top of index.html?
 }
 
 main();
