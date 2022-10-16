@@ -690,50 +690,6 @@ function main() {
 
 main();
 
-<<<<<<< HEAD
-// Add event listeners
-document.getElementById("rulesBtn").addEventListener("click", rulesButtonFunction);
-
-// FOR TESTING PURPOSES
-// document.getElementById("rulesBtn").addEventListener("click", () => loadCards(exerciseDeck));
-
-// On page load, set the cards and exercises.
-//loadCards(exerciseDeck);
-//TODO: User cannot flip cards until all cards have been loaded!
-
-
-// class Swap {
-//     constructor(deck, buttonElement, containerElement) {
-//         this.deck = deck;
-//         this.button = buttonElement;
-//         this.container = containerElement;
-//         this.currentCard;
-//         this.newCard;
-
-//         this.createButtonEventListener();
-//     }
-
-//     createButtonEventListener() {
-//         this.button.addEventListener("click", this.swapCard.bind(this));
-//     }
-
-//     loadCurrentCard() {
-//         console.log(this.container);
-//         console.log(this.container.innerHTML);
-//     }
-
-//     async getNewCard() {
-//         this.newCard = await this.deck.draw(1);
-//         return this.newCard;
-//     }
-
-//     swapCard() {
-//         this.cardContainer.innerHTML = "";
-//         this.cardContainer.appendChild(this.newCard.getImgElement());
-//     }
-// }
-=======
 // DEV TESTING SECTION
->>>>>>> 9e5c8037a9fa50f67fa64b88d505a0c037b08bc2
 
 //let test = new Swap();

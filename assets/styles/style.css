@@ -13,7 +13,6 @@ h3 {
 ul,
 li {
   list-style: none;
-  padding: 0;
   margin: 0;
 }
 
@@ -85,7 +84,7 @@ footer a {
 .flipping-cards .wrapper span {
   display: block;
   width: 200px;
-  height: 250px;
+  height: 300px;
   position: absolute;
   top: 0;
   left: 0;
@@ -207,6 +206,7 @@ input[type="checkbox"] {
   cursor: pointer;
   transition: 100ms linear;
   animation: 2s pulse linear 2 paused;
+  margin-top: 50px;
 
   box-shadow:
     0 0 .6em var(--neon-clr),
