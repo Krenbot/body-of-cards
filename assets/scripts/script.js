@@ -617,6 +617,7 @@ document.getElementById("rulesBtn").addEventListener("click",
 
 // Represent an HTML container with html children
 class Container {
+    // Private Class Properties
     #deck;
     
     // The containerElement contains all Card Container classes
@@ -647,7 +648,7 @@ class Container {
         cards = await deck.draw(numCards);
 
         for (let i = 0; i < numCards; i++) {
-            loadBool.push(await this.cardContainers[i].loadCard(cards[i]));
+            loadBool.push(await this.cardContainers[i].loadCard(cards[i])); // TODO: What was the plan with this/
         }
     }
 
@@ -679,7 +680,7 @@ class CardContainer {
     }
     
     swapContents() {
-
+        // TODO: Implement the loadCard method
     }
 
     async #loadExercise() {
