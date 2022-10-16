@@ -5,10 +5,6 @@
   /* word-wrap: break-word */
 }
 
-h1{
-
-}
-
 h3{
 font-size: x-large;
 text-align: left;
@@ -237,13 +233,11 @@ input[type="checkbox"] {
 }
 
 @keyframes pulse {
-
   0%,
   50%,
   100% {
     transform: scale(1);
   }
-
   25%,
   75% {
     transform: scale(1.12);
