@@ -283,6 +283,7 @@ var timerStatus = "new";
 var interval;
 var pastWorkouts = []
 console.log(moment().format("L LT"))
+var pastWorkoutEl = document.querySelector(".modal-card-body")
 // make a past workout object to store in local storage
 function storeExcerciseNames() {
     var excerciseList = []
@@ -298,8 +299,30 @@ function storeExcerciseNames() {
     pastWorkouts.push(workoutData)
     console.log(pastWorkouts)
     console.log(workoutData)
+    updatePastWorkouts(workoutData)
 }
-console.log(excerciseNameText.length)
+
+function updatePastWorkouts(workoutData){
+    var accordianBtn = document.createElement("button");
+    accordianBtn.setAttribute("class", "accordion");
+    accordianBtn.innerText = workoutData.date
+    pastWorkoutEl.appendChild(accordianBtn)
+
+    var panelEl = document.createElement("div");
+    panelEl.setAttribute("class", "panel");
+    pastWorkoutEl.appendChild(panelEl)
+
+    var dataList = document.createElement("ul");
+    panelEl.appendChild(dataList)
+
+    var lifts = document.createElement("li")
+    lifts.innerText = workoutData.excercises;
+    dataList.appendChild(lifts);
+
+    var timeToComplete = document.createElement("li");
+    timeToComplete.innerText = workoutData.timerStatus + "seconds"
+    dataList.appendChild(timeToComplete);
+}
 /* FUNCTION DECLARATION */
 function startTimer() {
     var timerCount;
