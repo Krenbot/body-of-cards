@@ -97,7 +97,7 @@ class Card {
 // Deck of Cards Class used as a wrapper for the Deck of Cards API.
 class DeckOfCards {
     constructor(number = 1) {
-        this.baseURL = new URL("https://deckofcardsapi.com/api/deck/");
+        this.baseURL = this.resetURL();
         this.id = "";
         this.shuffled = "";
         this.remaining = "";
@@ -108,18 +108,23 @@ class DeckOfCards {
         this.baseURL = new URL("https://deckofcardsapi.com/api/deck/");
     }
 
-    async shuffle() {
-        // TODO: Implement functionality for multiple decks
+    async shuffle(remaining = true) {
         this.resetURL();
         let result;
 
+        // Check if a deck has been created. If not, create it on the API fetch
         if (this.id === "") {
             this.baseURL.pathname += "new/shuffle/"
-            this.baseURL.searchParams.append("deck_count", 1);
         } else {
             this.baseURL.pathname += (this.id + "/shuffle/");
         }
 
+        // Only shuffle cards that are still in the deck and have not been drawn
+        if (remaining) {
+            this.baseURL.searchParams.append("remaining", remaining);
+        }
+
+        this.baseURL.searchParams.append("deck_count", this.decks);
         result = await (await fetch(this.baseURL.href)).json();
         this.id = result.deck_id;
         this.shuffled = result.shuffled;
@@ -136,8 +141,8 @@ class DeckOfCards {
         } else {
             this.baseURL.pathname += (this.id + "/draw/");
         }
-        this.baseURL.searchParams.append("count", count);
 
+        this.baseURL.searchParams.append("count", count);
         result = await (await fetch(this.baseURL.href)).json();
         for (let i = 0; i < result.cards.length; i++) {
             let temp = new Card(result.cards[i].code,
@@ -148,8 +153,6 @@ class DeckOfCards {
         }
         this.id = result.deck_id;
         this.remaining = result.remaining;
-        //localStorage.setItem("draw-latest", JSON.stringify(cards));
-
         return cards;
     }
 
@@ -169,13 +172,24 @@ class DeckOfCards {
             this.baseURL.searchParams.append("jokers_enabled", "true");
         }
 
+        this.baseURL.searchParams.append("deck_count", this.decks);
         result = await (await fetch(this.baseURL.href)).json();
         this.id = result.deck_id;
         this.shuffled = result.shuffled;
         this.remaining = result.remaining;
     }
 
-    returnCardToDeck() {
+    // Takes an array of cards to return
+    returnCardsToDeck(cardsToReturn) {
+        if (!(cardsToReturn instanceof Array)) {
+            cardsToReturn = [cardsToReturn];
+        }
+        this.resetURL();
+        this.baseURL.pathname += (this.id + "/return");
+
+        this.baseURL.searchParams.append("cards", cardsToReturn);
+        console.log(this.baseURL);
+
         // TODO: Implement method for returning cards to the deck API. NOT needed for the MVP
         // TODO: Connect with the swap button method. Whenever swapping cards, that card needs to return to the desk to be reused.
     }
@@ -504,6 +518,9 @@ class CardContainer {
     }
 
     async loadCard(card) {
+        if (this.card.images) {
+            this.parent.getDeck().returnCardsToDeck(this.card);
+        }
         this.card = card;
         this.cardImage.innerHTML = "";
         this.cardImage.appendChild(card.getImgElement());
