@@ -8,6 +8,7 @@
 h3 {
   font-size: x-large;
   text-align: left;
+
 }
 
 ul,
@@ -189,6 +190,8 @@ input[type="checkbox"] {
 }
 
 
+/* Swap Button CSS - https://codepen.io/geekvie/pen/QWgVQpv */
+
 :root {
   --neon-clr: rgb(53, 101, 77);
 }
@@ -206,7 +209,9 @@ input[type="checkbox"] {
   cursor: pointer;
   transition: 100ms linear;
   animation: 2s pulse linear 2 paused;
+
   margin-top: 50px;
+
 
   box-shadow:
     0 0 .6em var(--neon-clr),
@@ -239,7 +244,6 @@ input[type="checkbox"] {
   100% {
     transform: scale(1);
   }
-
   25%,
   75% {
     transform: scale(1.12);
