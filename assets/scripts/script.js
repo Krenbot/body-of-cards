@@ -195,6 +195,8 @@ class Exercise {
         this.#exerciseElement = "";
     }
 
+    // Static Class Properties
+
     // Key below is provided by James Perry (PBP66) on https://rapidapi.com/
     // Must access by invoking the class instance, not the object instance
     static fetchOptions = {
@@ -219,8 +221,7 @@ class Exercise {
         "abductors", "teres major", "brachioradialis", "serratus anterior", 
         "sartorius", "finger flexors", "finger extensors"];
 
-    // Object to convert from suit to a list of associated muscles
-    // TODO: Best practice to have these as class properties or remove static so they are referenced by the instance?
+    // Object to convert from suit to a list of associated muscles (ARMS, CHEST, LEGS, BACK)
     static suitToMuscles = {
         "CLUBS": ["biceps", "deltoid", "brachioradialis", "finger extensors", "finger flexors", "triceps"],
         "DIAMONDS": ["pectoralis major", "abdominals", "serratus anterior", "external oblique", "teres major"],
@@ -235,6 +236,7 @@ class Exercise {
         "HEARTS": "BACK"
     };
 
+    // Object Methods
     resetURL() {
         this.baseURL = new URL("https://exerciseapi3.p.rapidapi.com/search/");
     }
@@ -271,6 +273,7 @@ class Exercise {
         let exercises = [];
         this.resetURL();
 
+        // Depending on the muscle chosen, some only exist as secondary muscles on the API
         if (Exercise.secondaryMuscles.includes(value)) {
             apiMethod = "secondaryMuscle";
         }
@@ -293,17 +296,6 @@ class Exercise {
 
         this.baseURL.searchParams.append(apiMethod, value);
         exercises = await (await fetch(this.baseURL.href, Exercise.fetchOptions)).json();
-
-        // Depending on the muscle chosen, some only exist as secondary muscles on the API
-        // TODO: Check which muscles are causing an infinite loop?
-        if (exercises.length === 0) {
-            console.log("Bad muscle value: " + value);
-            if (this.#fetchCount > 2) {
-                return;
-            }
-            this.#fetchCount++;
-            return this.getExercisesBySecondaryMuscle(value);
-        }
 
         exercises = Exercise.#convertFetchResponseToObjects(exercises);
         for (let i = 0; i < exercises.length; i++) {
@@ -358,6 +350,7 @@ class Exercise {
         return Exercise.suitToExerciseType[key];
     }
 
+    // Private Class Methods
     // TODO: Comment method below to explain its purpose and summarize its flow
     static #convertAPIObject(apiObject) {
         let properties = Object.keys(apiObject);
@@ -480,7 +473,7 @@ class Container {
         cards = await this.#deck.draw(numCards);
 
         for (let i = 0; i < numCards; i++) {
-            loadBool.push(await this.cardContainers[i].loadCard(cards[i])); // TODO: What was the plan with this/
+            loadBool.push(await this.cardContainers[i].loadCard(cards[i])); // TODO: What was the plan with this?
         }
     }
 
