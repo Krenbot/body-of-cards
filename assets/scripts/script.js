@@ -3,18 +3,24 @@
 class Card {
     // Private Class Properties
     #imgElement;
-    #codeToValue = { // TODO: Need to add joker
+    
+    // Jokers are represented as X
+    #codeToValue = {
         "J": "JACK",
         "Q": "QUEEN",
         "K": "KING",
         "A": "ACE",
+        "X": "JOKER"
     };
-
+    
+    // Jokers will be either 1 for the black suit or 2 for the red suit
     #codeToSuit = {
         "C": "CLUBS",
         "D": "DIAMONDS",
         "S": "SPADES",
-        "H": "HEARTS"
+        "H": "HEARTS",
+        "1": "BLACK",
+        "2": "RED"
     };
 
     // Constructor Definition
