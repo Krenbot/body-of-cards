@@ -677,18 +677,16 @@ for (let i = 0; i < acc.length; i++) {
 
 /* MAIN CODE EXECUTION AREA */
 function main() {
-    // On page load, set the cards and exercises.
     let exerciseDeck = new DeckOfCards();
     let timer = new Timer(); // Automatically generates an event listener on page load through class initialization
-    let flippingCards = document.getElementsByClassName("flipping-cards")[0];
-    let workoutContainer = new Container(flippingCards);
-    workoutContainer.setDeck(exerciseDeck);
+    let workout = new Container(document.getElementsByClassName("flipping-cards")[0]);
+    workout.setDeck(exerciseDeck);
+
+    // On page load, set the cards and exercises.
+    workout.loadCards();
 
     // Add event listeners
-    //document.getElementById("rulesBtn").addEventListener("click", rulesButtonFunction);
-
-    // FOR TESTING PURPOSES
-    document.getElementById("rulesBtn").addEventListener("click", () => workoutContainer.loadCards());
+    document.getElementById("rulesBtn").addEventListener("click", rulesButtonFunction);
 
     //TODO: User cannot flip cards until all cards have been loaded!
 }
