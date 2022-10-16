@@ -281,12 +281,23 @@ var startBtn = document.getElementById("timerStart");
 var excerciseNameText = document.querySelectorAll("a")
 var timerStatus = "new";
 var interval;
-var pastExcercises = []
-
+var pastWorkouts = []
+console.log(moment().format("L LT"))
+// make a past workout object to store in local storage
 function storeExcerciseNames() {
-    for (var i = 0; i < excerciseNameText.length; i++) {
-        pastExcercises.push(excerciseNameText[i].innerText)
+    var excerciseList = []
+    var currentDate = moment().format("L LT")
+    var workoutData = {
+        date: currentDate,
+        excercises: excerciseList,
+        timerStatus: timerText.innerHTML,
     }
+    for (var i = 0; i < excerciseNameText.length; i++) {
+        excerciseList.push(excerciseNameText[i].innerText)
+    }
+    pastWorkouts.push(workoutData)
+    console.log(pastWorkouts)
+    console.log(workoutData)
 }
 console.log(excerciseNameText.length)
 /* FUNCTION DECLARATION */
@@ -298,10 +309,7 @@ function startTimer() {
         timerText.innerHTML = 0;
         timerStatus = "running";
         startBtn.innerHTML = "Stop";
-        
-        storeExcerciseNames();
-
-        localStorage.setItem("excercises", pastExcercises)
+    
 
         interval = setInterval(function () {
             timerCount++;
@@ -315,6 +323,8 @@ function startTimer() {
         startBtn.innerHTML = "Reset";
         clearInterval(interval);
         interval = null;
+        storeExcerciseNames();
+        localStorage.setItem("workouts", JSON.stringify(pastWorkouts));
     } else if (timerStatus === "stopped") {
         timerStatus = "new";
         startBtn.innerHTML = "Start Timer";
