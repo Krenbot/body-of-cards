@@ -178,9 +178,11 @@ class DeckOfCards {
 };
 
 class Exercise {
-
+    //Private Class Properties
     #fetchCount = 0;
+    #exerciseElement;
 
+    // Constructor Definition
     constructor() {
         this.baseURL = new URL("https://exerciseapi3.p.rapidapi.com/search/");
         this.force = "";
@@ -190,6 +192,8 @@ class Exercise {
         this.type = "";
         this.workoutType = [];
         this.video = null;
+
+        this.#exerciseElement = "";
     }
 
     // Key below is provided by James Perry (PBP66) on https://rapidapi.com/
@@ -232,9 +236,24 @@ class Exercise {
         this.baseURL = new URL("https://exerciseapi3.p.rapidapi.com/search/");
     }
 
-    getMuscle(suit) {
-        let index = randomInt(Exercise.suitToMuscles[suit].length);
-        return Exercise.suitToMuscles[suit][index];
+    createExerciseElement() {
+        let element = document.createElement("a");
+        if (this.video == null) {
+            element.href = "#";
+        } else {
+            element.href = this.video;
+        }
+        element.innerText = this.name;
+        element.id = removeSpacesFromString(this.name);
+        element.classList.add()
+        this.#exerciseElement = element;
+    }
+
+    getExerciseElement() {
+        if (this.#exerciseElement === "") {
+            this.createExerciseElement();
+        }
+        return this.#exerciseElement;
     }
 
     async getAllMuscles() {
@@ -296,6 +315,35 @@ class Exercise {
 
     async getExercisesBySecondaryMuscle(sMuscle) {
         return await this.getExercises("secondaryMuscle", sMuscle);
+    }
+
+    async getExerciseByNames(exercises) {
+        response = [];
+        for (let i = 0; i < exercises.length; i++) {
+            response.push(await this.getExercises("name", exercises[i]));
+        }
+        return response;
+    }
+
+    async getExercisesByPrimaryMuscles(pMuscles) {
+        response = [];
+        for (let i = 0; i < pMuscles.length; i++) {
+            response.push(await this.getExercises("primaryMuscle", pMuscles[i]));
+        }
+        return response;
+    }
+
+    async getExercisesBySecondaryMuscles(sMuscles) {
+        response = [];
+        for (let i = 0; i < sMuscles.length; i++) {
+            response.push(await this.getExercises("primaryMuscle", sMuscles[i]));
+        }
+        return response;
+    }
+
+    static getMuscle(key) {
+        let index = randomInt(Exercise.suitToMuscles[key].length);
+        return Exercise.suitToMuscles[key][index];
     }
 
     // TODO: Comment method below to explain its purpose and summarize its flow
@@ -569,12 +617,37 @@ document.getElementById("rulesBtn").addEventListener("click",
 
 // Represent an HTML container with html children
 class Container {
+    #deck;
+    
     // The containerElement contains all Card Container classes
     constructor(containerElement) {
         this.container = containerElement;
         this.cardContainers = this.container.getElementsByClassName("card");
         for (let i = 0; i < this.cardContainers.length; i++) {
-            this.cardContainers[i] = new CardContainer(this.cardContainers[i]);
+            this.cardContainers[i] = new CardContainer(this.cardContainers[i], this);
+        }
+    }
+
+    setDeck(deck) {
+        this.#deck = deck;
+    }
+
+    getDeck() {
+        return this.#deck;
+    }
+
+    async loadCards() {
+        let numCards = this.cardContainers.length;
+        let cards;
+        let loadBool = [];
+    
+        if (!(this.#deck)) {
+            this.#deck = new DeckOfCards();
+        }
+        cards = await deck.draw(numCards);
+
+        for (let i = 0; i < numCards; i++) {
+            loadBool.push(await this.cardContainers[i].loadCard(cards[i]));
         }
     }
 
@@ -583,20 +656,45 @@ class Container {
 
 // Container for each card which contains a playing card, exercise content, and a footer
 class CardContainer {
-    constructor(containerElement) {
+    constructor(containerElement, parent) {
+        this.container = containerElement; // Container HTML
+        this.parent = parent; // Parent Container HTML
         this.id = containerElement.id; // id=card-#
-        this.cardHTML= containerElement.children[0]; // class=card-image
-        this.contentHTML = containerElement.children[1]; // class=card-content
+        // TODO: Change to DOM getElements methods by searching either class or id
+        this.cardImage = containerElement.children[0]; // class=card-image
+        this.cardContent = containerElement.children[1]; // class=card-content
+        this.footer = parent.container.getElementsByClassName("card-footer")[0]; // Only one footer per card
 
         this.card = new Card(this.cardElement.id, this.cardElement.src);
         this.exercise = new Exercise(); // Empty placeholder exercise until one can be fetched
-        this.cardContent; // Contains the exercise information
 
         this.swap; //this.swap = new Swap();
     }
 
+    async loadCard(card) {
+        this.card = card;
+        this.cardImage.innerHTML = "";
+        this.cardImage.appendChild(card.getImgElement());
+        return await this.#loadExercise();
+    }
+    
     swapContents() {
 
+    }
+
+    async #loadExercise() {
+        let muscle = Exercise.getMuscle(this.card.suit);
+        let exerciseType = Exercise.suitToExerciseType(this.card.suit);
+        let exerciseList = await this.exercise.getExercisesByPrimaryMuscle(muscle);
+        Object.assign(this.exercise, exerciseList[randomInt(exerciseList.length)]);
+
+        // Update Exercise Information in DOM
+        this.cardContent.children[0].innerText = "";  // TODO: Change to DOM getElements methods by searching either class or id
+        this.cardContent.appendChild(this.exercise.getExerciseElement());
+        this.cardContent.children[0].classList.add(exerciseType); // TODO: Move to line above? Might make it hard to read...
+        this.cardContent.children[1].innerText = exerciseType;
+
+        return true;
     }
 };
 
