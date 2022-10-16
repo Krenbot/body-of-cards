@@ -493,7 +493,9 @@ class Container {
     async loadCards() {
         let numCards = this.cardContainers.length;
         let cards;
-        let loadBool = [];
+        //let loadBool = [];
+        let footers = this.container.getElementsByClassName("card-footer");
+        let swapButtons = this.container.getElementsByClassName("bulma-control-mixin");
     
         if (!(this.#deck)) {
             this.#deck = new DeckOfCards();
@@ -501,7 +503,9 @@ class Container {
         cards = await this.#deck.draw(numCards);
 
         for (let i = 0; i < numCards; i++) {
-            loadBool.push(await this.cardContainers[i].loadCard(cards[i])); // TODO: What was the plan with this?
+            await this.cardContainers[i].loadCard(cards[i]);
+            this.cardContainers[i].setFooter(footers[i]);
+            this.cardContainers[i].setSwapButton(swapButtons[i]);
         }
     }
 
@@ -510,6 +514,10 @@ class Container {
 
 // Container for each card which contains a playing card, exercise content, and a footer
 class CardContainer {
+    // Private Object Properties
+    #swapButton;
+    #footer;
+    
     constructor(containerElement, parentObj) {
         this.container = containerElement; // Container HTML
         this.parent = parentObj; // Parent = Container Object
@@ -517,13 +525,27 @@ class CardContainer {
 
         this.cardImage = containerElement.getElementsByClassName("card-image")[0];
         this.cardContent = containerElement.getElementsByClassName("card-content")[0];
-        this.footer = parentObj.container.getElementsByClassName("card-footer")[0];
-        this.swapButton = this.footer.getElementsByClassName("bulma-control-mixin")[0];
 
         this.card = new Card(this.cardImage.id, this.cardImage.src);
         this.exercise = new Exercise();
-        this.swap = this.swapButton.addEventListener("click", this.swapContents.bind(this));
         }
+
+    setFooter(element) {
+        this.#footer = element;
+    }
+
+    getFooter() {
+        return this.#footer;
+    }
+
+    setSwapButton(element) {
+        this.#swapButton = element
+        this.#swapButton.addEventListener("click", this.swapContents.bind(this));
+    }
+
+    getSwapButton() {
+        return this.#swapButton;
+    }
 
     async loadCard(card) {
         if (this.card.images) {
@@ -536,7 +558,6 @@ class CardContainer {
     }
     
     async swapContents() {
-        // TODO: Implement the loadCard method
         let deck = this.parent.getDeck();
         this.loadCard((await deck.draw(1))[0]);
     }
@@ -550,7 +571,7 @@ class CardContainer {
         // TODO: Change to DOM getElements methods by searching either class or id
         // Update Exercise Information in DOM
         this.cardContent.children[0].innerText = "";  
-        this.cardContent.appendChild(this.exercise.getExerciseElement());
+        this.cardContent.children[0].appendChild(this.exercise.getExerciseElement());
         this.cardContent.children[0].classList.add(exerciseType);
         this.cardContent.children[1].innerText = exerciseType;
 
