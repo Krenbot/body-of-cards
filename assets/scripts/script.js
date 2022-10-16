@@ -466,7 +466,7 @@ class Timer {
 }
 
 // Represent an HTML container with html children
-class Container {
+class Container { // TODO: Consider renaming to HandOfCards?
     // Private Class Properties
     #deck;
     
@@ -511,7 +511,7 @@ class Container {
 };
 
 // Container for each card which contains a playing card, exercise content, and a footer
-class CardContainer {
+class CardContainer { // TODO: Refactor to remove swap to Class Container
     // Private Object Properties
     #swapButton;
     #footer;
@@ -545,6 +545,7 @@ class CardContainer {
         return this.#swapButton;
     }
 
+    // TODO: Create DeckOfCards pile and add this card to a pile for tracking
     async loadCard(card) {
         if (this.card.images) {
             await this.parent.getDeck().returnCardsToDeck(this.card);
