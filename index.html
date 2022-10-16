@@ -14,27 +14,15 @@
 
 <body>
 
-    <!-- Start/Previous Buttons -->
     <div class="box" id="title">
         <div>
             <h1>Body of Cards:</h1>
             <h3>A Playing Card Workout Generator</h3>
         </div>
     </div>
-
-    <!-- Start Timer/Previous Workout Buttons -->
-    <div class="box">
-        <button id="timerStart" class="button is-black">Start Timer</button>
-        <p id="timerText"></p>
-        <!--Modal Button-->
-        <button id='workouts' class="js-modal-trigger button is-black" data-target="highScoreModal">
-            Previous Workouts
-        </button>
-    </div>
-
-    <!-- Shown Card HTML -->
     <p class='explain'>Click Card to Flip</p>
 
+    <!-- Shown Card HTML -->
     <ul class="flipping-cards">
         <!-- Front of Card -->
         <li>
@@ -42,7 +30,6 @@
             <label for="item1">
                 <span class="wrapper">
                     <span class="image">
-                        <!-- Opening Div for Entire Card? -->
                         <div class="card">
                             <div class="card-image px-6">
                                 <img src="https://deckofcardsapi.com/static/img/5S.png" alt="Placeholder image" id="0">
@@ -62,7 +49,7 @@
             <footer class="card-footer">
                 <p class="card-footer-item is-left">
                     <button class="neon-btn ulma-control-mixin" id="swap-1">
-                        SWAP CARDS
+                        SWAP CARD
                     </button>
                 </p>
             </footer>
@@ -78,7 +65,7 @@
                                 <img src="https://deckofcardsapi.com/static/img/6H.png" alt="Placeholder image" id="1">
                             </div>
                             <div class="card-content mt-4">
-                                <p class='title is-size-4 has-text-centered'><a href=''>SIDE HOPS</a></p>
+                                <p class='title is-size-4 has-text-centered'><a href=''></a></p>
                                 <p class="has-text-centered">LEGS</p>
                             </div>
                         </div>
@@ -89,7 +76,7 @@
             <footer class="card-footer">
                 <p class="card-footer-item is-left">
                     <button class="neon-btn bulma-control-mixin" id='swap-2'>
-                        SWAP CARDS
+                        SWAP CARD
                     </button>
                 </p>
             </footer>
@@ -105,7 +92,7 @@
                                 <img src="https://deckofcardsapi.com/static/img/KD.png" alt="Placeholder image" id="2">
                             </div>
                             <div class="card-content mt-4">
-                                <p class='title is-size-4 has-text-centered'><a href=''>SHADOW BOX </a></p>
+                                <p class='title is-size-4 has-text-centered'><a href=''></a></p>
                                 <p class="has-text-centered">ARMS</p>
                             </div>
                         </div>
@@ -116,7 +103,7 @@
             <footer class="card-footer">
                 <p class="card-footer-item is-left">
                     <button class="neon-btn bulma-control-mixin" id="swap-3">
-                        SWAP CARDS
+                        SWAP CARD
                     </button>
                 </p>
             </footer>
@@ -132,8 +119,8 @@
                                 <img src="https://deckofcardsapi.com/static/img/0C.png" alt="Placeholder image" id="3">
                             </div>
                             <div class="card-content mt-4">
-                                <p class='title is-size-4 has-text-centered'><a href=''>JUMP ROPE</a></p>
-                                <p class="has-text-centered">LEGS</p>
+                                <p class='title is-size-4 has-text-centered'><a href=''></a></p>
+                                <p class="has-text-centered"></p>
                             </div>
                         </div>
                     </span>
@@ -143,7 +130,7 @@
             <footer class="card-footer">
                 <p class="card-footer-item is-left">
                     <button class="neon-btn ulma-control-mixin" id="swap-4">
-                        SWAP CARDS
+                        SWAP CARD
                     </button>
                 </p>
             </footer>
@@ -159,8 +146,8 @@
                                 <img src="https://deckofcardsapi.com/static/img/9C.png" alt="Placeholder image" id="4">
                             </div>
                             <div class="card-content mt-4">
-                                <p class='title is-size-4 has-text-centered'><a href=''>SIT-UPS</a></p>
-                                <p class="has-text-centered">CORE</p>
+                                <p class='title is-size-4 has-text-centered'><a href=''></a></p>
+                                <p class="has-text-centered"></p>
                             </div>
                         </div>
                     </span>
@@ -170,14 +157,22 @@
             <footer class="card-footer">
                 <p class="card-footer-item is-left">
                     <button class="neon-btn ulma-control-mixin" id="swap-5">
-                        SWAP CARDS
+                        SWAP CARD
                     </button>
                 </p>
             </footer>
         </li>
     </ul>
 
-    <!-- <button class="neon-btn">Swap Card</button> -->
+    <!-- Start Timer/Previous Workout Buttons -->
+    <div class="box">
+        <button id="timerStart" class="button is-black">Start Timer</button>
+        <p id="timerText"></p>
+        <!--Modal Button-->
+        <button id='workouts' class="js-modal-trigger button is-black" data-target="highScoreModal">
+            Previous Workouts
+        </button>
+    </div>
 
     <!--Modal HTML-->
     <div id="highScoreModal" class="modal">
