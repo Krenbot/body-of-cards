@@ -527,7 +527,7 @@ class CardContainer {
         this.cardContent = containerElement.getElementsByClassName("card-content")[0];
 
         this.card = new Card(this.cardImage.id, this.cardImage.src);
-        this.exercise = new Exercise();
+        this.exercise;
         }
 
     setFooter(element) {
@@ -549,20 +549,22 @@ class CardContainer {
 
     async loadCard(card) {
         if (this.card.images) {
-            this.parent.getDeck().returnCardsToDeck(this.card);
+            await this.parent.getDeck().returnCardsToDeck(this.card);
         }
         this.card = card;
         this.cardImage.innerHTML = "";
-        this.cardImage.appendChild(card.getImgElement());
-        return await this.#loadExercise();
+        this.cardImage.appendChild(this.card.getImgElement());
+        await this.#loadExercise();
     }
     
     async swapContents() {
         let deck = this.parent.getDeck();
-        this.loadCard((await deck.draw(1))[0]);
+        let draw = (await deck.draw(1))[0];
+        this.loadCard(draw);
     }
 
     async #loadExercise() {
+        this.exercise = new Exercise();
         let muscle = Exercise.getMuscle(this.card.suit);
         let exerciseType = Exercise.getExerciseType(this.card.suit);
         let exerciseList = await this.exercise.getExercisesByPrimaryMuscle(muscle);
@@ -597,33 +599,6 @@ function removeSpacesFromString(stringInput) {
     }
     return newWords.join("-");
 }
-
-// async function swapCards(deck, id) {
-//     let draw;
-//     let cardExercise;
-//     let muscle;
-//     let listOfExercises;
-
-//     let exerciseHTMLElement = exerciseContentContainers[id].children[0].children[0];
-
-//     draw = (await deck.draw(1))[0];
-//     cardContainers[id].innerHTML = "";
-//     cardContainers[id].appendChild(draw.getImgElement());
-
-//     cardExercise = new Exercise();
-//     muscle = Exercise.getMuscle(draw.suit);
-//     listOfExercises = await cardExercise.getExercisesByPrimaryMuscle(muscle);
-//     Object.assign(cardExercise, listOfExercises[randomInt(listOfExercises.length)]);
-
-//     // Update Exercise Information in DOM
-//     exerciseHTMLElement.innerText = cardExercise.name;
-//     exerciseHTMLElement.href = cardExercise.video;
-//     exerciseHTMLElement.id = removeSpacesFromString(cardExercise.name);
-//     exerciseHTMLElement.classList.add(Exercise.suitToExerciseType[draw.suit]);
-
-//     exerciseContentContainers[id].children[1].innerText =
-//         Exercise.suitToExerciseType[draw.suit];
-// }
 
 function rulesButtonFunction() {
     document.getElementById("rulesModal").setAttribute("class",
@@ -702,9 +677,6 @@ for (let i = 0; i < acc.length; i++) {
 
 /* MAIN CODE EXECUTION AREA */
 function main() {
-    // TODO: Below variables are global variables. Can they be wrapped into a class or function?
-
-
     // On page load, set the cards and exercises.
     let exerciseDeck = new DeckOfCards();
     let timer = new Timer(); // Automatically generates an event listener on page load through class initialization
@@ -720,17 +692,6 @@ function main() {
 
     //TODO: User cannot flip cards until all cards have been loaded!
 }
-// let cardContainers = document.getElementsByClassName("card-image");
-// let exerciseContentContainers = document.getElementsByClassName("card-content");
-// let swapButtons = document.getElementsByClassName(".bulma-control-mixin");
-
-// let exerciseDeck = new DeckOfCards();
-
-// for (let i = 0; i < swapButtons.length; i++) {
-//     swapButtons[i].addEventListener("click", async (event) => {
-//         swapCards(exerciseDeck, (event.target.id.split("-")[1]) - 1);
-//     });
-// }
 
 main();
 
