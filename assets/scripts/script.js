@@ -514,6 +514,8 @@ class CardContainer { // TODO: Refactor to remove swap to Class Container
     // Private Object Properties
     #swapButton;
     #footer;
+    #swappedCount = -1;
+    #swapLimit = 1;
     
     constructor(containerElement, parentObj) {
         this.container = containerElement; // Container HTML
@@ -526,6 +528,10 @@ class CardContainer { // TODO: Refactor to remove swap to Class Container
         this.card = new Card(this.cardImage.id, this.cardImage.src);
         this.exercise;
         }
+
+    setSwapLimit(count = 1) {
+        this.#swapLimit = count;
+    }
 
     setFooter(element) {
         this.#footer = element;
@@ -556,9 +562,15 @@ class CardContainer { // TODO: Refactor to remove swap to Class Container
     }
     
     async swapContents() {
-        let deck = this.parent.getDeck();
-        let draw = (await deck.draw(1))[0];
-        this.loadCard(draw);
+        this.#swappedCount++;
+        if (this.#swappedCount >= this.#swapLimit) {
+            this.#swapButton.onClick = "";
+        } else {
+            let deck = this.parent.getDeck();
+            let draw = (await deck.draw(1))[0];
+            this.loadCard(draw);
+        }
+        console.log("Called swapContents Event Listener");
     }
 
     async #loadExercise() {
