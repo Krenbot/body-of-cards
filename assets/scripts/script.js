@@ -478,6 +478,8 @@ class Container { // TODO: Consider renaming to HandOfCards?
         this.cardContainers = [];
         let containerElements = this.container.getElementsByClassName("card");
         for (let i = 0; i < containerElements.length; i++) {
+            //added test STEVE
+            console.log(new CardContainer(containerElements[i], this))
             this.cardContainers.push(new CardContainer(containerElements[i], this));
         }
     }
@@ -518,6 +520,9 @@ class CardContainer { // TODO: Refactor to remove swap to Class Container
     #swapButton;
     #footer;
     
+    //added test STEVE
+    disabled=false
+    
     constructor(containerElement, parentObj) {
         this.container = containerElement; // Container HTML
         this.parent = parentObj; // Parent = Container Object
@@ -540,7 +545,13 @@ class CardContainer { // TODO: Refactor to remove swap to Class Container
 
     setSwapButton(element) {
         this.#swapButton = element
-        this.#swapButton.addEventListener("click", this.swapContents.bind(this));
+        var self = this
+        this.#swapButton.addEventListener("click", function(e){
+            //added test STEVE
+            e.target.remove()
+            console.log(e.target)
+            self.swapContents(self)
+        });
     }
 
     getSwapButton() {
@@ -558,10 +569,11 @@ class CardContainer { // TODO: Refactor to remove swap to Class Container
         await this.#loadExercise();
     }
     
-    async swapContents() {
-        let deck = this.parent.getDeck();
+    async swapContents(self) {
+        //added test STEVE
+        let deck = self.parent.getDeck();
         let draw = (await deck.draw(1))[0];
-        this.loadCard(draw);
+        self.loadCard(draw);
     }
 
     async #loadExercise() {
