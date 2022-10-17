@@ -585,12 +585,12 @@ class CardContainer { // TODO: Refactor to remove swap to Class Container
 /* VARIABLE DECLARATION */
 var timerText = document.getElementById("timerText");
 var startBtn = document.getElementById("timerStart");
-var excerciseNameText = document.querySelectorAll("a");
 var pastWorkouts = (JSON.parse(localStorage.getItem("workouts")) || []);
 var pastWorkoutEl = document.querySelector(".modal-card-body");
 
 // make a past workout object to store in local storage
 function storeExcerciseNames(timerText) {
+    var excerciseNameText = document.querySelectorAll("a");
     var excerciseList = []
     var currentDate = moment().format("L LT")
     var workoutData = {
@@ -643,7 +643,11 @@ function updatePastWorkouts(workoutData) {
 }
 
 function renderPastWorkouts(){
-    var loadedWorkouts = localStorage.getItem("workouts")
+    var loadedWorkouts = localStorage.getItem("workouts");
+
+    if (loadedWorkouts === null) {
+        return;
+    }
 
     loadedWorkouts = JSON.parse(loadedWorkouts);
 
@@ -685,7 +689,6 @@ function renderPastWorkouts(){
     }
     // activateAccordion();
 }
-
 
 /* FUNCTION DECLARATIONS */
 function capitalizeEachWord(stringInput) {
@@ -803,13 +806,14 @@ function rulesButtonFunction() {
 }
 
 window.onload = renderPastWorkouts();
-    // On page load, set the cards and exercises.
-    workout.loadCards();
 
-    // Add event listeners
-    document.getElementById("rulesBtn").addEventListener("click", rulesButtonFunction);
+// On page load, set the cards and exercises.
+workout.loadCards();
 
-    //TODO: User cannot flip cards until all cards have been loaded! Move javascript src file to top of index.html?
+// Add event listeners
+document.getElementById("rulesBtn").addEventListener("click", rulesButtonFunction);
+
+//TODO: User cannot flip cards until all cards have been loaded! Move javascript src file to top of index.html?
 }
 
 main();
