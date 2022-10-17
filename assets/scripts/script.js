@@ -320,7 +320,21 @@ function updatePastWorkouts(workoutData){
     var timeToComplete = document.createElement("li");
     timeToComplete.innerText = workoutData.timerStatus + " seconds"
     dataList.appendChild(timeToComplete);
-    activateAccordion();
+    //test
+    accordianBtn.addEventListener("click", function () {
+        /* Toggle between adding and removing the "active" class,
+        to highlight the button that controls the panel */
+            this.classList.toggle("active");
+            console.log(this.classList)
+        /* Toggle between hiding and showing the active panel */
+            var panel = this.nextElementSibling;
+            if (panel.style.display === "block") {
+            panel.style.display = "none";
+            } else {
+            panel.style.display = "block";
+            }
+    });
+    // activateAccordion();
 }
 
 function renderPastWorkouts(){
@@ -349,8 +363,22 @@ function renderPastWorkouts(){
         var newTimeToComplete = document.createElement("li");
         newTimeToComplete.innerText = loadedWorkouts[i].timerStatus + " seconds"
         newDataList.appendChild(newTimeToComplete);
+        //test
+        newAccordionBtn.addEventListener("click", function () {
+            /* Toggle between adding and removing the "active" class,
+            to highlight the button that controls the panel */
+                this.classList.toggle("active");
+                console.log(this.classList)
+            /* Toggle between hiding and showing the active panel */
+                var panel = this.nextElementSibling;
+                if (panel.style.display === "block") {
+                panel.style.display = "none";
+                } else {
+                panel.style.display = "block";
+                }
+        });
     }
-    activateAccordion();
+    // activateAccordion();
 }
 
 /* FUNCTION DECLARATION */
@@ -455,7 +483,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-function activateAccordion(){
+//function activateAccordion(){
     var acc = document.getElementsByClassName("accordion");
 
     for (var i = 0; i < acc.length; i++) {
@@ -463,7 +491,7 @@ function activateAccordion(){
         /* Toggle between adding and removing the "active" class,
         to highlight the button that controls the panel */
             this.classList.toggle("active");
-
+            console.log(this.classList)
         /* Toggle between hiding and showing the active panel */
             var panel = this.nextElementSibling;
             if (panel.style.display === "block") {
@@ -473,7 +501,7 @@ function activateAccordion(){
             }
         });
     }
-}
+//}
 
 document.getElementById("rulesBtn").addEventListener("click", rulesButtonFunction);
 
