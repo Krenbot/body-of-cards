@@ -6,73 +6,84 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="SWAP PLACEHOLDERport" content="width=device-width, initial-scale=1.0">
     <title>Body of Cards</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ultra">
     <link rel="stylesheet" href="./assets/styles/reset.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <link rel="stylesheet" href="./assets/styles/style.css">
 </head>
 
 <body>
-
-    <!-- Start/Previous Buttons -->
     <div class="box" id="title">
-        <div>Playing Card Workout Generator</div>
-    </div>
+        <div>
+            <h1>Body of Cards</h1>
+            <h3>A Playing Card Workout Generator</h3>
+        </div>
 
+        <!-- Rules Button -->
+        <button class="button" id="rulesBtn">Rules</button>
+        <div class="modal" id="rulesModal">
+            <div class="modal-background"></div>
+            <div class="modal-content">
+                <div class="box"><img src="assets/images/1_WR7pxaf-gT9Ui4x12AoY2A.png"></div>
+            </div>
+            <button class="modal-close is-large" aria-label="close"></button>
+        </div>
+    </div>
     <!-- Start Timer/Previous Workout Buttons -->
     <div class="box">
         <button id="timerStart" class="button is-black">Start Timer</button>
         <p id="timerText"></p>
         <!--Modal Button-->
-        <button class="js-modal-trigger button is-black" data-target="highScoreModal">
+        <button id='workouts' class="js-modal-trigger button is-black" data-target="highScoreModal">
             Previous Workouts
         </button>
     </div>
-
+    <p class='explain'>Click Card to Flip</p>
     <!-- Shown Card HTML -->
-    <p>Click Card to Flip</p>
-
     <ul class="flipping-cards">
-
+        <!-- Front of Card -->
         <li>
             <input type="checkbox" id="item1">
             <label for="item1">
                 <span class="wrapper">
                     <span class="image">
-                        <div class="card">
+                        <div class="card" id="card-1">
                             <div class="card-image px-6">
-                                <img src="https://deckofcardsapi.com/static/img/5S.png" alt="Placeholder image">
+                                <img src="https://deckofcardsapi.com/static/img/5S.png" alt="Placeholder image" id="0">
                             </div>
                             <div class="card-content mt-4">
-                                <p class='title is-size-4 has-text-centered'><a
-                                        href='https://en.wikipedia.org/wiki/Pull-up_(exercise)'>PUSH-UPS</a></p>
+                                <p class='title is-size-4 has-text-centered'>
+                                    <a href='https://en.wikipedia.org/wiki/Pull-up_(exercise)'>PUSH-UPS</a>
+                                </p>
                                 <p class="has-text-centered ">ARMS</p>
                             </div>
                         </div>
-
+                        <!-- Back of Card -->
                     </span>
                     <span class="back"></span>
                 </span>
             </label>
             <footer class="card-footer">
                 <p class="card-footer-item is-left">
-                    <button class="bulma-control-mixin">
-                        Swap Cards
+                    <button class="neon-btn bulma-control-mixin" id="swap-1">
+                        SWAP CARD
                     </button>
                 </p>
             </footer>
         </li>
-
         <li>
             <input type="checkbox" id="item2">
             <label for="item2">
                 <span class="wrapper">
                     <span class="image">
-                        <div class="card">
+                        <div class="card" id="card-2">
                             <div class="card-image px-6">
-                                <img src="https://deckofcardsapi.com/static/img/6H.png" alt="Placeholder image">
+                                <img src="https://deckofcardsapi.com/static/img/6H.png" alt="Placeholder image" id="1">
                             </div>
                             <div class="card-content mt-4">
-                                <p class='title is-size-4 has-text-centered'><a href=''>SIDE HOPS</a></p>
+                                <p class='title is-size-4 has-text-centered'>
+                                    <a href='#'>SIDE HOPS</a>
+                                </p>
                                 <p class="has-text-centered">LEGS</p>
                             </div>
                         </div>
@@ -82,24 +93,25 @@
             </label>
             <footer class="card-footer">
                 <p class="card-footer-item is-left">
-                    <button class="bulma-control-mixin">
-                        Swap Cards
+                    <button class="neon-btn bulma-control-mixin" id='swap-2'>
+                        SWAP CARD
                     </button>
                 </p>
             </footer>
         </li>
-
         <li>
             <input type="checkbox" id="item3">
             <label for="item3">
                 <span class="wrapper">
                     <span class="image">
-                        <div class="card">
+                        <div class="card" id="card-3">
                             <div class="card-image px-6">
-                                <img src="https://deckofcardsapi.com/static/img/KD.png" alt="Placeholder image">
+                                <img src="https://deckofcardsapi.com/static/img/KD.png" alt="Placeholder image" id="2">
                             </div>
                             <div class="card-content mt-4">
-                                <p class='title is-size-4 has-text-centered'><a href=''>SHADOW BOX </a></p>
+                                <p class='title is-size-4 has-text-centered'>
+                                    <a href='#'>SHADOW BOX</a>
+                                </p>
                                 <p class="has-text-centered">ARMS</p>
                             </div>
                         </div>
@@ -109,24 +121,25 @@
             </label>
             <footer class="card-footer">
                 <p class="card-footer-item is-left">
-                    <button class="bulma-control-mixin">
-                        Swap Cards
+                    <button class="neon-btn bulma-control-mixin" id="swap-3">
+                        SWAP CARD
                     </button>
                 </p>
             </footer>
         </li>
-
         <li>
             <input type="checkbox" id="item4">
             <label for="item4">
                 <span class="wrapper">
                     <span class="image">
-                        <div class="card">
+                        <div class="card" id="card-4">
                             <div class="card-image px-6">
-                                <img src="https://deckofcardsapi.com/static/img/0C.png" alt="Placeholder image">
+                                <img src="https://deckofcardsapi.com/static/img/0C.png" alt="Placeholder image" id="3">
                             </div>
                             <div class="card-content mt-4">
-                                <p class='title is-size-4 has-text-centered'><a href=''>JUMP ROPE</a></p>
+                                <p class='title is-size-4 has-text-centered'>
+                                    <a href='#'>JUMP ROPE</a>
+                                </p>
                                 <p class="has-text-centered">LEGS</p>
                             </div>
                         </div>
@@ -136,24 +149,25 @@
             </label>
             <footer class="card-footer">
                 <p class="card-footer-item is-left">
-                    <button class="bulma-control-mixin">
-                        Swap Cards
+                    <button class="neon-btn bulma-control-mixin" id="swap-4">
+                        SWAP CARD
                     </button>
                 </p>
             </footer>
         </li>
-
         <li>
             <input type="checkbox" id="item5">
             <label for="item5">
                 <span class="wrapper">
                     <span class="image">
-                        <div class="card">
+                        <div class="card" id="card-5">
                             <div class="card-image px-6">
-                                <img src="https://deckofcardsapi.com/static/img/9C.png" alt="Placeholder image">
+                                <img src="https://deckofcardsapi.com/static/img/9C.png" alt="Placeholder image" id="4">
                             </div>
                             <div class="card-content mt-4">
-                                <p class='title is-size-4 has-text-centered'><a href=''>SIT-UPS</a></p>
+                                <p class='title is-size-4 has-text-centered'>
+                                    <a href='#'>SIT-UPS</a>
+                                </p>
                                 <p class="has-text-centered">CORE</p>
                             </div>
                         </div>
@@ -163,8 +177,8 @@
             </label>
             <footer class="card-footer">
                 <p class="card-footer-item is-left">
-                    <button class="bulma-control-mixin">
-                        Swap Cards
+                    <button class="neon-btn bulma-control-mixin" id="swap-5">
+                        SWAP CARD
                     </button>
                 </p>
             </footer>
@@ -193,7 +207,6 @@
                         <li> Time to complete</li>
                     </ul>
                 </div>
-
                 <button class="accordion">Date 2</button>
                 <div class="panel">
                     <ul>
@@ -205,7 +218,6 @@
                         <li> Time to complete</li>
                     </ul>
                 </div>
-
                 <button class="accordion">Date 3</button>
                 <div class="panel">
                     <ul>
@@ -233,5 +245,4 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <script src="./assets/scripts/script.js"></script>
 </body>
-
 </html>
