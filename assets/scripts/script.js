@@ -281,7 +281,7 @@ var startBtn = document.getElementById("timerStart");
 var excerciseNameText = document.querySelectorAll("a")
 var timerStatus = "new";
 var interval;
-var pastWorkouts = []
+var pastWorkouts = JSON.parse(localStorage.getItem("workouts")) || []
 console.log(moment().format("L LT"))
 var pastWorkoutEl = document.querySelector(".modal-card-body")
 // make a past workout object to store in local storage
@@ -351,7 +351,6 @@ function renderPastWorkouts(){
         newDataList.appendChild(newTimeToComplete);
     }
     activateAccordion();
-    console.log(loadedWorkouts[0].excercises.toString());
 }
 
 /* FUNCTION DECLARATION */
