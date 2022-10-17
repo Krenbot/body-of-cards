@@ -297,8 +297,6 @@ function storeExcerciseNames() {
         excerciseList.push(excerciseNameText[i].innerText)
     }
     pastWorkouts.push(workoutData)
-    console.log(pastWorkouts)
-    console.log(workoutData)
     updatePastWorkouts(workoutData)
 }
 
@@ -344,16 +342,16 @@ function renderPastWorkouts(){
         newPanelEl.appendChild(newDataList);
 
         var newLifts = document.createElement("li")
-        newLifts.innerText = loadedWorkouts[i].exercises;
+        var excercisesString = loadedWorkouts[i].excercises.toString();
+        newLifts.innerText = excercisesString;
         newDataList.appendChild(newLifts);
 
         var newTimeToComplete = document.createElement("li");
         newTimeToComplete.innerText = loadedWorkouts[i].timerStatus + " seconds"
         newDataList.appendChild(newTimeToComplete);
-        activateAccordion();
-
-
     }
+    activateAccordion();
+    console.log(loadedWorkouts[0].excercises.toString());
 }
 
 /* FUNCTION DECLARATION */
@@ -374,7 +372,7 @@ function startTimer() {
 
     } else if (timerStatus === "running") {
         console.log(timerText.innerHTML)
-        localStorage.setItem("time", timerText.innerHTML)
+        // localStorage.setItem("time", timerText.innerHTML)
         timerStatus = "stopped";
         startBtn.innerHTML = "Reset";
         clearInterval(interval);
@@ -385,7 +383,6 @@ function startTimer() {
         timerStatus = "new";
         startBtn.innerHTML = "Start Timer";
         timerText.innerHTML = "";
-        pastExcercises = []
     }
 }
 
