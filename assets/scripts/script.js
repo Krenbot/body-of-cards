@@ -800,20 +800,17 @@ function main() {
     let timer = new Timer(); // Automatically generates an event listener on page load through class initialization
     let workout = new Container(document.getElementsByClassName("flipping-cards")[0]);
     workout.setDeck(exerciseDeck);
+    window.onload = renderPastWorkouts();
 
-function rulesButtonFunction() {
-    document.getElementById("rulesModal").setAttribute("class", "modal is-active");
-}
+    // On page load, set the cards and exercises.
+    workout.loadCards();
 
-window.onload = renderPastWorkouts();
+    // Add event listeners
+    document.getElementById("rulesBtn").addEventListener("click", rulesButtonFunction);
 
-// On page load, set the cards and exercises.
-workout.loadCards();
-
-// Add event listeners
-document.getElementById("rulesBtn").addEventListener("click", rulesButtonFunction);
-
-//TODO: User cannot flip cards until all cards have been loaded! Move javascript src file to top of index.html?
+    //TODO: User cannot flip cards until all cards have been loaded! Move javascript src file to top of index.html?
 }
 
 main();
+
+//workout.cardContainers[i].card.value;
