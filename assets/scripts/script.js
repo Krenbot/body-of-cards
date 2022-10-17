@@ -294,8 +294,7 @@ class Exercise {
         return await (await fetch(this.baseURL.href, Exercise.fetchOptions)).json();
     }
 
-    // TODO: Make private method
-    async getExercises(apiMethod, value) {
+    async #getExercises(apiMethod, value) {
         let exercises = [];
         this.resetURL();
 
@@ -315,7 +314,7 @@ class Exercise {
                 value = value.toLowerCase();
                 break;
             default:
-                console.log("Bad value provided to getExercises()\n" +
+                console.log("Bad value provided to #getExercises()\n" +
                     "API method provided: " + apiMethod + "\nValue provided: " +
                     value + "\nCurrent exercise instance object: " + this);
         }
@@ -332,21 +331,21 @@ class Exercise {
     }
 
     async getExerciseByName(exercise) {
-        return await this.getExercises("name", exercise);
+        return await this.#getExercises("name", exercise);
     }
 
     async getExercisesByPrimaryMuscle(pMuscle) {
-        return await this.getExercises("primaryMuscle", pMuscle);
+        return await this.#getExercises("primaryMuscle", pMuscle);
     }
 
     async getExercisesBySecondaryMuscle(sMuscle) {
-        return await this.getExercises("secondaryMuscle", sMuscle);
+        return await this.#getExercises("secondaryMuscle", sMuscle);
     }
 
     async getExerciseByNames(exercises) {
         response = [];
         for (let i = 0; i < exercises.length; i++) {
-            response.push(await this.getExercises("name", exercises[i]));
+            response.push(await this.#getExercises("name", exercises[i]));
         }
         return response;
     }
@@ -354,7 +353,7 @@ class Exercise {
     async getExercisesByPrimaryMuscles(pMuscles) {
         response = [];
         for (let i = 0; i < pMuscles.length; i++) {
-            response.push(await this.getExercises("primaryMuscle", pMuscles[i]));
+            response.push(await this.#getExercises("primaryMuscle", pMuscles[i]));
         }
         return response;
     }
@@ -362,7 +361,7 @@ class Exercise {
     async getExercisesBySecondaryMuscles(sMuscles) {
         response = [];
         for (let i = 0; i < sMuscles.length; i++) {
-            response.push(await this.getExercises("primaryMuscle", sMuscles[i]));
+            response.push(await this.#getExercises("primaryMuscle", sMuscles[i]));
         }
         return response;
     }
