@@ -554,7 +554,6 @@ class Container { // TODO: Consider renaming to HandOfCards?
     async loadCards() {
         let numCards = this.cardContainers.length;
         let cards;
-        let buttonElements = this.container.getElementsByClassName("bulma-control-mixin");
     
         if (!(this.#deck)) {
             this.#deck = new DeckOfCards();
