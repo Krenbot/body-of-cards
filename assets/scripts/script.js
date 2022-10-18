@@ -600,21 +600,42 @@ var startBtn = document.getElementById("timerStart");
 var pastWorkouts = (JSON.parse(localStorage.getItem("workouts")) || []);
 var pastWorkoutEl = document.querySelector(".modal-card-body");
 
+
 // make a past workout object to store in local storage
 function storeExcerciseNames(timerText) {
     var excerciseNameText = document.querySelectorAll("a");
     var excerciseList = []
     var currentDate = moment().format("L LT")
+    
+    var cardEl = document.querySelectorAll("img")
+    var altList = []
+    var splitAlts = []
+    var repList = []
+
     var workoutData = {
         date: currentDate,
         excercises: excerciseList,
         timerStatus: timerText.innerHTML,
+        reps: repList,
     }
     for (var i = 0; i < excerciseNameText.length; i++) {
         excerciseList.push(excerciseNameText[i].innerText)
     }
     pastWorkouts.push(workoutData)
     updatePastWorkouts(workoutData)
+    
+    for (var r = 1; r < cardEl.length; r++){
+        altList.push(cardEl[r].alt)
+    }
+    for (var l = 0; l < altList.length; l++){
+        splitAlts.push(altList[l].split(" "))
+    }
+    for (var v = 0; v < splitAlts.length; v++){
+        repList.push(splitAlts[v][0])
+    }
+    // console.log(repList)
+    //console.log(repList.toString())
+    
 }
 
 function updatePastWorkouts(workoutData) {
@@ -631,18 +652,26 @@ function updatePastWorkouts(workoutData) {
     panelEl.appendChild(dataList);
 
     var lifts = document.createElement("li")
-    lifts.innerText = workoutData.excercises;
+    var excercisesSplitString = workoutData.excercises.toString().split(",").join(", ")
+    lifts.innerText = excercisesSplitString;
     dataList.appendChild(lifts);
+
+    // var reps = document.createElement("li")
+    // var repsSplitString = workoutData.reps;
+    // console.log(workoutData)
+    // console.log(repsSplitString.toString())
+    // console.log(workoutData.excercises.toString())
+    // reps.innerText = repsSplitString;
+    // dataList.appendChild(reps);
 
     var timeToComplete = document.createElement("li");
     timeToComplete.innerText = workoutData.timerStatus + " seconds"
     dataList.appendChild(timeToComplete);
-    //test
+    
     accordianBtn.addEventListener("click", function () {
         /* Toggle between adding and removing the "active" class,
         to highlight the button that controls the panel */
         this.classList.toggle("active");
-        console.log(this.classList)
         /* Toggle between hiding and showing the active panel */
         var panel = this.nextElementSibling;
         if (panel.style.display === "block") {
@@ -651,7 +680,6 @@ function updatePastWorkouts(workoutData) {
             panel.style.display = "block";
         }
     });
-    // activateAccordion();
 }
 
 function renderPastWorkouts() {
@@ -678,18 +706,17 @@ function renderPastWorkouts() {
 
         var newLifts = document.createElement("li")
         var excercisesString = loadedWorkouts[i].excercises.toString();
-        newLifts.innerText = excercisesString;
+        newLifts.innerText = excercisesString.split(",").join(", ");
         newDataList.appendChild(newLifts);
 
         var newTimeToComplete = document.createElement("li");
         newTimeToComplete.innerText = loadedWorkouts[i].timerStatus + " seconds"
         newDataList.appendChild(newTimeToComplete);
-        //test
+    
         newAccordionBtn.addEventListener("click", function () {
             /* Toggle between adding and removing the "active" class,
             to highlight the button that controls the panel */
             this.classList.toggle("active");
-            console.log(this.classList)
             /* Toggle between hiding and showing the active panel */
             var panel = this.nextElementSibling;
             if (panel.style.display === "block") {
@@ -699,7 +726,6 @@ function renderPastWorkouts() {
             }
         });
     }
-    // activateAccordion();
 }
 
 /* FUNCTION DECLARATIONS */
@@ -788,7 +814,6 @@ for (var i = 0; i < acc.length; i++) {
                 /* Toggle between adding and removing the "active" class,
                 to highlight the button that controls the panel */
                 this.classList.toggle("active");
-                console.log(this.classList)
                 /* Toggle between hiding and showing the active panel */
                 var panel = this.nextElementSibling;
                 if (panel.style.display === "block") {
@@ -809,13 +834,14 @@ for (var i = 0; i < acc.length; i++) {
 /* MAIN CODE EXECUTION AREA */
 function main() {
     let exerciseDeck = new DeckOfCards();
-    let timer = new Timer(); // Automatically generates an event listener on page load through class initialization
+    window.onload = renderPastWorkouts();
+    
     let workout = new Container(document.getElementsByClassName("flipping-cards")[0]);
     workout.setDeck(exerciseDeck);
-    window.onload = renderPastWorkouts();
 
     // On page load, set the cards and exercises.
     workout.loadCards();
+    let timer = new Timer(); // Automatically generates an event listener on page load through class initialization
 
     // Add event listeners
     document.getElementById("rulesBtn").addEventListener("click", rulesButtonFunction);
