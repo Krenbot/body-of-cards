@@ -606,7 +606,7 @@ function storeExcerciseNames(timerText) {
     var excerciseNameText = document.querySelectorAll("a");
     var excerciseList = []
     var currentDate = moment().format("L LT")
-    //test
+    
     var cardEl = document.querySelectorAll("img")
     var altList = []
     var splitAlts = []
@@ -623,7 +623,7 @@ function storeExcerciseNames(timerText) {
     }
     pastWorkouts.push(workoutData)
     updatePastWorkouts(workoutData)
-    //test
+    
     for (var r = 1; r < cardEl.length; r++){
         altList.push(cardEl[r].alt)
     }
