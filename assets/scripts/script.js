@@ -600,21 +600,41 @@ var startBtn = document.getElementById("timerStart");
 var pastWorkouts = (JSON.parse(localStorage.getItem("workouts")) || []);
 var pastWorkoutEl = document.querySelector(".modal-card-body");
 
+
 // make a past workout object to store in local storage
 function storeExcerciseNames(timerText) {
     var excerciseNameText = document.querySelectorAll("a");
     var excerciseList = []
     var currentDate = moment().format("L LT")
+    //test
+    var cardEl = document.querySelectorAll("img")
+    var altList = []
+    var splitAlts = []
+    var repList = []
+
     var workoutData = {
         date: currentDate,
         excercises: excerciseList,
         timerStatus: timerText.innerHTML,
+        reps: repList,
     }
     for (var i = 0; i < excerciseNameText.length; i++) {
         excerciseList.push(excerciseNameText[i].innerText)
     }
     pastWorkouts.push(workoutData)
     updatePastWorkouts(workoutData)
+    //test
+    for (var r = 1; r < cardEl.length; r++){
+        altList.push(cardEl[r].alt)
+    }
+    for (var l = 0; l < altList.length; l++){
+        splitAlts.push(altList[l].split(" "))
+    }
+    for (var v = 0; v < splitAlts.length; v++){
+        repList.push(splitAlts[v][0])
+    }
+    console.log(repList)
+    
 }
 
 function updatePastWorkouts(workoutData) {
@@ -633,8 +653,6 @@ function updatePastWorkouts(workoutData) {
     var lifts = document.createElement("li")
     var excercisesSplitString = workoutData.excercises.toString().split(",").join(", ")
     lifts.innerText = excercisesSplitString;
-    //test
-    console.log(workoutData.excercises.toString().split(",").join(", "))
     dataList.appendChild(lifts);
 
     var timeToComplete = document.createElement("li");
@@ -654,7 +672,6 @@ function updatePastWorkouts(workoutData) {
         panel.style.display = "block";
         }
     });
-    // activateAccordion();
 }
 
 function renderPastWorkouts(){
@@ -687,7 +704,7 @@ function renderPastWorkouts(){
         var newTimeToComplete = document.createElement("li");
         newTimeToComplete.innerText = loadedWorkouts[i].timerStatus + " seconds"
         newDataList.appendChild(newTimeToComplete);
-        //test
+    
         newAccordionBtn.addEventListener("click", function () {
             /* Toggle between adding and removing the "active" class,
             to highlight the button that controls the panel */
@@ -702,7 +719,6 @@ function renderPastWorkouts(){
             }
         });
     }
-    // activateAccordion();
 }
 
 /* FUNCTION DECLARATIONS */
