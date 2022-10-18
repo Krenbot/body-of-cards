@@ -511,7 +511,6 @@ class Container { // TODO: Consider renaming to HandOfCards?
 
         this.#checkBoxes = this.container.querySelectorAll('input[type=checkbox]');
         this.footers = this.container.getElementsByClassName("card-footer");
-        this.swapButtons = this.container.getElementsByClassName("bulma-control-mixin");
         this.generateSwapButtons();
     }
 
@@ -523,11 +522,15 @@ class Container { // TODO: Consider renaming to HandOfCards?
     }
 
     generateSwapButtons() {
+        let buttonElements = this.container.getElementsByClassName("bulma-control-mixin");
         for (let i = 0; i < this.footers.length; i++) {
             if (this.footers[i].children[0].children.length === 0) { // Number of Button Elements...
-                this.footers[i].children[0].appendChild(this.#generateSwapButton(i));
+                let button = this.#generateSwapButton(i);
+                this.setSwapButton(button, this.cardContainers[i]);
+                this.footers[i].children[0].appendChild(button);
+            } else {
+                this.setSwapButton(buttonElements[i], this.cardContainers[i]);
             }
-            this.setSwapButton(this.swapButtons[i], this.cardContainers[i]);
         }
     }
 
@@ -594,12 +597,8 @@ class Container { // TODO: Consider renaming to HandOfCards?
     #reset() {
         this.loadCards();
         // Re-enable buttons
+        this.generateSwapButtons();
         for (let i = 0; i < this.footers.length; i++) {
-            let currentButtonContainer = this.footers[i].children[0];
-            if (currentButtonContainer.children.length === 0) {
-                let buttonElement = this.#generateSwapButton(i);
-                this.footers[i].children[0].appendChild(buttonElement);
-            }
             this.#checkBoxes[i].checked = false;
         }
 
@@ -628,6 +627,7 @@ class CardContainer { // TODO: Refactor to move swap to Class Container
 
     // TODO: Create DeckOfCards pile and add this card to a pile for tracking
     async loadCard(card) {
+        // TODO: Change method of loading card so that it changes the card element in place or clears ALL content before adding new content
         this.card = card;
         this.cardImage.innerHTML = "";
         this.cardImage.appendChild(this.card.getImgElement());
