@@ -677,10 +677,10 @@ function storeExerciseNames(timerText) {
 }
 
 function updatePastWorkouts(workoutData) {
-    var accordianBtn = document.createElement("button");
-    accordianBtn.setAttribute("class", "accordion");
-    accordianBtn.innerText = workoutData.date
-    pastWorkoutEl.appendChild(accordianBtn)
+    var accordionBtn = document.createElement("button");
+    accordionBtn.setAttribute("class", "accordion");
+    accordionBtn.innerText = workoutData.date
+    pastWorkoutEl.appendChild(accordionBtn)
 
     var panelEl = document.createElement("div");
     panelEl.setAttribute("class", "panel");
@@ -697,7 +697,7 @@ function updatePastWorkouts(workoutData) {
     timeToComplete.innerText = workoutData.timerStatus + " seconds"
     dataList.appendChild(timeToComplete);
     //test
-    accordianBtn.addEventListener("click", function () {
+    accordionBtn.addEventListener("click", function () {
         /* Toggle between adding and removing the "active" class,
         to highlight the button that controls the panel */
         this.classList.toggle("active");
