@@ -523,13 +523,14 @@ class Container { // TODO: Consider renaming to HandOfCards?
 
     generateSwapButtons() {
         let buttonElements = this.container.getElementsByClassName("bulma-control-mixin");
-        for (let i = 0; i < this.footers.length; i++) {
+        for (let i = 0, j = 0; i < this.footers.length; i++) {
             if (this.footers[i].children[0].children.length === 0) { // Number of Button Elements...
                 let button = this.#generateSwapButton(i);
                 this.setSwapButton(button, this.cardContainers[i]);
                 this.footers[i].children[0].appendChild(button);
             } else {
-                this.setSwapButton(buttonElements[i], this.cardContainers[i]);
+                this.setSwapButton(buttonElements[j], this.cardContainers[i]);
+                j++
             }
         }
     }
@@ -558,18 +559,28 @@ class Container { // TODO: Consider renaming to HandOfCards?
     async loadCards() {
         let numCards = this.cardContainers.length;
         let cards;
-
+        let buttonElements = this.container.getElementsByClassName("bulma-control-mixin");
     
         if (!(this.#deck)) {
             this.#deck = new DeckOfCards();
         }
         cards = await this.#deck.draw(numCards);
 
-        for (let i = 0; i < numCards; i++) {
+        for (let i = 0, j = 0; i < numCards; i++) {
+            this.#resetCardBack(i);
             if (this.cardContainers[i].card.images) {
                 await this.#deck.returnCardsToDeck(this.cardContainers[i].card);
             }
-            await this.cardContainers[i].loadCard(cards[i]);
+            await this.cardContainers[i].loadCardContainer(cards[i]);
+
+            if (this.footers[i].children[0].children.length === 0) { // Number of Button Elements...
+                let button = this.#generateSwapButton(i);
+                this.setSwapButton(button, this.cardContainers[i]);
+                this.footers[i].children[0].appendChild(button);
+            } else {
+                this.setSwapButton(buttonElements[j], this.cardContainers[i]);
+                j++
+            }
         }
     }
 
@@ -582,8 +593,9 @@ class Container { // TODO: Consider renaming to HandOfCards?
 
     async swapCardContents(cardContainer) {
         if (this.#timer.timerStatus === "new") {
+            this.#resetCardBack(this.cardContainers.indexOf(cardContainer));
             let draw = (await this.#deck.draw(1))[0];
-            cardContainer.loadCard(draw);
+            cardContainer.loadCardContainer(draw);
         }
     }
 
@@ -597,14 +609,11 @@ class Container { // TODO: Consider renaming to HandOfCards?
     #reset() {
         this.loadCards();
         // Re-enable buttons
-        this.generateSwapButtons();
-        this.#resetCardBacks();
+        //this.generateSwapButtons();
     }
 
-    #resetCardBacks() {
-        for (let i = 0; i < this.footers.length; i++) {
-            this.#checkBoxes[i].checked = false;
-        }
+    #resetCardBack(i) {
+        this.#checkBoxes[i].checked = false;
     }
 
     // Add additional functions to manipulate the information within a Container
@@ -624,12 +633,18 @@ class CardContainer { // TODO: Refactor to move swap to Class Container
         this.exercise;
         }
 
-    // TODO: Create DeckOfCards pile and add this card to a pile for tracking
-    async loadCard(card) {
-        this.card = card;
-        // FIXME: Card html briefly flashes due to changing the image element
-        this.cardImage.setHTML(this.card.getImgElement().outerHTML);
+    async loadCardContainer(card) {
+        this.cardImage.innerHTML = "";
+        this.cardContent.children[0].innerText = "";
+        await this.#loadCard(card);
         await this.#loadExercise();
+        this.cardImage.setHTML(this.card.getImgElement().outerHTML);
+    }
+
+    // TODO: Create DeckOfCards pile and add this card to a pile for tracking
+    async #loadCard(card) {
+        this.card = card;
+        this.card.createImgElement();
     }
     
     async #loadExercise() {
@@ -641,7 +656,7 @@ class CardContainer { // TODO: Refactor to move swap to Class Container
 
         // TODO: Change to DOM getElements methods by searching either class or id
         // Update Exercise Information in DOM
-        this.cardContent.children[0].innerText = "";
+
         this.cardContent.children[0].appendChild(this.exercise.getExerciseElement());
         this.cardContent.children[1].innerText = exerciseType;
     }
