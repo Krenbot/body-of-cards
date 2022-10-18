@@ -507,14 +507,26 @@ class Container { // TODO: Consider renaming to HandOfCards?
     constructor(containerElement) {
         this.container = containerElement;
         this.cardContainers = [];
+        this.generateCardContainers();
 
-        let containerElements = this.container.getElementsByClassName("card");
         this.#checkBoxes = this.container.querySelectorAll('input[type=checkbox]');
-
         this.footers = this.container.getElementsByClassName("card-footer");
         this.swapButtons = this.container.getElementsByClassName("bulma-control-mixin");
+        this.generateSwapButtons();
+    }
+
+    generateCardContainers() {
+        let containerElements = this.container.getElementsByClassName("card");
         for (let i = 0; i < containerElements.length; i++) {
-            this.cardContainers.push(new CardContainer(containerElements[i], this));
+            this.cardContainers.push(new CardContainer(containerElements[i]));
+        }
+    }
+
+    generateSwapButtons() {
+        for (let i = 0; i < this.footers.length; i++) {
+            if (this.footers[i].children[0].children.length === 0) { // Number of Button Elements...
+                this.footers[i].children[0].appendChild(this.#generateSwapButton(i));
+            }
             this.setSwapButton(this.swapButtons[i], this.cardContainers[i]);
         }
     }
@@ -551,6 +563,9 @@ class Container { // TODO: Consider renaming to HandOfCards?
         cards = await this.#deck.draw(numCards);
 
         for (let i = 0; i < numCards; i++) {
+            if (this.cardContainers[i].card.images) {
+                await this.#deck.returnCardsToDeck(this.cardContainers[i].card);
+            }
             await this.cardContainers[i].loadCard(cards[i]);
         }
     }
@@ -600,9 +615,8 @@ class Container { // TODO: Consider renaming to HandOfCards?
 // Container for each card which contains a playing card and exercise content
 class CardContainer { // TODO: Refactor to move swap to Class Container
     //
-    constructor(containerElement, parentObj) {
+    constructor(containerElement) {
         this.container = containerElement; // Container HTML
-        this.parent = parentObj; // Parent = Container Object
         this.id = containerElement.id; // id=card-#
 
         this.cardImage = containerElement.getElementsByClassName("card-image")[0];
@@ -614,9 +628,6 @@ class CardContainer { // TODO: Refactor to move swap to Class Container
 
     // TODO: Create DeckOfCards pile and add this card to a pile for tracking
     async loadCard(card) {
-        if (this.card.images) {
-            await this.parent.getDeck().returnCardsToDeck(this.card);
-        }
         this.card = card;
         this.cardImage.innerHTML = "";
         this.cardImage.appendChild(this.card.getImgElement());
