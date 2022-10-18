@@ -500,6 +500,7 @@ class Timer {
 class Container { // TODO: Consider renaming to HandOfCards?
     // Private Class Properties
     #deck;
+    #timer;
     
     // The containerElement contains all Card Container classes
     constructor(containerElement) {
@@ -517,6 +518,14 @@ class Container { // TODO: Consider renaming to HandOfCards?
 
     getDeck() {
         return this.#deck;
+    }
+
+    setTimer(timer) {
+        this.#timer = timer;
+    }
+
+    getTimer() {
+        return this.#timer;
     }
 
     async loadCards() {
@@ -541,12 +550,10 @@ class Container { // TODO: Consider renaming to HandOfCards?
 };
 
 // Container for each card which contains a playing card, exercise content, and a footer
-class CardContainer { // TODO: Refactor to remove swap to Class Container
+class CardContainer { // TODO: Refactor to move swap to Class Container
     // Private Object Properties
     #swapButton;
     #footer;
-
-    //disabled=false
     
     constructor(containerElement, parentObj) {
         this.container = containerElement; // Container HTML
@@ -832,6 +839,7 @@ function main() {
     let timer = new Timer(); // Automatically generates an event listener on page load through class initialization
     let workout = new Container(document.getElementsByClassName("flipping-cards")[0]);
     workout.setDeck(exerciseDeck);
+    workout.setTimer(timer);
     window.onload = renderPastWorkouts();
 
     // On page load, set the cards and exercises.
