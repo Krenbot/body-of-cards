@@ -633,7 +633,8 @@ function storeExcerciseNames(timerText) {
     for (var v = 0; v < splitAlts.length; v++){
         repList.push(splitAlts[v][0])
     }
-    console.log(repList)
+    // console.log(repList)
+    console.log(repList.toString())
     
 }
 
@@ -654,6 +655,14 @@ function updatePastWorkouts(workoutData) {
     var excercisesSplitString = workoutData.excercises.toString().split(",").join(", ")
     lifts.innerText = excercisesSplitString;
     dataList.appendChild(lifts);
+
+    // var reps = document.createElement("li")
+    // var repsSplitString = workoutData.reps;
+    // console.log(workoutData)
+    // console.log(repsSplitString.toString())
+    // console.log(workoutData.excercises.toString())
+    // reps.innerText = repsSplitString;
+    // dataList.appendChild(reps);
 
     var timeToComplete = document.createElement("li");
     timeToComplete.innerText = workoutData.timerStatus + " seconds"
@@ -828,13 +837,14 @@ for (var i = 0; i < acc.length; i++) {
 /* MAIN CODE EXECUTION AREA */
 function main() {
     let exerciseDeck = new DeckOfCards();
-    let timer = new Timer(); // Automatically generates an event listener on page load through class initialization
+    window.onload = renderPastWorkouts();
+    
     let workout = new Container(document.getElementsByClassName("flipping-cards")[0]);
     workout.setDeck(exerciseDeck);
-    window.onload = renderPastWorkouts();
 
     // On page load, set the cards and exercises.
     workout.loadCards();
+    let timer = new Timer(); // Automatically generates an event listener on page load through class initialization
 
     // Add event listeners
     document.getElementById("rulesBtn").addEventListener("click", rulesButtonFunction);
