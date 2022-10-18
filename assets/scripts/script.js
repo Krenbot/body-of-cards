@@ -531,21 +531,7 @@ class Container { // TODO: Consider renaming to HandOfCards?
         this.#timer = timer;
         this.#timer.startButton.addEventListener("click", (() => {
             if (this.#timer.timerStatus === "new") {
-                this.loadCards();
-                // Re-enable buttons
-                for (let i = 0; i < this.footers.length; i++) {
-                    let currentButtonContainer = this.footers[i].children[0];
-                    if (currentButtonContainer.children.length === 0) {
-                        let buttonElement = this.#generateSwapButton(i);
-                        this.footers[i].children[0].appendChild(buttonElement);
-                    }
-                    this.#checkBoxes[i].checked = false;
-                }
-
-                this.swapButtons = this.container.getElementsByClassName("bulma-control-mixin");
-                for (let i = 0; i < this.swapButtons.length; i++) {
-                    this.setSwapButton(this.swapButtons[i], this.cardContainers[i]);
-                }
+                this.#reset();
             }
         }).bind(this));
     }
@@ -588,6 +574,24 @@ class Container { // TODO: Consider renaming to HandOfCards?
         element.classList.add("neon-btn", "bulma-control-mixin", ("swap-" + index));
         element.innerText = "SWAP CARD";
         return element;
+    }
+
+    #reset() {
+        this.loadCards();
+        // Re-enable buttons
+        for (let i = 0; i < this.footers.length; i++) {
+            let currentButtonContainer = this.footers[i].children[0];
+            if (currentButtonContainer.children.length === 0) {
+                let buttonElement = this.#generateSwapButton(i);
+                this.footers[i].children[0].appendChild(buttonElement);
+            }
+            this.#checkBoxes[i].checked = false;
+        }
+
+        this.swapButtons = this.container.getElementsByClassName("bulma-control-mixin");
+        for (let i = 0; i < this.swapButtons.length; i++) {
+            this.setSwapButton(this.swapButtons[i], this.cardContainers[i]);
+        }
     }
 
     // Add additional functions to manipulate the information within a Container
