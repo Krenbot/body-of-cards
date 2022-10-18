@@ -1,7 +1,7 @@
 # **Body of Cards** - A Playing Card Workout Generator
 
 ## Description
-Our motivation is this project stemmed from itself - motivation. A repetitive rubric of exercises becomes stale and boring which can lead to a lack of motivation to go to the gym or workout at home regularly. However, with our exercise randomizer app thinking of exercises has never been easier. It may even include workouts you've never seen or heard of before! Follow along with the convenient YouTube hyperlinks for the exercises and not only could you have a great poker hand, but an excellent body to go to with it. 
+Our motivation in this project stemmed from itself - motivation. A repetitive rubric of exercises becomes stale and boring which can lead to a lack of motivation to go to the gym or workout at home regularly. However, with our exercise randomizer app thinking of exercises has never been easier. It may even include workouts you've never seen or heard of before! Follow along with the convenient YouTube hyperlinks for the exercises and not only could you have a great poker hand, but an excellent body to go to with it. 
 
 Let some luck into your workouts with ***Body of Cards***!
 
