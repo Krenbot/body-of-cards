@@ -627,10 +627,9 @@ class CardContainer { // TODO: Refactor to move swap to Class Container
 
     // TODO: Create DeckOfCards pile and add this card to a pile for tracking
     async loadCard(card) {
-        // TODO: Change method of loading card so that it changes the card element in place or clears ALL content before adding new content
         this.card = card;
-        this.cardImage.innerHTML = "";
-        this.cardImage.appendChild(this.card.getImgElement());
+        // FIXME: Card html briefly flashes due to changing the image element
+        this.cardImage.setHTML(this.card.getImgElement().outerHTML);
         await this.#loadExercise();
     }
     
