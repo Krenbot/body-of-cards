@@ -501,12 +501,16 @@ class Container { // TODO: Consider renaming to HandOfCards?
     // Private Class Properties
     #deck;
     #timer;
+    #checkBoxes = []; // Each card is represented as a checkbox to control animations
     
     // The containerElement contains all Card Container classes
     constructor(containerElement) {
         this.container = containerElement;
         this.cardContainers = [];
+
         let containerElements = this.container.getElementsByClassName("card");
+        this.#checkBoxes = this.container.querySelectorAll('input[type=checkbox]');
+
         this.footers = this.container.getElementsByClassName("card-footer");
         this.swapButtons = this.container.getElementsByClassName("bulma-control-mixin");
         for (let i = 0; i < containerElements.length; i++) {
@@ -530,8 +534,12 @@ class Container { // TODO: Consider renaming to HandOfCards?
                 this.loadCards();
                 // Re-enable buttons
                 for (let i = 0; i < this.footers.length; i++) {
-                    let buttonElement = this.#generateSwapButton(i);
-                    this.footers[i].children[0].appendChild(buttonElement);
+                    let currentButtonContainer = this.footers[i].children[0];
+                    if (currentButtonContainer.children.length === 0) {
+                        let buttonElement = this.#generateSwapButton(i);
+                        this.footers[i].children[0].appendChild(buttonElement);
+                    }
+                    this.#checkBoxes[i].checked = false;
                 }
 
                 this.swapButtons = this.container.getElementsByClassName("bulma-control-mixin");
