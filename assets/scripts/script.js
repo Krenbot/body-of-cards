@@ -525,6 +525,21 @@ class Container { // TODO: Consider renaming to HandOfCards?
 
     setTimer(timer) {
         this.#timer = timer;
+        this.#timer.startButton.addEventListener("click", (() => {
+            if (this.#timer.timerStatus === "new") {
+                this.loadCards();
+                // Re-enable buttons
+                for (let i = 0; i < this.footers.length; i++) {
+                    let buttonElement = this.#generateSwapButton(i);
+                    this.footers[i].children[0].appendChild(buttonElement);
+                }
+
+                this.swapButtons = this.container.getElementsByClassName("bulma-control-mixin");
+                for (let i = 0; i < this.swapButtons.length; i++) {
+                    this.setSwapButton(this.swapButtons[i], this.cardContainers[i]);
+                }
+            }
+        }).bind(this));
     }
 
     getTimer() {
@@ -553,15 +568,18 @@ class Container { // TODO: Consider renaming to HandOfCards?
         }).bind(this));
     }
 
-    // getSwapButton(cardContainer) {
-    //     return this.#swapButton;
-    // }
-
     async swapCardContents(cardContainer) {
         if (this.#timer.timerStatus === "new") {
             let draw = (await this.#deck.draw(1))[0];
             cardContainer.loadCard(draw);
         }
+    }
+
+    #generateSwapButton(index) {
+        let element = document.createElement("button");
+        element.classList.add("neon-btn", "bulma-control-mixin", ("swap-" + index));
+        element.innerText = "SWAP CARD";
+        return element;
     }
 
     // Add additional functions to manipulate the information within a Container
@@ -602,7 +620,7 @@ class CardContainer { // TODO: Refactor to move swap to Class Container
 
         // TODO: Change to DOM getElements methods by searching either class or id
         // Update Exercise Information in DOM
-        this.cardContent.children[0].innerText = "";  
+        this.cardContent.children[0].innerText = "";
         this.cardContent.children[0].appendChild(this.exercise.getExerciseElement());
         this.cardContent.children[1].innerText = exerciseType;
     }
@@ -819,15 +837,14 @@ for (var i = 0; i < acc.length; i++) {
 
 /* MAIN CODE EXECUTION AREA */
 function main() {
+    window.onload = renderPastWorkouts();
     let exerciseDeck = new DeckOfCards();
-    let timer = new Timer(); // Automatically generates an event listener on page load through class initialization
     let workout = new Container(document.getElementsByClassName("flipping-cards")[0]);
     workout.setDeck(exerciseDeck);
-    workout.setTimer(timer);
-    window.onload = renderPastWorkouts();
-
     // On page load, set the cards and exercises.
     workout.loadCards();
+    let timer = new Timer(); // Automatically generates an event listener on page load through class initialization
+    workout.setTimer(timer);
 
     // Add event listeners
     document.getElementById("rulesBtn").addEventListener("click", rulesButtonFunction);
