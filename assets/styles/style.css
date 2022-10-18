@@ -8,7 +8,14 @@
 h3 {
   font-size: x-large;
   text-align: left;
+}
 
+ul {
+  display:flex;
+}
+
+li{
+  display: inline-block;
 }
 
 ul,
@@ -47,7 +54,7 @@ footer a {
   margin: 10px;
   margin-bottom: 80px;
   font-size: 40px;
-  max-width: 1200px;
+  /* max-width: 1200px; */
 }
 
 #title {
