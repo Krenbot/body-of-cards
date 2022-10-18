@@ -598,13 +598,12 @@ class Container { // TODO: Consider renaming to HandOfCards?
         this.loadCards();
         // Re-enable buttons
         this.generateSwapButtons();
+        this.#resetCardBacks();
+    }
+
+    #resetCardBacks() {
         for (let i = 0; i < this.footers.length; i++) {
             this.#checkBoxes[i].checked = false;
-        }
-
-        this.swapButtons = this.container.getElementsByClassName("bulma-control-mixin");
-        for (let i = 0; i < this.swapButtons.length; i++) {
-            this.setSwapButton(this.swapButtons[i], this.cardContainers[i]);
         }
     }
 
