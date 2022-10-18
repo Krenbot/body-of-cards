@@ -634,7 +634,7 @@ function storeExcerciseNames(timerText) {
         repList.push(splitAlts[v][0])
     }
     // console.log(repList)
-    console.log(repList.toString())
+    //console.log(repList.toString())
     
 }
 
@@ -672,7 +672,6 @@ function updatePastWorkouts(workoutData) {
         /* Toggle between adding and removing the "active" class,
         to highlight the button that controls the panel */
         this.classList.toggle("active");
-        console.log(this.classList)
         /* Toggle between hiding and showing the active panel */
         var panel = this.nextElementSibling;
         if (panel.style.display === "block") {
@@ -718,7 +717,6 @@ function renderPastWorkouts(){
             /* Toggle between adding and removing the "active" class,
             to highlight the button that controls the panel */
             this.classList.toggle("active");
-            console.log(this.classList)
             /* Toggle between hiding and showing the active panel */
             var panel = this.nextElementSibling;
             if (panel.style.display === "block") {
@@ -816,7 +814,6 @@ for (var i = 0; i < acc.length; i++) {
                 /* Toggle between adding and removing the "active" class,
                 to highlight the button that controls the panel */
                 this.classList.toggle("active");
-                console.log(this.classList)
                 /* Toggle between hiding and showing the active panel */
                 var panel = this.nextElementSibling;
                 if (panel.style.display === "block") {
