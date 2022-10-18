@@ -2,7 +2,6 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  /* word-wrap: break-word */
 }
 
 h3 {
@@ -17,10 +16,6 @@ h3 {
 .li-card{
   display: inline-block;
 }
-
-/* li{
-
-} */
 
 ul,
 li {
@@ -58,7 +53,6 @@ footer a {
   margin: 10px;
   margin-bottom: 80px;
   font-size: 40px;
-  /* max-width: 1200px; */
 }
 
 #title {
@@ -201,7 +195,7 @@ input[type="checkbox"] {
 }
 
 
-/* Swap Button CSS - https://codepen.io/geekvie/pen/QWgVQpv */
+/* Swap Button CSS */
 
 :root {
   --neon-clr: rgb(53, 101, 77);
