@@ -68,10 +68,10 @@ Compare your times and exercises with your friends or yourself to track improvem
 - Mobile Friendly
     - Cards are neatly arranged on mobile screens
 ## Credits
-@pbp66 - James Perry<br>
-@Krenbot - Steven Krenn<br>
-@CodySaal - Cody Saal<br>
-@OilPainter1 - Henry Cryns
+[@pbp66](https://github.com/pbp66) - James Perry<br>
+[@Krenbot](https://github.com/Krenbot) - Steven Krenn<br>
+[@CodySaal](https://github.com/CodySaal) - Cody Saal<br>
+[@OilPainter1](https://github.com/OilPainter1) - Henry Cryns
 
 [Bulma Framework](https://bulma.io/)<br>
 [Swap Button CSS](https://codepen.io/geekvie/pen/QWgVQpv)<br>
