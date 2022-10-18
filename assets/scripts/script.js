@@ -3,7 +3,7 @@
 class Card {
     // Private Class Properties
     #imgElement;
-    
+
     // Jokers are represented as X
     #codeToValue = {
         "J": "JACK",
@@ -12,7 +12,7 @@ class Card {
         "A": "ACE",
         "X": "JOKER"
     };
-    
+
     // Jokers will be either 1 for the black suit or 2 for the red suit
     #codeToSuit = {
         "C": "CLUBS",
@@ -242,8 +242,8 @@ class Exercise {
         "gastrocnemius", "soleus", "infraspinatus", "teres major", "triceps",
         "gluteus medius", "gluteus maximus"];
 
-    static secondaryMuscles = ["infraspinatus", "gastrocnemius", "trapezius", 
-        "abductors", "teres major", "brachioradialis", "serratus anterior", 
+    static secondaryMuscles = ["infraspinatus", "gastrocnemius", "trapezius",
+        "abductors", "teres major", "brachioradialis", "serratus anterior",
         "sartorius", "finger flexors", "finger extensors"];
 
     // Object to convert from suit to a list of associated muscles (ARMS, CHEST, LEGS, BACK)
@@ -430,7 +430,7 @@ class Timer {
 
         this.startButton.addEventListener("click", this.startTimer.bind(this));
     }
-    
+
     startTimer() {
         if (this.timerStatus === "new") {
             this.initialize();
@@ -471,7 +471,7 @@ class Timer {
 class Container { // TODO: Consider renaming to HandOfCards?
     // Private Class Properties
     #deck;
-    
+
     // The containerElement contains all Card Container classes
     constructor(containerElement) {
         this.container = containerElement;
@@ -498,7 +498,7 @@ class Container { // TODO: Consider renaming to HandOfCards?
         //let loadBool = [];
         let footers = this.container.getElementsByClassName("card-footer");
         let swapButtons = this.container.getElementsByClassName("bulma-control-mixin");
-    
+
         if (!(this.#deck)) {
             this.#deck = new DeckOfCards();
         }
@@ -519,10 +519,10 @@ class CardContainer { // TODO: Refactor to remove swap to Class Container
     // Private Object Properties
     #swapButton;
     #footer;
-    
+
     //added test STEVE
-    disabled=false
-    
+    disabled = false
+
     constructor(containerElement, parentObj) {
         this.container = containerElement; // Container HTML
         this.parent = parentObj; // Parent = Container Object
@@ -533,7 +533,7 @@ class CardContainer { // TODO: Refactor to remove swap to Class Container
 
         this.card = new Card(this.cardImage.id, this.cardImage.src);
         this.exercise;
-        }
+    }
 
     setFooter(element) {
         this.#footer = element;
@@ -546,7 +546,7 @@ class CardContainer { // TODO: Refactor to remove swap to Class Container
     setSwapButton(element) {
         this.#swapButton = element
         var self = this
-        this.#swapButton.addEventListener("click", function(e){
+        this.#swapButton.addEventListener("click", function (e) {
             //added test STEVE
             e.target.remove()
             console.log(e.target)
@@ -568,7 +568,7 @@ class CardContainer { // TODO: Refactor to remove swap to Class Container
         this.cardImage.appendChild(this.card.getImgElement());
         await this.#loadExercise();
     }
-    
+
     async swapContents(self) {
         //added test STEVE
         let deck = self.parent.getDeck();
@@ -585,7 +585,7 @@ class CardContainer { // TODO: Refactor to remove swap to Class Container
 
         // TODO: Change to DOM getElements methods by searching either class or id
         // Update Exercise Information in DOM
-        this.cardContent.children[0].innerText = "";  
+        this.cardContent.children[0].innerText = "";
         this.cardContent.children[0].appendChild(this.exercise.getExerciseElement());
         this.cardContent.children[0].classList.add(exerciseType);
         this.cardContent.children[1].innerText = exerciseType;
@@ -646,15 +646,15 @@ function updatePastWorkouts(workoutData) {
         /* Toggle between hiding and showing the active panel */
         var panel = this.nextElementSibling;
         if (panel.style.display === "block") {
-        panel.style.display = "none";
+            panel.style.display = "none";
         } else {
-        panel.style.display = "block";
+            panel.style.display = "block";
         }
     });
     // activateAccordion();
 }
 
-function renderPastWorkouts(){
+function renderPastWorkouts() {
     var loadedWorkouts = localStorage.getItem("workouts");
 
     if (loadedWorkouts === null) {
@@ -663,7 +663,7 @@ function renderPastWorkouts(){
 
     loadedWorkouts = JSON.parse(loadedWorkouts);
 
-    for (var i = 0; i < loadedWorkouts.length; i++){
+    for (var i = 0; i < loadedWorkouts.length; i++) {
         var newAccordionBtn = document.createElement("button");
         newAccordionBtn.setAttribute("class", "accordion");
         newAccordionBtn.innerText = loadedWorkouts[i].date;
@@ -693,9 +693,9 @@ function renderPastWorkouts(){
             /* Toggle between hiding and showing the active panel */
             var panel = this.nextElementSibling;
             if (panel.style.display === "block") {
-            panel.style.display = "none";
+                panel.style.display = "none";
             } else {
-            panel.style.display = "block";
+                panel.style.display = "block";
             }
         });
     }

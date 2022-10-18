@@ -8,7 +8,14 @@
 h3 {
   font-size: x-large;
   text-align: left;
+}
 
+ul {
+  display:flex;
+}
+
+li{
+  display: inline-block;
 }
 
 ul,
@@ -244,6 +251,7 @@ input[type="checkbox"] {
   100% {
     transform: scale(1);
   }
+
   25%,
   75% {
     transform: scale(1.12);
