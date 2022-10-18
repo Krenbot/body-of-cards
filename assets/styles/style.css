@@ -10,13 +10,17 @@ h3 {
   text-align: left;
 }
 
-ul {
+.flipping-cards {
   display:flex;
 }
 
-li{
+.li-card{
   display: inline-block;
 }
+
+/* li{
+
+} */
 
 ul,
 li {
