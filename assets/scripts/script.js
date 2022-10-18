@@ -632,6 +632,8 @@ function updatePastWorkouts(workoutData) {
 
     var lifts = document.createElement("li")
     lifts.innerText = workoutData.excercises;
+    //test
+    console.log(workoutData.excercises)
     dataList.appendChild(lifts);
 
     var timeToComplete = document.createElement("li");
@@ -678,7 +680,7 @@ function renderPastWorkouts(){
 
         var newLifts = document.createElement("li")
         var excercisesString = loadedWorkouts[i].excercises.toString();
-        newLifts.innerText = excercisesString;
+        newLifts.innerText = excercisesString.split(",").join(", ");
         newDataList.appendChild(newLifts);
 
         var newTimeToComplete = document.createElement("li");
