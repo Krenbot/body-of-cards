@@ -226,7 +226,7 @@ class Exercise {
 
     // Key below is provided by James Perry (PBP66) on https://rapidapi.com/
     // Must access by invoking the class instance, not the object instance
-    static fetchOptions = {
+    static #fetchOptions = {
         method: "GET",
         headers: {
             "X-RapidAPI-Key": "0198bbaf50msh1011edbb678ad4bp19a4a1jsn246309d212b1",
@@ -235,30 +235,55 @@ class Exercise {
     };
 
     // soleus does not provide ANY VALID EXERCISES.
-    static allMuscles = ["pectoralis major", "biceps", "abdominals",
+    static #allMuscles = ["pectoralis major", "biceps", "abdominals",
         "sartorius", "abductors", "trapezius", "deltoid", "latissimus dorsi",
         "serratus anterior", "external oblique", "brachioradialis",
         "finger extensors", "finger flexors", "quadriceps", "hamstrings",
         "gastrocnemius", "soleus", "infraspinatus", "teres major", "triceps",
         "gluteus medius", "gluteus maximus"];
 
-    static secondaryMuscles = ["infraspinatus", "gastrocnemius", "trapezius", 
+    static #secondaryMuscles = ["infraspinatus", "gastrocnemius", "trapezius", 
         "abductors", "teres major", "brachioradialis", "serratus anterior", 
         "sartorius", "finger flexors", "finger extensors"];
 
     // Object to convert from suit to a list of associated muscles (ARMS, CHEST, LEGS, BACK)
-    static suitToMuscles = {
-        "CLUBS": ["biceps", "deltoid", "brachioradialis", "finger extensors", "finger flexors", "triceps"],
+    static #suitToMuscles = {
+        "CLUBS": ["biceps", "brachioradialis", "finger extensors", "finger flexors", "triceps"],
         "DIAMONDS": ["pectoralis major", "abdominals", "serratus anterior", "external oblique", "teres major"],
-        "SPADES": ["abductors", "quadriceps", "hamstrings", "gluteus medius", "gluteus maximus"],
-        "HEARTS": ["sartorius", "trapezius", "latissimus dorsi"]
+        "SPADES": ["abductors", "quadriceps", "hamstrings", "gastrocnemius", "gluteus medius", "gluteus maximus"],
+        "HEARTS": ["sartorius", "trapezius", "deltoid", "latissimus dorsi", "infraspinatus"]
     };
 
-    static suitToExerciseType = {
+    static #suitToExerciseType = {
         "CLUBS": "ARMS",
         "DIAMONDS": "CHEST",
         "SPADES": "LEGS",
         "HEARTS": "BACK"
+    };
+    
+    static #muscleType = {
+        "pectoralis major": "CHEST", 
+        "biceps": "ARMS",
+        "abdominals": "CORE",
+        "sartorius": "LEG", 
+        "abductors": "LEG", 
+        "trapezius": "BACK/SHOULDER", 
+        "deltoid": "SHOULDER", 
+        "latissimus dorsi": "BACK",
+        "serratus anterior": "CHEST",
+        "external oblique": "CORE", 
+        "brachioradialis": "ARM",
+        "finger extensors": "ARM", 
+        "finger flexors": "ARM", 
+        "quadriceps": "LEG", 
+        "hamstrings": "LEG",
+        "gastrocnemius": "LEG", 
+        "soleus": "LEG", 
+        "infraspinatus": "SHOULDER", 
+        "teres major": "SHOULDER", 
+        "triceps": "ARM",
+        "gluteus medius": "LEG", 
+        "gluteus maximus": "LEG"
     };
 
     // Object Methods
@@ -275,7 +300,6 @@ class Exercise {
         }
         element.innerText = this.name;
         element.id = removeSpacesFromString(this.name);
-        element.classList.add()
         this.#exerciseElement = element;
     }
 
@@ -291,7 +315,7 @@ class Exercise {
         this.resetURL();
 
         this.baseURL.pathname += "muscles/";
-        return await (await fetch(this.baseURL.href, Exercise.fetchOptions)).json();
+        return await (await fetch(this.baseURL.href, Exercise.#fetchOptions)).json();
     }
 
     // TODO: Make private method
@@ -300,7 +324,7 @@ class Exercise {
         this.resetURL();
 
         // Depending on the muscle chosen, some only exist as secondary muscles on the API
-        if (Exercise.secondaryMuscles.includes(value)) {
+        if (Exercise.#secondaryMuscles.includes(value.toLowerCase())) {
             apiMethod = "secondaryMuscle";
         }
 
@@ -318,16 +342,17 @@ class Exercise {
                 console.log("Bad value provided to getExercises()\n" +
                     "API method provided: " + apiMethod + "\nValue provided: " +
                     value + "\nCurrent exercise instance object: " + this);
+                return;
         }
 
         this.baseURL.searchParams.append(apiMethod, value);
-        exercises = await (await fetch(this.baseURL.href, Exercise.fetchOptions)).json();
+        exercises = await (await fetch(this.baseURL.href, Exercise.#fetchOptions)).json();
 
         exercises = Exercise.#convertFetchResponseToObjects(exercises);
-        for (let i = 0; i < exercises.length; i++) {
-            // capitalizeEachWord takes a string only. It does NOT take an array of Exercise objects.
-            localStorage.setItem(capitalizeEachWord(exercises[i].name), JSON.stringify(exercises[i]));
-        }
+        // for (let i = 0; i < exercises.length; i++) {
+        //     // capitalizeEachWord takes a string only. It does NOT take an array of Exercise objects.
+        //     localStorage.setItem(capitalizeEachWord(exercises[i].name), JSON.stringify(exercises[i]));
+        // }
         return exercises;
     }
 
@@ -368,12 +393,16 @@ class Exercise {
     }
 
     static getMuscle(key) {
-        let index = randomInt(Exercise.suitToMuscles[key].length);
-        return Exercise.suitToMuscles[key][index];
+        let index = randomInt(Exercise.#suitToMuscles[key].length);
+        return Exercise.#suitToMuscles[key][index];
     }
 
     static getExerciseType(key) {
-        return Exercise.suitToExerciseType[key];
+        return Exercise.#suitToExerciseType[key];
+    }
+
+    static getExerciseTypeByMuscle(key) {
+        return Exercise.#muscleType[key];
     }
 
     // Private Class Methods
@@ -478,8 +507,6 @@ class Container { // TODO: Consider renaming to HandOfCards?
         this.cardContainers = [];
         let containerElements = this.container.getElementsByClassName("card");
         for (let i = 0; i < containerElements.length; i++) {
-            //added test STEVE
-            console.log(new CardContainer(containerElements[i], this))
             this.cardContainers.push(new CardContainer(containerElements[i], this));
         }
     }
@@ -495,7 +522,6 @@ class Container { // TODO: Consider renaming to HandOfCards?
     async loadCards() {
         let numCards = this.cardContainers.length;
         let cards;
-        //let loadBool = [];
         let footers = this.container.getElementsByClassName("card-footer");
         let swapButtons = this.container.getElementsByClassName("bulma-control-mixin");
     
@@ -519,9 +545,8 @@ class CardContainer { // TODO: Refactor to remove swap to Class Container
     // Private Object Properties
     #swapButton;
     #footer;
-    
-    //added test STEVE
-    disabled=false
+
+    //disabled=false
     
     constructor(containerElement, parentObj) {
         this.container = containerElement; // Container HTML
@@ -547,9 +572,7 @@ class CardContainer { // TODO: Refactor to remove swap to Class Container
         this.#swapButton = element
         var self = this
         this.#swapButton.addEventListener("click", function(e){
-            //added test STEVE
             e.target.remove()
-            console.log(e.target)
             self.swapContents(self)
         });
     }
@@ -579,7 +602,7 @@ class CardContainer { // TODO: Refactor to remove swap to Class Container
     async #loadExercise() {
         this.exercise = new Exercise();
         let muscle = Exercise.getMuscle(this.card.suit);
-        let exerciseType = Exercise.getExerciseType(this.card.suit);
+        let exerciseType = Exercise.getExerciseTypeByMuscle(muscle);
         let exerciseList = await this.exercise.getExercisesByPrimaryMuscle(muscle);
         Object.assign(this.exercise, exerciseList[randomInt(exerciseList.length)]);
 
@@ -587,7 +610,7 @@ class CardContainer { // TODO: Refactor to remove swap to Class Container
         // Update Exercise Information in DOM
         this.cardContent.children[0].innerText = "";  
         this.cardContent.children[0].appendChild(this.exercise.getExerciseElement());
-        this.cardContent.children[0].classList.add(exerciseType);
+        //this.cardContent.children[1].classList.add(exerciseType);
         this.cardContent.children[1].innerText = exerciseType;
 
         return true;
@@ -642,7 +665,6 @@ function updatePastWorkouts(workoutData) {
         /* Toggle between adding and removing the "active" class,
         to highlight the button that controls the panel */
         this.classList.toggle("active");
-        console.log(this.classList)
         /* Toggle between hiding and showing the active panel */
         var panel = this.nextElementSibling;
         if (panel.style.display === "block") {
@@ -689,7 +711,6 @@ function renderPastWorkouts(){
             /* Toggle between adding and removing the "active" class,
             to highlight the button that controls the panel */
             this.classList.toggle("active");
-            console.log(this.classList)
             /* Toggle between hiding and showing the active panel */
             var panel = this.nextElementSibling;
             if (panel.style.display === "block") {
@@ -788,7 +809,6 @@ for (var i = 0; i < acc.length; i++) {
                 /* Toggle between adding and removing the "active" class,
                 to highlight the button that controls the panel */
                 this.classList.toggle("active");
-                console.log(this.classList)
                 /* Toggle between hiding and showing the active panel */
                 var panel = this.nextElementSibling;
                 if (panel.style.display === "block") {
