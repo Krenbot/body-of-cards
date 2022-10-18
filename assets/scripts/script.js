@@ -543,31 +543,33 @@ class Container { // TODO: Consider renaming to HandOfCards?
 
         for (let i = 0; i < numCards; i++) {
             await this.cardContainers[i].loadCard(cards[i]);
-            this.cardContainers[i].setFooter(this.footers[i]);
-            this.cardContainers[i].setSwapButton(this.swapButtons[i]);
         }
     }
 
     setSwapButton(element, cardContainer) {
-        element.addEventListener("click", (event) => {
+        element.addEventListener("click", ((event) => {
             event.target.remove(); 
-            cardContainer.swapContents(cardContainer); // bind(this)?
-        });
+            this.swapCardContents(cardContainer);
+        }).bind(this));
     }
 
-    getSwapButton(cardContainer) {
-        return this.#swapButton;
+    // getSwapButton(cardContainer) {
+    //     return this.#swapButton;
+    // }
+
+    async swapCardContents(cardContainer) {
+        if (this.#timer.timerStatus === "new") {
+            let draw = (await this.#deck.draw(1))[0];
+            cardContainer.loadCard(draw);
+        }
     }
 
     // Add additional functions to manipulate the information within a Container
 };
 
-// Container for each card which contains a playing card, exercise content, and a footer
+// Container for each card which contains a playing card and exercise content
 class CardContainer { // TODO: Refactor to move swap to Class Container
-    // Private Object Properties
-    #swapButton;
-    #footer;
-    
+    //
     constructor(containerElement, parentObj) {
         this.container = containerElement; // Container HTML
         this.parent = parentObj; // Parent = Container Object
@@ -580,27 +582,6 @@ class CardContainer { // TODO: Refactor to move swap to Class Container
         this.exercise;
         }
 
-    setFooter(element) {
-        this.#footer = element;
-    }
-
-    getFooter() {
-        return this.#footer;
-    }
-
-    setSwapButton(element) {
-        this.#swapButton = element
-        var self = this
-        this.#swapButton.addEventListener("click", function(e){
-            e.target.remove()
-            self.swapContents(self)
-        });
-    }
-
-    getSwapButton() {
-        return this.#swapButton;
-    }
-
     // TODO: Create DeckOfCards pile and add this card to a pile for tracking
     async loadCard(card) {
         if (this.card.images) {
@@ -612,12 +593,6 @@ class CardContainer { // TODO: Refactor to move swap to Class Container
         await this.#loadExercise();
     }
     
-    async swapContents(self) { //bind this? in parent call?
-        let deck = self.parent.getDeck();
-        let draw = (await deck.draw(1))[0];
-        self.loadCard(draw);
-    }
-
     async #loadExercise() {
         this.exercise = new Exercise();
         let muscle = Exercise.getMuscle(this.card.suit);
@@ -629,10 +604,7 @@ class CardContainer { // TODO: Refactor to move swap to Class Container
         // Update Exercise Information in DOM
         this.cardContent.children[0].innerText = "";  
         this.cardContent.children[0].appendChild(this.exercise.getExerciseElement());
-        //this.cardContent.children[1].classList.add(exerciseType);
         this.cardContent.children[1].innerText = exerciseType;
-
-        return true;
     }
 };
 
