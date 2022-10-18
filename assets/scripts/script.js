@@ -467,7 +467,7 @@ class Timer {
         } else if (this.timerStatus === "running") {
             this.update(this.timerCount, this.timerCount, "stopped", "Reset");
             this.clear();
-            storeExcerciseNames(this.timerText);
+            storeExerciseNames(this.timerText);
             localStorage.setItem("workouts", JSON.stringify(pastWorkouts));
         } else if (this.timerStatus === "stopped") {
             this.update(0, "", "new", "Start Timer")
@@ -522,16 +522,11 @@ class Container { // TODO: Consider renaming to HandOfCards?
     }
 
     generateSwapButtons() {
-        let buttonElements = this.container.getElementsByClassName("bulma-control-mixin");
-        for (let i = 0, j = 0; i < this.footers.length; i++) {
-            if (this.footers[i].children[0].children.length === 0) { // Number of Button Elements...
-                let button = this.#generateSwapButton(i);
-                this.setSwapButton(button, this.cardContainers[i]);
-                this.footers[i].children[0].appendChild(button);
-            } else {
-                this.setSwapButton(buttonElements[j], this.cardContainers[i]);
-                j++
-            }
+        for (let i = 0; i < this.footers.length; i++) {
+            this.footers[i].children[0].setHTML("");
+            let button = this.#generateSwapButton(i);
+            this.setSwapButton(button, this.cardContainers[i]);
+            this.footers[i].children[0].appendChild(button);
         }
     }
 
@@ -566,21 +561,18 @@ class Container { // TODO: Consider renaming to HandOfCards?
         }
         cards = await this.#deck.draw(numCards);
 
-        for (let i = 0, j = 0; i < numCards; i++) {
+        for (let i = 0; i < numCards; i++) {
             this.#resetCardBack(i);
             if (this.cardContainers[i].card.images) {
                 await this.#deck.returnCardsToDeck(this.cardContainers[i].card);
             }
             await this.cardContainers[i].loadCardContainer(cards[i]);
-
-            if (this.footers[i].children[0].children.length === 0) { // Number of Button Elements...
-                let button = this.#generateSwapButton(i);
-                this.setSwapButton(button, this.cardContainers[i]);
-                this.footers[i].children[0].appendChild(button);
-            } else {
-                this.setSwapButton(buttonElements[j], this.cardContainers[i]);
-                j++
-            }
+            
+            // Generate new swap buttons. Overwrites any previous swap button
+            this.footers[i].children[0].setHTML("");
+            let button = this.#generateSwapButton(i);
+            this.setSwapButton(button, this.cardContainers[i]);
+            this.footers[i].children[0].appendChild(button);
         }
     }
 
@@ -669,17 +661,17 @@ var pastWorkouts = (JSON.parse(localStorage.getItem("workouts")) || []);
 var pastWorkoutEl = document.querySelector(".modal-card-body");
 
 // make a past workout object to store in local storage
-function storeExcerciseNames(timerText) {
-    var excerciseNameText = document.querySelectorAll("a");
-    var excerciseList = []
+function storeExerciseNames(timerText) {
+    var exerciseNameText = document.querySelectorAll("a");
+    var exerciseList = []
     var currentDate = moment().format("L LT")
     var workoutData = {
         date: currentDate,
-        excercises: excerciseList,
+        exercises: exerciseList,
         timerStatus: timerText.innerHTML,
     }
-    for (var i = 0; i < excerciseNameText.length; i++) {
-        excerciseList.push(excerciseNameText[i].innerText)
+    for (var i = 0; i < exerciseNameText.length; i++) {
+        exerciseList.push(exerciseNameText[i].innerText)
     }
     pastWorkouts.push(workoutData)
     updatePastWorkouts(workoutData)
@@ -699,7 +691,7 @@ function updatePastWorkouts(workoutData) {
     panelEl.appendChild(dataList);
 
     var lifts = document.createElement("li")
-    lifts.innerText = workoutData.excercises;
+    lifts.innerText = workoutData.exercises;
     dataList.appendChild(lifts);
 
     var timeToComplete = document.createElement("li");
@@ -744,8 +736,8 @@ function renderPastWorkouts(){
         newPanelEl.appendChild(newDataList);
 
         var newLifts = document.createElement("li")
-        var excercisesString = loadedWorkouts[i].excercises.toString();
-        newLifts.innerText = excercisesString;
+        var exercisesString = loadedWorkouts[i].exercises.toString();
+        newLifts.innerText = exercisesString;
         newDataList.appendChild(newLifts);
 
         var newTimeToComplete = document.createElement("li");
