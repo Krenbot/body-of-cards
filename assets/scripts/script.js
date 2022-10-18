@@ -507,8 +507,11 @@ class Container { // TODO: Consider renaming to HandOfCards?
         this.container = containerElement;
         this.cardContainers = [];
         let containerElements = this.container.getElementsByClassName("card");
+        this.footers = this.container.getElementsByClassName("card-footer");
+        this.swapButtons = this.container.getElementsByClassName("bulma-control-mixin");
         for (let i = 0; i < containerElements.length; i++) {
             this.cardContainers.push(new CardContainer(containerElements[i], this));
+            this.setSwapButton(this.swapButtons[i], this.cardContainers[i]);
         }
     }
 
@@ -531,8 +534,7 @@ class Container { // TODO: Consider renaming to HandOfCards?
     async loadCards() {
         let numCards = this.cardContainers.length;
         let cards;
-        let footers = this.container.getElementsByClassName("card-footer");
-        let swapButtons = this.container.getElementsByClassName("bulma-control-mixin");
+
     
         if (!(this.#deck)) {
             this.#deck = new DeckOfCards();
@@ -541,9 +543,20 @@ class Container { // TODO: Consider renaming to HandOfCards?
 
         for (let i = 0; i < numCards; i++) {
             await this.cardContainers[i].loadCard(cards[i]);
-            this.cardContainers[i].setFooter(footers[i]);
-            this.cardContainers[i].setSwapButton(swapButtons[i]);
+            this.cardContainers[i].setFooter(this.footers[i]);
+            this.cardContainers[i].setSwapButton(this.swapButtons[i]);
         }
+    }
+
+    setSwapButton(element, cardContainer) {
+        element.addEventListener("click", (event) => {
+            event.target.remove(); 
+            cardContainer.swapContents(cardContainer); // bind(this)?
+        });
+    }
+
+    getSwapButton(cardContainer) {
+        return this.#swapButton;
     }
 
     // Add additional functions to manipulate the information within a Container
@@ -599,8 +612,7 @@ class CardContainer { // TODO: Refactor to move swap to Class Container
         await this.#loadExercise();
     }
     
-    async swapContents(self) {
-        //added test STEVE
+    async swapContents(self) { //bind this? in parent call?
         let deck = self.parent.getDeck();
         let draw = (await deck.draw(1))[0];
         self.loadCard(draw);
