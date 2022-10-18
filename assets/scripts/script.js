@@ -631,15 +631,16 @@ function updatePastWorkouts(workoutData) {
     panelEl.appendChild(dataList);
 
     var lifts = document.createElement("li")
-    lifts.innerText = workoutData.excercises;
+    var excercisesSplitString = workoutData.excercises.toString().split(",").join(", ")
+    lifts.innerText = excercisesSplitString;
     //test
-    console.log(workoutData.excercises)
+    console.log(workoutData.excercises.toString().split(",").join(", "))
     dataList.appendChild(lifts);
 
     var timeToComplete = document.createElement("li");
     timeToComplete.innerText = workoutData.timerStatus + " seconds"
     dataList.appendChild(timeToComplete);
-    //test
+    
     accordianBtn.addEventListener("click", function () {
         /* Toggle between adding and removing the "active" class,
         to highlight the button that controls the panel */
