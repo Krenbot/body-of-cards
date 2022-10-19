@@ -195,7 +195,8 @@ input[type="checkbox"] {
 }
 
 ul.flipping-cards{
-  margin-left: 75px;
+  margin-left: 50px;
+  margin-right: 40px;
 }
 
 /* Swap Button CSS */
