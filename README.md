@@ -27,9 +27,9 @@ Click a back to reveal a card linked to an exercise.
 Click remaining card backs to reveal up to 5 exercises and associated playing cards. Card suits are linked to muscle group: 
 
         CLUBS: ARMS
-        DIAMONDS: CHEST
+        DIAMONDS: CHEST/CORE
         SPADES: LEGS
-        HEARTS: BACK
+        HEARTS: BACK/SHOULDERS
         
 Card Numbers represent amount of reps. 
 
