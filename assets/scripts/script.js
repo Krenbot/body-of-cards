@@ -3,7 +3,7 @@
 class Card {
     // Private Class Properties
     #imgElement;
-    
+
     // Jokers are represented as X
     #codeToValue = {
         "J": "JACK",
@@ -12,7 +12,7 @@ class Card {
         "A": "ACE",
         "X": "JOKER"
     };
-    
+
     // Jokers will be either 1 for the black suit or 2 for the red suit
     #codeToSuit = {
         "C": "CLUBS",
@@ -459,7 +459,7 @@ class Timer {
 
         this.startButton.addEventListener("click", this.startTimer.bind(this));
     }
-    
+
     startTimer() {
         if (this.timerStatus === "new") {
             this.initialize();
@@ -622,7 +622,7 @@ class CardContainer { // TODO: Refactor to move swap to Class Container
 
         this.card = new Card(this.cardImage.id, this.cardImage.src);
         this.exercise;
-        }
+    }
 
     async loadCardContainer(card) {
         this.cardImage.innerHTML = "";
@@ -647,7 +647,6 @@ class CardContainer { // TODO: Refactor to move swap to Class Container
 
         // TODO: Change to DOM getElements methods by searching either class or id
         // Update Exercise Information in DOM
-
         this.cardContent.children[0].appendChild(this.exercise.getExerciseElement());
         this.cardContent.children[1].innerText = exerciseType;
     }
@@ -659,21 +658,42 @@ var startBtn = document.getElementById("timerStart");
 var pastWorkouts = (JSON.parse(localStorage.getItem("workouts")) || []);
 var pastWorkoutEl = document.querySelector(".modal-card-body");
 
+
 // make a past workout object to store in local storage
 function storeExerciseNames(timerText) {
     var exerciseNameText = document.querySelectorAll("a");
     var exerciseList = []
     var currentDate = moment().format("L LT")
+    
+    var cardEl = document.querySelectorAll("img")
+    var altList = []
+    var splitAlts = []
+    var repList = []
+
     var workoutData = {
         date: currentDate,
         exercises: exerciseList,
         timerStatus: timerText.innerHTML,
+        reps: repList,
     }
     for (var i = 0; i < exerciseNameText.length; i++) {
         exerciseList.push(exerciseNameText[i].innerText)
     }
     pastWorkouts.push(workoutData)
     updatePastWorkouts(workoutData)
+    
+    for (var r = 1; r < cardEl.length; r++){
+        altList.push(cardEl[r].alt)
+    }
+    for (var l = 0; l < altList.length; l++){
+        splitAlts.push(altList[l].split(" "))
+    }
+    for (var v = 0; v < splitAlts.length; v++){
+        repList.push(splitAlts[v][0])
+    }
+    // console.log(repList)
+    //console.log(repList.toString())
+    
 }
 
 function updatePastWorkouts(workoutData) {
@@ -690,8 +710,17 @@ function updatePastWorkouts(workoutData) {
     panelEl.appendChild(dataList);
 
     var lifts = document.createElement("li")
-    lifts.innerText = workoutData.exercises;
+    var exercisesSplitString = workoutData.exercises.toString().split(",").join(", ")
+    lifts.innerText = exercisesSplitString;
     dataList.appendChild(lifts);
+
+    // var reps = document.createElement("li")
+    // var repsSplitString = workoutData.reps;
+    // console.log(workoutData)
+    // console.log(repsSplitString.toString())
+    // console.log(workoutData.exercises.toString())
+    // reps.innerText = repsSplitString;
+    // dataList.appendChild(reps);
 
     var timeToComplete = document.createElement("li");
     timeToComplete.innerText = workoutData.timerStatus + " seconds"
@@ -704,15 +733,14 @@ function updatePastWorkouts(workoutData) {
         /* Toggle between hiding and showing the active panel */
         var panel = this.nextElementSibling;
         if (panel.style.display === "block") {
-        panel.style.display = "none";
+            panel.style.display = "none";
         } else {
-        panel.style.display = "block";
+            panel.style.display = "block";
         }
     });
-    // activateAccordion();
 }
 
-function renderPastWorkouts(){
+function renderPastWorkouts() {
     var loadedWorkouts = localStorage.getItem("workouts");
 
     if (loadedWorkouts === null) {
@@ -721,7 +749,7 @@ function renderPastWorkouts(){
 
     loadedWorkouts = JSON.parse(loadedWorkouts);
 
-    for (var i = 0; i < loadedWorkouts.length; i++){
+    for (var i = 0; i < loadedWorkouts.length; i++) {
         var newAccordionBtn = document.createElement("button");
         newAccordionBtn.setAttribute("class", "accordion");
         newAccordionBtn.innerText = loadedWorkouts[i].date;
@@ -736,13 +764,13 @@ function renderPastWorkouts(){
 
         var newLifts = document.createElement("li")
         var exercisesString = loadedWorkouts[i].exercises.toString();
-        newLifts.innerText = exercisesString;
+        newLifts.innerText = exercisesString.split(",").join(", ");
         newDataList.appendChild(newLifts);
 
         var newTimeToComplete = document.createElement("li");
         newTimeToComplete.innerText = loadedWorkouts[i].timerStatus + " seconds"
         newDataList.appendChild(newTimeToComplete);
-        //test
+    
         newAccordionBtn.addEventListener("click", function () {
             /* Toggle between adding and removing the "active" class,
             to highlight the button that controls the panel */
@@ -750,13 +778,12 @@ function renderPastWorkouts(){
             /* Toggle between hiding and showing the active panel */
             var panel = this.nextElementSibling;
             if (panel.style.display === "block") {
-            panel.style.display = "none";
+                panel.style.display = "none";
             } else {
-            panel.style.display = "block";
+                panel.style.display = "block";
             }
         });
     }
-    // activateAccordion();
 }
 
 /* FUNCTION DECLARATIONS */
