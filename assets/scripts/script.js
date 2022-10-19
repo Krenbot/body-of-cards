@@ -523,7 +523,7 @@ class Container { // TODO: Consider renaming to HandOfCards?
 
     generateSwapButtons() {
         for (let i = 0; i < this.footers.length; i++) {
-            this.footers[i].children[0].setHTML("");
+            this.footers[i].children[0].innerHTML = "";
             let button = this.#generateSwapButton(i);
             this.setSwapButton(button, this.cardContainers[i]);
             this.footers[i].children[0].appendChild(button);
@@ -568,7 +568,7 @@ class Container { // TODO: Consider renaming to HandOfCards?
             await this.cardContainers[i].loadCardContainer(cards[i]);
             
             // Generate new swap buttons. Overwrites any previous swap button
-            this.footers[i].children[0].setHTML("");
+            this.footers[i].children[0].innerHTML = "";
             let button = this.#generateSwapButton(i);
             this.setSwapButton(button, this.cardContainers[i]);
             this.footers[i].children[0].appendChild(button);
@@ -629,7 +629,7 @@ class CardContainer { // TODO: Refactor to move swap to Class Container
         this.cardContent.children[0].innerText = "";
         await this.#loadCard(card);
         await this.#loadExercise();
-        this.cardImage.setHTML(this.card.getImgElement().outerHTML);
+        this.cardImage.innerHTML = this.card.getImgElement().outerHTML;
     }
 
     // TODO: Create DeckOfCards pile and add this card to a pile for tracking
