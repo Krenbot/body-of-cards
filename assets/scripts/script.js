@@ -875,10 +875,6 @@ function main() {
 
     // Add event listeners
     document.getElementById("rulesBtn").addEventListener("click", rulesButtonFunction);
-
-    //TODO: User cannot flip cards until all cards have been loaded! Move javascript src file to top of index.html?
 }
 
 main();
-
-//workout.cardContainers[i].card.value;
