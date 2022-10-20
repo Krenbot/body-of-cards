@@ -27,6 +27,7 @@ body {
   transition: 2s ease;
   display: grid;
   /* place-content: center; Not sure why, but disabling enables the content to be centered easier */
+  justify-content: center;
 }
 
 p {
