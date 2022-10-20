@@ -26,7 +26,7 @@ li {
 body {
   transition: 2s ease;
   display: grid;
-  place-content: center;
+  /* place-content: center; Not sure why, but disabling enables the content to be centered easier */
 }
 
 p {
@@ -195,7 +195,8 @@ input[type="checkbox"] {
 }
 
 ul.flipping-cards{
-  margin-left: 75px;
+  margin-left: 50px;
+  margin-right: 40px;
 }
 
 /* Swap Button CSS */
